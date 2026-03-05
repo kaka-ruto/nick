@@ -161,6 +161,29 @@ if [[ -f "$HOME/.config/cafaye/settings.json" ]]; then
   fi
 fi
 
+# Check VPS Monitoring
+echo -n "Checking VPS Monitoring... "
+MONITORING_ENABLED=$(jq -r '.core.monitoring.enabled // false' "$HOME/.config/cafaye/settings.json" 2>/dev/null || echo "false")
+if [[ "$MONITORING_ENABLED" == "true" ]]; then
+  if systemctl --user is-active --quiet caf-vps-monitor.timer 2>/dev/null; then
+    MONITOR_PROVIDER=$(jq -r '.core.monitoring.notifier.provider // "none"' "$HOME/.config/cafaye/settings.json" 2>/dev/null || echo "none")
+    echo "✓ Active (provider: $MONITOR_PROVIDER)"
+  else
+    echo "❌ Enabled but timer not active"
+    ((ISSUES++))
+  fi
+
+  echo -n "Checking VPS Monitoring last run... "
+  LAST_RUN=$(systemctl --user show caf-vps-monitor.service -p ExecMainStartTimestamp --value 2>/dev/null || true)
+  if [[ -n "$LAST_RUN" ]]; then
+    echo "✓ $LAST_RUN"
+  else
+    echo "○ No runs yet"
+  fi
+else
+  echo "○ Disabled"
+fi
+
 # Check Backup/Sync Health
 echo -n "Checking Backup Source of Truth... "
 if [[ -d "$HOME/.config/cafaye/.git" ]]; then

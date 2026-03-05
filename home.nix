@@ -17,6 +17,7 @@
     ./modules/core/sops.nix
     ./modules/core/tailscale.nix
     ./modules/core/vps.nix
+    ./modules/core/monitoring.nix
     
     # Optional Stacks (Managed via sub-imports)
     ./modules/languages

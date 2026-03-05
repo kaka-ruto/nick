@@ -1,0 +1,138 @@
+#!/bin/bash
+
+set -euo pipefail
+
+CONFIG_DIR="${HOME}/.config/cafaye"
+SETTINGS_FILE="${CONFIG_DIR}/settings.json"
+
+mkdir -p "$CONFIG_DIR"
+[[ -f "$SETTINGS_FILE" ]] || echo "{}" > "$SETTINGS_FILE"
+
+choose_option() {
+  local prompt="$1"
+  shift
+  local options=("$@")
+
+  if command -v gum >/dev/null 2>&1; then
+    gum choose --header "$prompt" "${options[@]}"
+  else
+    echo "$prompt"
+    local i=1
+    for o in "${options[@]}"; do
+      echo "$i) $o"
+      i=$((i + 1))
+    done
+    read -r -p "Select [1-${#options[@]}]: " idx
+    idx=$((idx - 1))
+    echo "${options[$idx]}"
+  fi
+}
+
+prompt_text() {
+  local prompt="$1"
+  local default="${2:-}"
+  local value=""
+  if command -v gum >/dev/null 2>&1; then
+    if [[ -n "$default" ]]; then
+      value="$(gum input --prompt "$prompt " --value "$default")"
+    else
+      value="$(gum input --prompt "$prompt ")"
+    fi
+  else
+    if [[ -n "$default" ]]; then
+      read -r -p "$prompt [$default]: " value
+      value="${value:-$default}"
+    else
+      read -r -p "$prompt: " value
+    fi
+  fi
+  echo "$value"
+}
+
+write_settings() {
+  local jq_filter="$1"
+  local tmp
+  tmp="$(mktemp)"
+  jq "$jq_filter" "$SETTINGS_FILE" > "$tmp"
+  mv "$tmp" "$SETTINGS_FILE"
+}
+
+echo "📡 Cafaye VPS Monitoring Setup"
+echo ""
+echo "This enables periodic health checks and optional alerts."
+echo ""
+
+enabled_choice="$(choose_option "Enable VPS monitoring?" "yes" "no")"
+if [[ "$enabled_choice" != "yes" ]]; then
+  write_settings '.core.monitoring.enabled = false'
+  echo "Monitoring disabled in settings."
+  exit 0
+fi
+
+interval="$(prompt_text "Check interval minutes" "5")"
+ram_threshold="$(prompt_text "RAM alert threshold (%)" "75")"
+disk_threshold="$(prompt_text "Disk alert threshold (%)" "80")"
+load_threshold="$(prompt_text "CPU load-per-core threshold" "0.7")"
+repeat_minutes="$(prompt_text "Repeat alert every N minutes while ongoing" "30")"
+
+processes_raw="$(prompt_text "Critical processes/services (comma separated, optional)" "postgresql,redis")"
+if [[ -n "$processes_raw" ]]; then
+  processes_json="$(printf '%s' "$processes_raw" | jq -R 'split(",") | map(gsub("^\\s+|\\s+$";"")) | map(select(length>0))')"
+else
+  processes_json="[]"
+fi
+
+provider="$(choose_option "Alert provider" "none" "telegram" "discord" "slack")"
+
+telegram_token=""
+telegram_chat_id=""
+discord_webhook=""
+slack_webhook=""
+
+case "$provider" in
+  telegram)
+    telegram_token="$(prompt_text "Telegram bot token")"
+    telegram_chat_id="$(prompt_text "Telegram chat ID")"
+    ;;
+  discord)
+    discord_webhook="$(prompt_text "Discord webhook URL")"
+    ;;
+  slack)
+    slack_webhook="$(prompt_text "Slack incoming webhook URL")"
+    ;;
+esac
+
+tmp="$(mktemp)"
+jq \
+  --argjson interval "$interval" \
+  --argjson ram "$ram_threshold" \
+  --argjson disk "$disk_threshold" \
+  --argjson load "$load_threshold" \
+  --argjson repeat "$repeat_minutes" \
+  --arg provider "$provider" \
+  --arg tg_token "$telegram_token" \
+  --arg tg_chat "$telegram_chat_id" \
+  --arg dc_webhook "$discord_webhook" \
+  --arg sl_webhook "$slack_webhook" \
+  --argjson procs "$processes_json" \
+  '
+  .core.monitoring.enabled = true
+  | .core.monitoring.check_interval_minutes = $interval
+  | .core.monitoring.repeat_alert_minutes = $repeat
+  | .core.monitoring.thresholds.ram_percent = $ram
+  | .core.monitoring.thresholds.disk_percent = $disk
+  | .core.monitoring.thresholds.load_per_core = $load
+  | .core.monitoring.processes = $procs
+  | .core.monitoring.notifier.provider = $provider
+  | .core.monitoring.notifier.telegram.bot_token = $tg_token
+  | .core.monitoring.notifier.telegram.chat_id = $tg_chat
+  | .core.monitoring.notifier.discord.webhook_url = $dc_webhook
+  | .core.monitoring.notifier.slack.webhook_url = $sl_webhook
+  ' "$SETTINGS_FILE" > "$tmp"
+mv "$tmp" "$SETTINGS_FILE"
+
+echo ""
+echo "✅ Monitoring configuration saved to $SETTINGS_FILE"
+echo "Next steps:"
+echo "1) Run: caf-system-rebuild"
+echo "2) Run: caf-vps-monitor-check --notify-test"

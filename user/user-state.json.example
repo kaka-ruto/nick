@@ -12,7 +12,34 @@
       "bootstrap_mode": false
     },
     "auto_shutdown_enabled": false,
-    "auto_shutdown_idle_minutes": 60
+    "auto_shutdown_idle_minutes": 60,
+    "monitoring": {
+      "enabled": false,
+      "check_interval_minutes": 5,
+      "repeat_alert_minutes": 30,
+      "thresholds": {
+        "ram_percent": 75,
+        "disk_percent": 80,
+        "load_per_core": 0.7
+      },
+      "processes": [
+        "postgresql",
+        "redis"
+      ],
+      "notifier": {
+        "provider": "none",
+        "telegram": {
+          "bot_token": "",
+          "chat_id": ""
+        },
+        "discord": {
+          "webhook_url": ""
+        },
+        "slack": {
+          "webhook_url": ""
+        }
+      }
+    }
   },
   "interface": {
     "terminal": {

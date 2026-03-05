@@ -1,0 +1,254 @@
+#!/bin/bash
+
+set -u
+
+CONFIG_DIR="${HOME}/.config/cafaye"
+SETTINGS_FILE="${CONFIG_DIR}/settings.json"
+STATE_DIR="${HOME}/.local/state/cafaye"
+STATE_FILE="${STATE_DIR}/monitor-alert-state.json"
+
+QUIET=0
+TEST_NOTIFY=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --quiet)
+      QUIET=1
+      shift
+      ;;
+    --notify-test)
+      TEST_NOTIFY=1
+      shift
+      ;;
+    *)
+      echo "Unknown argument: $1" >&2
+      exit 1
+      ;;
+  esac
+done
+
+log() {
+  [[ "$QUIET" -eq 1 ]] && return 0
+  echo "$@"
+}
+
+if [[ ! -f "$SETTINGS_FILE" ]]; then
+  log "settings.json not found at $SETTINGS_FILE"
+  exit 0
+fi
+
+read_json() {
+  local expr="$1"
+  jq -r "$expr" "$SETTINGS_FILE" 2>/dev/null
+}
+
+enabled="$(read_json '.core.monitoring.enabled // false')"
+if [[ "$enabled" != "true" ]]; then
+  log "Monitoring disabled"
+  exit 0
+fi
+
+interval_minutes="$(read_json '.core.monitoring.check_interval_minutes // 5')"
+ram_threshold="$(read_json '.core.monitoring.thresholds.ram_percent // 75')"
+disk_threshold="$(read_json '.core.monitoring.thresholds.disk_percent // 80')"
+load_threshold="$(read_json '.core.monitoring.thresholds.load_per_core // 0.7')"
+repeat_minutes="$(read_json '.core.monitoring.repeat_alert_minutes // 30')"
+
+provider="$(read_json '.core.monitoring.notifier.provider // "none"')"
+telegram_token="$(read_json '.core.monitoring.notifier.telegram.bot_token // ""')"
+telegram_chat_id="$(read_json '.core.monitoring.notifier.telegram.chat_id // ""')"
+discord_webhook="$(read_json '.core.monitoring.notifier.discord.webhook_url // ""')"
+slack_webhook="$(read_json '.core.monitoring.notifier.slack.webhook_url // ""')"
+
+hostname_value="$(hostname 2>/dev/null || echo unknown-host)"
+now_epoch="$(date +%s)"
+now_human="$(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+
+send_notification() {
+  local message="$1"
+
+  case "$provider" in
+    telegram)
+      [[ -z "$telegram_token" || -z "$telegram_chat_id" ]] && return 1
+      curl -fsS -X POST "https://api.telegram.org/bot${telegram_token}/sendMessage" \
+        -d "chat_id=${telegram_chat_id}" \
+        --data-urlencode "text=${message}" >/dev/null
+      ;;
+    discord)
+      [[ -z "$discord_webhook" ]] && return 1
+      curl -fsS -H "Content-Type: application/json" -X POST "$discord_webhook" \
+        -d "$(printf '%s' "$message" | jq -Rs '{content: .}')" >/dev/null
+      ;;
+    slack)
+      [[ -z "$slack_webhook" ]] && return 1
+      curl -fsS -H "Content-Type: application/json" -X POST "$slack_webhook" \
+        -d "$(printf '%s' "$message" | jq -Rs '{text: .}')" >/dev/null
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+if [[ "$TEST_NOTIFY" -eq 1 ]]; then
+  msg="✅ Cafaye VPS monitor test from ${hostname_value} at ${now_human}"
+  if send_notification "$msg"; then
+    log "Test notification sent using provider=${provider}"
+    exit 0
+  fi
+  log "Test notification failed (provider=${provider})"
+  exit 1
+fi
+
+mkdir -p "$STATE_DIR"
+if [[ ! -f "$STATE_FILE" ]]; then
+  cat >"$STATE_FILE" <<EOF
+{"active":{},"last_sent":{}}
+EOF
+fi
+
+tmp_state="$(mktemp)"
+cp "$STATE_FILE" "$tmp_state"
+
+set_state_bool() {
+  local key="$1"
+  local value="$2"
+  local tmp="$(mktemp)"
+  jq --arg k "$key" --argjson v "$value" '.active[$k] = $v' "$tmp_state" >"$tmp"
+  mv "$tmp" "$tmp_state"
+}
+
+set_state_last_sent() {
+  local key="$1"
+  local value="$2"
+  local tmp="$(mktemp)"
+  jq --arg k "$key" --argjson v "$value" '.last_sent[$k] = $v' "$tmp_state" >"$tmp"
+  mv "$tmp" "$tmp_state"
+}
+
+get_state_bool() {
+  local key="$1"
+  jq -r --arg k "$key" '.active[$k] // false' "$tmp_state" 2>/dev/null
+}
+
+get_state_last_sent() {
+  local key="$1"
+  jq -r --arg k "$key" '.last_sent[$k] // 0' "$tmp_state" 2>/dev/null
+}
+
+alerts=()
+recoveries=()
+
+handle_condition() {
+  local key="$1"
+  local active_now="$2"
+  local detail="$3"
+  local previous_active
+  local previous_sent
+  local next_repeat_at
+
+  previous_active="$(get_state_bool "$key")"
+  previous_sent="$(get_state_last_sent "$key")"
+  next_repeat_at=$((previous_sent + repeat_minutes * 60))
+
+  if [[ "$active_now" == "true" ]]; then
+    if [[ "$previous_active" != "true" ]]; then
+      alerts+=("$detail")
+      set_state_last_sent "$key" "$now_epoch"
+    elif [[ "$now_epoch" -ge "$next_repeat_at" ]]; then
+      alerts+=("$detail (still ongoing)")
+      set_state_last_sent "$key" "$now_epoch"
+    fi
+    set_state_bool "$key" true
+  else
+    if [[ "$previous_active" == "true" ]]; then
+      recoveries+=("$detail")
+    fi
+    set_state_bool "$key" false
+  fi
+}
+
+if command -v free >/dev/null 2>&1; then
+  mem_used_percent="$(free | awk '/^Mem:/ { if ($2 == 0) { print 0 } else { printf "%.0f", ($3/$2)*100 } }')"
+else
+  mem_used_percent="$(
+    awk '/MemTotal:/ {t=$2} /MemAvailable:/ {a=$2} END { if (t == 0) { print 0 } else { printf "%.0f", ((t-a)/t)*100 } }' /proc/meminfo 2>/dev/null || echo 0
+  )"
+fi
+disk_used_percent="$(df / | awk 'NR==2 {gsub("%","",$5); print $5}' 2>/dev/null || echo 0)"
+if [[ -r /proc/loadavg ]]; then
+  load_1m="$(awk '{print $1}' /proc/loadavg)"
+else
+  load_1m="$(uptime 2>/dev/null | awk -F'load averages?: ' '{print $2}' | cut -d',' -f1 | xargs || echo 0)"
+fi
+cores="$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)"
+load_per_core="$(awk -v l="$load_1m" -v c="$cores" 'BEGIN { if (c <= 0) c=1; printf "%.2f", l/c }')"
+
+ram_alert_detail="RAM ${mem_used_percent}% (threshold ${ram_threshold}%)"
+disk_alert_detail="Disk / ${disk_used_percent}% (threshold ${disk_threshold}%)"
+load_alert_detail="CPU load/core ${load_per_core} (threshold ${load_threshold})"
+
+ram_hot="$(awk -v x="$mem_used_percent" -v y="$ram_threshold" 'BEGIN { print (x >= y) ? "true" : "false" }')"
+disk_hot="$(awk -v x="$disk_used_percent" -v y="$disk_threshold" 'BEGIN { print (x >= y) ? "true" : "false" }')"
+load_hot="$(awk -v x="$load_per_core" -v y="$load_threshold" 'BEGIN { print (x >= y) ? "true" : "false" }')"
+
+handle_condition "ram" "$ram_hot" "$ram_alert_detail"
+handle_condition "disk" "$disk_hot" "$disk_alert_detail"
+handle_condition "load" "$load_hot" "$load_alert_detail"
+
+process_count="$(read_json '.core.monitoring.processes | length // 0')"
+if [[ "$process_count" =~ ^[0-9]+$ ]] && [[ "$process_count" -gt 0 ]]; then
+  while IFS= read -r proc; do
+    [[ -z "$proc" ]] && continue
+    proc_ok="false"
+    if systemctl is-active --quiet "$proc" 2>/dev/null || systemctl is-active --quiet "${proc}.service" 2>/dev/null; then
+      proc_ok="true"
+    elif [[ "$proc" == *" "* || "$proc" == *"/"* ]]; then
+      if pgrep -f "$proc" >/dev/null 2>&1; then
+        proc_ok="true"
+      fi
+    else
+      if pgrep -x "$proc" >/dev/null 2>&1; then
+        proc_ok="true"
+      fi
+    fi
+    if [[ "$proc_ok" == "true" ]]; then
+      handle_condition "proc:${proc}" "false" "Process check failed: ${proc}"
+    else
+      handle_condition "proc:${proc}" "true" "Process check failed: ${proc}"
+    fi
+  done < <(jq -r '.core.monitoring.processes[]? // empty' "$SETTINGS_FILE")
+fi
+
+cp "$tmp_state" "$STATE_FILE"
+rm -f "$tmp_state"
+
+if [[ "${#alerts[@]}" -eq 0 && "${#recoveries[@]}" -eq 0 ]]; then
+  log "No new alerts (${now_human})"
+  exit 0
+fi
+
+message_lines=()
+if [[ "${#alerts[@]}" -gt 0 ]]; then
+  message_lines+=("🚨 Cafaye VPS Alert on ${hostname_value} (${now_human})")
+  for item in "${alerts[@]}"; do
+    message_lines+=("- ${item}")
+  done
+fi
+if [[ "${#recoveries[@]}" -gt 0 ]]; then
+  [[ "${#alerts[@]}" -gt 0 ]] && message_lines+=("")
+  message_lines+=("✅ Recovered:")
+  for item in "${recoveries[@]}"; do
+    message_lines+=("- ${item}")
+  done
+fi
+
+message="$(printf '%s\n' "${message_lines[@]}")"
+
+if send_notification "$message"; then
+  log "Notification sent via ${provider}"
+else
+  log "Notification not sent (provider=${provider}, missing/invalid config)"
+fi
+
+exit 0

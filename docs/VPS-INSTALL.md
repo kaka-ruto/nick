@@ -80,6 +80,43 @@ caf apply
 caf ci status --latest
 ```
 
+## 📡 Three-Layer Monitoring (Recommended)
+
+For low-cost VPS reliability, use all three layers:
+
+1. **Layer 1 (dashboard):** Install Netdata for real-time host metrics.
+2. **Layer 2 (alerts):** Use Cafaye's built-in periodic health alerts.
+3. **Layer 3 (external):** Add UptimeRobot/Better Stack checks from outside your VPS.
+
+### Layer 2: Cafaye Alerts (Easy Setup)
+
+```bash
+# Interactive setup (provider optional: none, telegram, discord, slack)
+caf-vps-monitor-setup
+
+# Apply system changes (enables timer when monitoring is enabled)
+caf-system-rebuild
+
+# Send a test notification
+caf-vps-monitor-check --notify-test
+```
+
+What Cafaye monitors by default:
+- RAM usage (%)
+- Disk usage on `/` (%)
+- CPU load per core
+- Critical processes/services you define
+
+Useful health checks:
+
+```bash
+# Verify monitor timer and last run
+caf-system-doctor
+
+# Run one immediate check
+caf-vps-monitor-check
+```
+
 ---
 
 ## 🏗 Fleet Integration

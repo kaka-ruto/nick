@@ -162,6 +162,8 @@ run_system_update() {
 show_status_menu() {
     choice=$(caf_choose_menu "Status Submenu" \
         "🏥 System Health" \
+        "📡 VPS Monitoring Setup" \
+        "🧪 Send Monitoring Test Alert" \
         "🏭 Factory CI/CD Status" \
         "👁️  Watch Factory (Live)" \
         "🔍 Check Current Commit" \
@@ -169,6 +171,8 @@ show_status_menu() {
 
     case "$choice" in
         *"System Health"*) show_system_health ;;
+        *"Monitoring Setup"*) caf-vps-monitor-setup ;;
+        *"Test Alert"*) caf-vps-monitor-check --notify-test ;;
         *"Factory CI/CD"*) caf-factory-check ;;
         *"Watch Factory"*) caf-factory-check --watch ;;
         *"Current Commit"*) check_current_commit ;;
