@@ -233,8 +233,8 @@ fi
 echo -n "Checking CPU Load... "
 CPU_LOAD=$(uptime | awk -F'load average:' '{ print $2 }' | cut -d, -f1 | xargs)
 CORES=$(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
-THRESHOLD=$(echo "$CORES * 2" | bc 2>/dev/null || echo 4)
-if (( $(echo "$CPU_LOAD > $THRESHOLD" | bc -l) )); then
+THRESHOLD=$(awk -v c="$CORES" 'BEGIN { printf "%.2f", c * 2 }')
+if awk -v load="$CPU_LOAD" -v threshold="$THRESHOLD" 'BEGIN { exit !(load > threshold) }'; then
   echo "⚠ High system load ($CPU_LOAD > $THRESHOLD)"
   ((ISSUES++))
 else
