@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shell-and-json:
+    name: Shell + JSON Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tooling
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Validate shell script syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          found=0
+          while IFS= read -r -d '' file; do
+            found=1
+            bash -n "$file"
+          done < <(find cli/scripts -type f -perm -u+x -print0)
+          if [[ "$found" -eq 0 ]]; then
+            echo "No executable scripts found under cli/scripts"
+          fi
+          bash -n cli/main.sh
+          bash -n install.sh
+
+      - name: Validate JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq empty settings.json
+          jq empty environment.json
+          jq empty user/user-state.json.example
+          jq empty user/user-state.schema.json
