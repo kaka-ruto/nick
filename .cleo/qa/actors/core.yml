@@ -1,0 +1,6 @@
+name: core
+description: Default actor profile for core QA flows.
+surfaces:
+  - web
+  - api
+auth_profile: none

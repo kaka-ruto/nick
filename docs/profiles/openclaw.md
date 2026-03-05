@@ -99,13 +99,110 @@ It is intentionally environment-agnostic and should be used across teams/project
 - [ ] Document fallback admin access path (for example private tunnel or IAP).
 - [ ] Keep an incident runbook for channel failures, auth failures, and gateway restart loops.
 
-## 11) Operational Defaults
+## 11) Capacity and SSH Resilience (Heavy Task Stability)
+
+- [ ] Add swap on small VPS shapes (recommended: `4G` minimum) and persist in `/etc/fstab`.
+- [ ] Apply kernel memory/IO guardrails:
+  - `vm.swappiness=10`
+  - `vm.vfs_cache_pressure=50`
+  - `vm.dirty_background_ratio=5`
+  - `vm.dirty_ratio=20`
+- [ ] Enable SSH keepalive hardening:
+  - `ClientAliveInterval 30`
+  - `ClientAliveCountMax 5`
+  - `TCPKeepAlive yes`
+- [ ] Cap OpenClaw pressure on small hosts:
+  - lower `agents.defaults.maxConcurrent`
+  - set conservative process scheduling for gateway service (`Nice`, `IOScheduling*`, optional `CPUQuota`)
+- [ ] Prefer non-interactive admin paths (`IAP` and/or `Tailscale`) and keep one fallback path available.
+- [ ] Treat Tailscale health warnings as first-class signals when remote shell drops are observed.
+
+## 12) Stability Validation (Post-Hardening)
+
+- [ ] Baseline check:
+  - `free -h`
+  - `swapon --show`
+  - `uptime`
+- [ ] Run repeated remote probes before and during a heavy OpenClaw operation.
+- [ ] Pass criteria:
+  - no SSH probe failures/timeouts during the stress window
+  - gateway remains reachable
+  - no critical findings in `openclaw security audit`
+- [ ] If probes fail:
+  - reduce concurrency further
+  - move to larger machine size
+  - split heavy workloads onto disposable test hosts
+
+## 13) Incident Pattern to Watch
+
+- [ ] Symptom cluster indicating resource/network instability:
+  - SSH banner timeouts or dropped tunnels under load
+  - very high load averages on low-core hosts
+  - high IO wait and delayed service responses
+  - intermittent relay/control-plane health warnings
+- [ ] Response sequence:
+  1. reduce runtime pressure immediately
+  2. confirm swap + sysctl + SSH keepalives
+  3. restart gateway cleanly
+  4. rerun probe-based stress test
+
+## 14) Worker Offloading Pattern (Recommended)
+
+- [ ] Keep OpenClaw gateway/channels on a control-plane host only.
+- [ ] Run heavy QA/build/test/fix loops on separate worker VMs.
+- [ ] Prefer disposable workers per job or per short batch.
+- [ ] Keep worker scripts guarded and reproducible.
+
+### Suggested command flow
+
+1. Create worker:
+   - `caf-openclaw-worker-create <name> [zone] [machine-type]`
+   - default machine type: `e2-small`
+2. Run one remote command:
+   - `caf-openclaw-worker-run <name> <zone> "<command...>"`
+3. Run full ephemeral offload job:
+   - `caf-openclaw-offload <name> <zone> <machine-type> <repo-url> "<job-cmd>"`
+   - recommended starter: `e2-small`
+4. Destroy worker:
+   - `caf-openclaw-worker-destroy <name> [zone]`
+
+### Worker baseline contents
+
+- [ ] Base ops tools (`git`, `curl`, `jq`, `tmux`, `ufw`, `fail2ban`)
+- [ ] Swap enabled (minimum `4G`)
+- [ ] sysctl tuning for memory/IO behavior
+- [ ] project checkout under `~/work/<repo>`
+- [ ] no channel credentials unless explicitly needed
+
+### Worker readiness gate
+
+- [ ] Offload runner should wait for:
+  - startup marker file: `/var/tmp/cafaye-worker-ready`
+  - swap active: `swapon --show` contains `/swapfile`
+- [ ] Fail fast if readiness conditions are not met before job start.
+
+## 15) QA Continuity Memory (No Repeated QA)
+
+- [ ] Maintain per-project QA state file:
+  - `/home/kaka/.openclaw/workspace/projects/<project-key>-qa-state.md`
+- [ ] Required sections:
+  - `Tested (completed)`
+  - `Reported (issues filed)`
+  - `Not Worked (queued)`
+  - `Retest Required`
+- [ ] QA run policy:
+  - always read state file first
+  - prioritize `Not Worked` then `Retest Required`
+  - skip `Tested` unless user requests full rerun or code changed in area
+  - update state file at end of every QA run with timestamps and links
+
+## 16) Operational Defaults
 
 - [ ] Keep heartbeat disabled for request/response-only deployments.
 - [ ] Enable heartbeat only when proactive checks/reminders are required.
 - [ ] Keep automation off until smoke tests and policy controls are verified.
 
-## 12) Definition of Done
+## 17) Definition of Done
 
 - [ ] Gateway is private, authenticated, and reachable via approved admin path.
 - [ ] Channels are connected and correctly routed to target agents.

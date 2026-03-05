@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Destroy a dedicated OpenClaw worker VM.
+
+set -euo pipefail
+
+NAME="${1:-}"
+ZONE="${2:-us-central1-a}"
+PROJECT="${GOOGLE_CLOUD_PROJECT:-cafaye}"
+
+if [[ -z "$NAME" ]]; then
+  echo "Usage: caf-openclaw-worker-destroy <name> [zone]"
+  exit 1
+fi
+
+if ! command -v gcloud >/dev/null 2>&1; then
+  echo "Error: gcloud is required"
+  exit 1
+fi
+
+echo "Destroying worker VM: $NAME ($ZONE) in project $PROJECT"
+gcloud compute instances delete "$NAME" \
+  --project="$PROJECT" \
+  --zone="$ZONE" \
+  --quiet
+
+echo "Worker destroyed: $NAME"

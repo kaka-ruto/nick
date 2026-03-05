@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Ephemeral offload runner: create worker, run job, optionally destroy worker.
+
+set -euo pipefail
+
+NAME="${1:-}"
+ZONE="${2:-us-central1-a}"
+MACHINE_TYPE="${3:-e2-small}"
+REPO_URL="${4:-https://github.com/cafaye/cafaye}"
+JOB_CMD="${5:-}"
+KEEP_WORKER="${KEEP_WORKER:-0}"
+
+if [[ -z "$NAME" || -z "$JOB_CMD" ]]; then
+  cat <<EOF
+Usage:
+  caf-openclaw-offload <name> <zone> <machine-type> <repo-url> <job-cmd>
+
+Example:
+  caf-openclaw-offload oc-worker-1 us-central1-a e2-small https://github.com/cafaye/cafaye "cd ~/work/cafaye && caf-test unit"
+EOF
+  exit 1
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+"$SCRIPT_DIR/caf-openclaw-worker-create" "$NAME" "$ZONE" "$MACHINE_TYPE"
+
+cleanup() {
+  if [[ "$KEEP_WORKER" == "1" ]]; then
+    echo "KEEP_WORKER=1 set; skipping destroy for $NAME"
+    return
+  fi
+  "$SCRIPT_DIR/caf-openclaw-worker-destroy" "$NAME" "$ZONE"
+}
+trap cleanup EXIT
+
+echo "Waiting for startup script to settle..."
+READY=0
+for i in $(seq 1 30); do
+  if "$SCRIPT_DIR/caf-openclaw-worker-run" "$NAME" "$ZONE" "test -f /var/tmp/cafaye-worker-ready && swapon --show | grep -q /swapfile && echo READY" >/tmp/cafaye-worker-ready.log 2>&1; then
+    if grep -q "READY" /tmp/cafaye-worker-ready.log; then
+      READY=1
+      break
+    fi
+  fi
+  sleep 5
+done
+
+if [[ "$READY" != "1" ]]; then
+  echo "Worker readiness check failed (startup marker/swap not ready)."
+  echo "Last readiness output:"
+  cat /tmp/cafaye-worker-ready.log || true
+  exit 1
+fi
+
+REMOTE_BOOTSTRAP=$(cat <<EOF
+set -euo pipefail
+mkdir -p ~/work
+if [[ ! -d ~/work/cafaye/.git ]]; then
+  git clone "$REPO_URL" ~/work/cafaye
+else
+  cd ~/work/cafaye
+  git fetch --all --prune
+fi
+EOF
+)
+
+"$SCRIPT_DIR/caf-openclaw-worker-run" "$NAME" "$ZONE" "$REMOTE_BOOTSTRAP"
+"$SCRIPT_DIR/caf-openclaw-worker-run" "$NAME" "$ZONE" "$JOB_CMD"
+
+echo "Offloaded job finished on $NAME"
