@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Run a command on a worker VM over IAP SSH.
+
+set -euo pipefail
+
+NAME="${1:-}"
+ZONE="${2:-us-central1-a}"
+shift 2 || true
+REMOTE_CMD="${*:-}"
+PROJECT="${GOOGLE_CLOUD_PROJECT:-cafaye}"
+SSH_KEY="${HOME}/.ssh/cafaye"
+SSH_USER="${USER:-kaka}"
+
+if [[ -z "$NAME" || -z "$REMOTE_CMD" ]]; then
+  echo "Usage: caf-openclaw-worker-run <name> <zone> <command...>"
+  exit 1
+fi
+
+if ! command -v gcloud >/dev/null 2>&1; then
+  echo "Error: gcloud is required"
+  exit 1
+fi
+
+gcloud --quiet compute ssh "${SSH_USER}@${NAME}" \
+  --project="$PROJECT" \
+  --zone="$ZONE" \
+  --tunnel-through-iap \
+  --ssh-key-file="$SSH_KEY" \
+  --command="$REMOTE_CMD"

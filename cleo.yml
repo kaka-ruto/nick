@@ -1,0 +1,49 @@
+github:
+    base_branch: master
+    delete_branch_on_merge: false
+    host: github.com
+    merge_method: merge
+    owner: cafaye
+    repo: cafaye
+pr:
+    allow_self_approval: false
+    block_if_requested_changes: true
+    checks:
+        ignore: []
+        mode: required
+        poll_interval_seconds: 10
+        required: []
+        timeout_seconds: 1800
+        treat_neutral_as_pass: false
+    deploy_watch:
+        branch: master
+        enabled: true
+        poll_interval_seconds: 10
+        timeout_seconds: 2700
+        workflow: Deploy to Production
+    post_merge:
+        allow_none: true
+        command_allowlist_prefixes:
+            - bin/kamal
+        command_denylist:
+            - rm -rf /
+        enabled: true
+        markers:
+            end: <!-- post-merge-commands:end -->
+            start: <!-- post-merge-commands:start -->
+        require_command_allowlist: false
+    require_mergeable: true
+    require_non_draft: true
+    required_approvals: 1
+    stack:
+        auto_detect_next_pr: true
+        force_with_lease: true
+        rebase_next_after_merge: true
+qa:
+    actors_dir: .cleo/qa/actors
+    evidence_dir: .cleo/evidence
+    manual:
+        enabled: true
+safety:
+    require_explicit_apply: true
+version: 1

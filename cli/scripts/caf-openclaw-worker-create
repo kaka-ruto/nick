@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Create a dedicated OpenClaw worker VM for heavy QA/dev jobs.
+
+set -euo pipefail
+
+NAME="${1:-}"
+ZONE="${2:-us-central1-a}"
+MACHINE_TYPE="${3:-e2-small}"
+PROJECT="${GOOGLE_CLOUD_PROJECT:-cafaye}"
+SSH_USER="${USER:-kaka}"
+
+if [[ -z "$NAME" ]]; then
+  echo "Usage: caf-openclaw-worker-create <name> [zone] [machine-type]"
+  exit 1
+fi
+
+if ! command -v gcloud >/dev/null 2>&1; then
+  echo "Error: gcloud is required"
+  exit 1
+fi
+
+if [[ ! -f "$HOME/.ssh/cafaye.pub" ]]; then
+  echo "Error: missing SSH public key at ~/.ssh/cafaye.pub"
+  exit 1
+fi
+
+STARTUP_SCRIPT=$(cat <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+apt-get update -y
+apt-get install -y git curl jq tmux fail2ban ufw
+if ! swapon --show | grep -q /swapfile; then
+  fallocate -l 4G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=4096
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+fi
+grep -q '^/swapfile ' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+cat >/etc/sysctl.d/99-cafaye-worker.conf <<SYS
+vm.swappiness=10
+vm.vfs_cache_pressure=50
+vm.dirty_background_ratio=5
+vm.dirty_ratio=20
+SYS
+sysctl --system || true
+touch /var/tmp/cafaye-worker-ready
+EOF
+)
+
+echo "Creating worker VM: $NAME ($ZONE, $MACHINE_TYPE) in project $PROJECT"
+gcloud compute instances create "$NAME" \
+  --project="$PROJECT" \
+  --zone="$ZONE" \
+  --machine-type="$MACHINE_TYPE" \
+  --image-project=ubuntu-os-cloud \
+  --image-family=ubuntu-2404-lts-amd64 \
+  --metadata=ssh-keys="${SSH_USER}:$(cat "$HOME/.ssh/cafaye.pub")",startup-script="$STARTUP_SCRIPT" \
+  --labels=owner=cafaye,role=openclaw-worker,managed-by=cafaye \
+  --quiet
+
+IP=$(gcloud compute instances describe "$NAME" --project="$PROJECT" --zone="$ZONE" --format='get(networkInterfaces[0].networkIP)')
+echo "Worker created."
+echo "Name: $NAME"
+echo "Zone: $ZONE"
+echo "IP: $IP"

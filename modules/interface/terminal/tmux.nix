@@ -33,6 +33,7 @@ in
 
     # Link the theme script to the expected location
     xdg.configFile."tmux/base16.sh".source = ../../../config/user/tmux/base16.sh;
+    xdg.configFile."tmux/tmux-256color-italic.terminfo".source = ../../../config/user/tmux/tmux-256color-italic.terminfo;
 
     # Ensure TPM/plugins exist so resurrect+continuum are functional on first run.
     home.activation.cafayeTmuxPlugins = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -48,6 +49,16 @@ in
       fi
       if [ -x "$TPM_DIR/bin/install_plugins" ]; then
         run "$TPM_DIR/bin/install_plugins" >/dev/null 2>&1 || true
+      fi
+    '';
+
+    # Ensure tmux italic-capable terminfo exists on every host.
+    home.activation.cafayeTmuxTerminfo = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if command -v ${pkgs.ncurses}/bin/tic >/dev/null 2>&1; then
+        mkdir -p "$HOME/.terminfo"
+        if ! infocmp tmux-256color-italic >/dev/null 2>&1; then
+          run ${pkgs.ncurses}/bin/tic -x -o "$HOME/.terminfo" "$HOME/.config/tmux/tmux-256color-italic.terminfo" >/dev/null 2>&1 || true
+        fi
       fi
     '';
   };
