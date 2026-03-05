@@ -9,6 +9,7 @@ STATE_FILE="${STATE_DIR}/monitor-alert-state.json"
 
 QUIET=0
 TEST_NOTIFY=0
+SCHEDULED_REPORT=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -18,6 +19,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --notify-test)
       TEST_NOTIFY=1
+      shift
+      ;;
+    --health-report)
+      SCHEDULED_REPORT=1
       shift
       ;;
     *)
@@ -90,16 +95,6 @@ send_notification() {
   esac
 }
 
-if [[ "$TEST_NOTIFY" -eq 1 ]]; then
-  msg="✅ Cafaye VPS monitor test from ${hostname_value} at ${now_human}"
-  if send_notification "$msg"; then
-    log "Test notification sent using provider=${provider}"
-    exit 0
-  fi
-  log "Test notification failed (provider=${provider})"
-  exit 1
-fi
-
 mkdir -p "$STATE_DIR"
 if [[ ! -f "$STATE_FILE" ]]; then
   cat >"$STATE_FILE" <<EOF
@@ -138,6 +133,7 @@ get_state_last_sent() {
 
 alerts=()
 recoveries=()
+failed_processes=()
 
 handle_condition() {
   local key="$1"
@@ -197,6 +193,7 @@ handle_condition "disk" "$disk_hot" "$disk_alert_detail"
 handle_condition "load" "$load_hot" "$load_alert_detail"
 
 process_count="$(read_json '.core.monitoring.processes | length // 0')"
+process_report=()
 if [[ "$process_count" =~ ^[0-9]+$ ]] && [[ "$process_count" -gt 0 ]]; then
   while IFS= read -r proc; do
     [[ -z "$proc" ]] && continue
@@ -213,11 +210,88 @@ if [[ "$process_count" =~ ^[0-9]+$ ]] && [[ "$process_count" -gt 0 ]]; then
       fi
     fi
     if [[ "$proc_ok" == "true" ]]; then
+      process_report+=("- ${proc}: OK")
       handle_condition "proc:${proc}" "false" "Process check failed: ${proc}"
     else
+      process_report+=("- ${proc}: FAIL")
+      failed_processes+=("$proc")
       handle_condition "proc:${proc}" "true" "Process check failed: ${proc}"
     fi
   done < <(jq -r '.core.monitoring.processes[]? // empty' "$SETTINGS_FILE")
+fi
+
+recommendations=()
+[[ "$ram_hot" == "true" ]] && recommendations+=("- RAM is high: restart memory-heavy services, then plan a VPS RAM upgrade if sustained.")
+[[ "$disk_hot" == "true" ]] && recommendations+=("- Disk is high: clean logs/caches, rotate logs, and free space on '/'.")
+[[ "$load_hot" == "true" ]] && recommendations+=("- CPU load/core is high: inspect top processes and reduce background jobs or scale up CPU.")
+if [[ "${#failed_processes[@]}" -gt 0 ]]; then
+  recommendations+=("- One or more critical processes are down: restart and check logs.")
+fi
+if [[ "${#recommendations[@]}" -eq 0 ]]; then
+  recommendations+=("- System is healthy. Keep monitoring enabled and review trends weekly.")
+fi
+
+if [[ "$TEST_NOTIFY" -eq 1 || "$SCHEDULED_REPORT" -eq 1 ]]; then
+  if [[ "$SCHEDULED_REPORT" -eq 1 ]]; then
+    snapshot_title="🗓️ Cafaye Scheduled VPS Health Report"
+  else
+    snapshot_title="🩺 Cafaye VPS Health Snapshot"
+  fi
+  test_lines=()
+  test_lines+=("${snapshot_title}")
+  test_lines+=("Host: ${hostname_value}")
+  test_lines+=("Time: ${now_human}")
+  test_lines+=("Notifier: ${provider}")
+  test_lines+=("")
+  test_lines+=("Current metrics:")
+  test_lines+=("- RAM: ${mem_used_percent}% (threshold ${ram_threshold}%)")
+  test_lines+=("- Disk /: ${disk_used_percent}% (threshold ${disk_threshold}%)")
+  test_lines+=("- Load/Core: ${load_per_core} (threshold ${load_threshold})")
+  if [[ "${#process_report[@]}" -gt 0 ]]; then
+    test_lines+=("- Processes:")
+    for line in "${process_report[@]}"; do
+      test_lines+=("  ${line}")
+    done
+  fi
+  current_issues=()
+  [[ "$ram_hot" == "true" ]] && current_issues+=("RAM high")
+  [[ "$disk_hot" == "true" ]] && current_issues+=("Disk high")
+  [[ "$load_hot" == "true" ]] && current_issues+=("CPU load high")
+  if [[ "${#failed_processes[@]}" -gt 0 ]]; then
+    current_issues+=("Process down: $(IFS=', '; echo "${failed_processes[*]}")")
+  fi
+  test_lines+=("")
+  if [[ "${#current_issues[@]}" -gt 0 ]]; then
+    test_lines+=("Overall status: NEEDS_ATTENTION")
+    test_lines+=("Active issues: $(IFS=' | '; echo "${current_issues[*]}")")
+  else
+    test_lines+=("Overall status: HEALTHY")
+    test_lines+=("Active issues: none")
+  fi
+  test_lines+=("")
+  test_lines+=("Recommended next actions:")
+  for rec in "${recommendations[@]}"; do
+    test_lines+=("${rec}")
+  done
+
+  msg="$(printf '%s\n' "${test_lines[@]}")"
+  if send_notification "$msg"; then
+    if [[ "$SCHEDULED_REPORT" -eq 1 ]]; then
+      log "Scheduled health report sent using provider=${provider}"
+    else
+      log "Health snapshot notification sent using provider=${provider}"
+    fi
+    rm -f "$tmp_state"
+    exit 0
+  fi
+  if [[ "$SCHEDULED_REPORT" -eq 1 ]]; then
+    log "Scheduled health report notification failed (provider=${provider})"
+  else
+    log "Health snapshot notification failed (provider=${provider})"
+  fi
+  rm -f "$tmp_state"
+  [[ "$SCHEDULED_REPORT" -eq 1 ]] && exit 0
+  exit 1
 fi
 
 cp "$tmp_state" "$STATE_FILE"
@@ -230,18 +304,28 @@ fi
 
 message_lines=()
 if [[ "${#alerts[@]}" -gt 0 ]]; then
-  message_lines+=("🚨 Cafaye VPS Alert on ${hostname_value} (${now_human})")
+  message_lines+=("🚨 Cafaye VPS Alert")
+  message_lines+=("Host: ${hostname_value}")
+  message_lines+=("Time: ${now_human}")
+  message_lines+=("Overall status: NEEDS_ATTENTION")
+  message_lines+=("")
+  message_lines+=("Triggered checks:")
   for item in "${alerts[@]}"; do
     message_lines+=("- ${item}")
   done
 fi
 if [[ "${#recoveries[@]}" -gt 0 ]]; then
   [[ "${#alerts[@]}" -gt 0 ]] && message_lines+=("")
-  message_lines+=("✅ Recovered:")
+  message_lines+=("✅ Recovered checks:")
   for item in "${recoveries[@]}"; do
     message_lines+=("- ${item}")
   done
 fi
+message_lines+=("")
+message_lines+=("Recommended next actions:")
+for rec in "${recommendations[@]}"; do
+  message_lines+=("${rec}")
+done
 
 message="$(printf '%s\n' "${message_lines[@]}")"
 

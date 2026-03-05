@@ -107,6 +107,14 @@ What Cafaye monitors by default:
 - CPU load per core
 - Critical processes/services you define
 
+Optional scheduled health reports:
+- `none` (disabled)
+- `daily` (choose time)
+- `weekly` (choose day + time)
+- `monthly` (choose date + time)
+
+These send a full health snapshot even when there is no incident.
+
 Useful health checks:
 
 ```bash

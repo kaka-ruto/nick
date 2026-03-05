@@ -127,6 +127,39 @@
                                     }
                                 }
                             }
+                        },
+                        "healthcheck_reports": {
+                            "type": "object",
+                            "properties": {
+                                "frequency": {
+                                    "enum": [
+                                        "none",
+                                        "daily",
+                                        "weekly",
+                                        "monthly"
+                                    ]
+                                },
+                                "time": {
+                                    "type": "string",
+                                    "description": "24h time HH:MM (UTC)"
+                                },
+                                "day_of_week": {
+                                    "enum": [
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat",
+                                        "Sun"
+                                    ]
+                                },
+                                "day_of_month": {
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 31
+                                }
+                            }
                         }
                     }
                 }

@@ -38,6 +38,12 @@
         "slack": {
           "webhook_url": ""
         }
+      },
+      "healthcheck_reports": {
+        "frequency": "none",
+        "time": "09:00",
+        "day_of_week": "Mon",
+        "day_of_month": 1
       }
     }
   },

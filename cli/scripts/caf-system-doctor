@@ -180,6 +180,28 @@ if [[ "$MONITORING_ENABLED" == "true" ]]; then
   else
     echo "○ No runs yet"
   fi
+
+  echo -n "Checking scheduled health reports... "
+  REPORT_FREQ=$(jq -r '.core.monitoring.healthcheck_reports.frequency // "none"' "$HOME/.config/cafaye/settings.json" 2>/dev/null || echo "none")
+  if [[ "$REPORT_FREQ" == "none" ]]; then
+    echo "○ Disabled"
+  else
+    if systemctl --user is-active --quiet caf-vps-health-report.timer 2>/dev/null; then
+      REPORT_TIME=$(jq -r '.core.monitoring.healthcheck_reports.time // "09:00"' "$HOME/.config/cafaye/settings.json" 2>/dev/null || echo "09:00")
+      REPORT_DOW=$(jq -r '.core.monitoring.healthcheck_reports.day_of_week // "Mon"' "$HOME/.config/cafaye/settings.json" 2>/dev/null || echo "Mon")
+      REPORT_DOM=$(jq -r '.core.monitoring.healthcheck_reports.day_of_month // 1' "$HOME/.config/cafaye/settings.json" 2>/dev/null || echo "1")
+      if [[ "$REPORT_FREQ" == "weekly" ]]; then
+        echo "✓ Active ($REPORT_FREQ at $REPORT_DOW $REPORT_TIME UTC)"
+      elif [[ "$REPORT_FREQ" == "monthly" ]]; then
+        echo "✓ Active ($REPORT_FREQ on day $REPORT_DOM at $REPORT_TIME UTC)"
+      else
+        echo "✓ Active ($REPORT_FREQ at $REPORT_TIME UTC)"
+      fi
+    else
+      echo "❌ Configured but timer not active"
+      ((ISSUES++))
+    fi
+  fi
 else
   echo "○ Disabled"
 fi

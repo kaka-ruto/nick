@@ -74,6 +74,16 @@ ram_threshold="$(prompt_text "RAM alert threshold (%)" "75")"
 disk_threshold="$(prompt_text "Disk alert threshold (%)" "80")"
 load_threshold="$(prompt_text "CPU load-per-core threshold" "0.7")"
 repeat_minutes="$(prompt_text "Repeat alert every N minutes while ongoing" "30")"
+report_frequency="$(choose_option "Scheduled health reports" "none" "daily" "weekly" "monthly")"
+report_time="$(prompt_text "Scheduled report time (HH:MM, UTC)" "09:00")"
+report_day_of_week="Mon"
+report_day_of_month="1"
+if [[ "$report_frequency" == "weekly" ]]; then
+  report_day_of_week="$(choose_option "Weekly report day" "Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun")"
+fi
+if [[ "$report_frequency" == "monthly" ]]; then
+  report_day_of_month="$(prompt_text "Monthly report day (1-31)" "1")"
+fi
 
 processes_raw="$(prompt_text "Critical processes/services (comma separated, optional)" "postgresql,redis")"
 if [[ -n "$processes_raw" ]]; then
@@ -109,6 +119,10 @@ jq \
   --argjson disk "$disk_threshold" \
   --argjson load "$load_threshold" \
   --argjson repeat "$repeat_minutes" \
+  --arg report_frequency "$report_frequency" \
+  --arg report_time "$report_time" \
+  --arg report_day_of_week "$report_day_of_week" \
+  --argjson report_day_of_month "$report_day_of_month" \
   --arg provider "$provider" \
   --arg tg_token "$telegram_token" \
   --arg tg_chat "$telegram_chat_id" \
@@ -128,6 +142,10 @@ jq \
   | .core.monitoring.notifier.telegram.chat_id = $tg_chat
   | .core.monitoring.notifier.discord.webhook_url = $dc_webhook
   | .core.monitoring.notifier.slack.webhook_url = $sl_webhook
+  | .core.monitoring.healthcheck_reports.frequency = $report_frequency
+  | .core.monitoring.healthcheck_reports.time = $report_time
+  | .core.monitoring.healthcheck_reports.day_of_week = $report_day_of_week
+  | .core.monitoring.healthcheck_reports.day_of_month = $report_day_of_month
   ' "$SETTINGS_FILE" > "$tmp"
 mv "$tmp" "$SETTINGS_FILE"
 
