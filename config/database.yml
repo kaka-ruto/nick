@@ -1,0 +1,47 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <% if ENV["DB_HOST"] %>
+  host: <%= ENV["DB_HOST"] %>
+  username: postgres
+  <% end %>
+
+development:
+  primary:
+    <<: *default
+    <% if RUBY_PLATFORM =~ /darwin/ %>gssencmode: disable<% end %>
+    url: <%= Rails.application.credentials.dig(:database, :primary, :url) %>
+  errors:
+    <<: *default
+    <% if RUBY_PLATFORM =~ /darwin/ %>gssencmode: disable<% end %>
+    url: <%= Rails.application.credentials.dig(:database, :errors, :url) %>
+    migrations_paths: db/errors_migrate
+  events:
+    <<: *default
+    <% if RUBY_PLATFORM =~ /darwin/ %>gssencmode: disable<% end %>
+    url: <%= Rails.application.credentials.dig(:database, :events, :url) %>
+
+test:
+  primary: &primary_test
+    <<: *default
+    <% if RUBY_PLATFORM =~ /darwin/ %>gssencmode: disable<% end %>
+    database: chapterwan_test
+  events:
+    <<: *primary_test
+    database: chapterwan_test_events
+    database_tasks: false
+
+production:
+  primary: &primary_production
+    <<: *default
+    url: <%= Rails.application.credentials.dig(:database, :primary, :url) %>
+  errors:
+    <<: *primary_production
+    url: <%= Rails.application.credentials.dig(:database, :errors, :url) %>
+    migrations_paths: db/errors_migrate
+    database_tasks: false
+  events:
+    <<: *primary_production
+    url: <%= Rails.application.credentials.dig(:database, :events, :url) %>
+    database_tasks: false
