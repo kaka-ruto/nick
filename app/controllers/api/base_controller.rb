@@ -66,6 +66,18 @@ class Api::BaseController < ActionController::API
       ].join("\n"))
     end
 
+    def record_agent_action!(action:, subject:, metadata: {})
+      return unless Current.api_key
+
+      Current.api_key.events.create!(
+        user: Current.user,
+        action: action,
+        subject_type: subject.class.name,
+        subject_id: subject.id,
+        metadata: metadata
+      )
+    end
+
     def write_request?
       request.post? || request.patch? || request.put? || request.delete?
     end

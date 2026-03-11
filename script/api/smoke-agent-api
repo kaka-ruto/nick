@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -z "${BASE_URL:-}" || -z "${API_TOKEN:-}" ]]; then
+  echo "Set BASE_URL and API_TOKEN"
+  exit 1
+fi
+
+auth=(-H "Authorization: Bearer ${API_TOKEN}" -H "Content-Type: application/json")
+
+create_resp=$(curl -sS "${BASE_URL}/api/books" "${auth[@]}" -H "Idempotency-Key: smoke-create" \
+  -d '{"book":{"title":"Smoke Book","theme":"blue","everyone_access":false}}')
+
+book_id=$(echo "${create_resp}" | ruby -rjson -e 'puts JSON.parse(STDIN.read).dig("book","id")')
+
+curl -sS "${BASE_URL}/api/books/${book_id}/pricing" "${auth[@]}" -H "Idempotency-Key: smoke-pricing" \
+  -X PATCH -d '{"book":{"pricing_type":"free"}}' >/dev/null
+
+curl -sS "${BASE_URL}/api/books/${book_id}/chapters" "${auth[@]}" -H "Idempotency-Key: smoke-chapter" \
+  -d '{"chapter":{"body":"Intro","theme":"blue"},"leaf":{"title":"Chapter 1"}}' >/dev/null
+
+echo "Smoke API flow completed for book ${book_id}"

@@ -15,6 +15,7 @@ class Book < ApplicationRecord
 
   validates :price_cents, numericality: { greater_than: 0, only_integer: true }, if: :paid?
   validates :price_cents, absence: true, if: :free?
+  validate :paid_books_need_product_to_publish
 
   def press(leafable, leaf_params)
     leaves.create! leaf_params.merge(leafable: leafable)
@@ -34,5 +35,11 @@ class Book < ApplicationRecord
   private
     def normalize_pricing
       self.price_cents = nil if free?
+    end
+
+    def paid_books_need_product_to_publish
+      return unless published? && paid? && stripe_product_id.blank?
+
+      errors.add(:published, "cannot be true for paid books without a Stripe product")
     end
 end

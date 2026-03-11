@@ -4,6 +4,7 @@ class Api::BooksController < Api::BaseController
 
     book = Book.create!(book_params)
     book.update_access(editors: [ Current.user.id ], readers: [ Current.user.id ])
+    record_agent_action!(action: "book.create", subject: book)
 
     render json: { book: serialize_book(book) }, status: :created
   end
@@ -13,6 +14,7 @@ class Api::BooksController < Api::BaseController
     return unless load_editable_book
 
     @book.update!(book_params)
+    record_agent_action!(action: "book.update", subject: @book)
     render json: { book: serialize_book(@book) }
   end
 
@@ -21,6 +23,7 @@ class Api::BooksController < Api::BaseController
     return unless load_editable_book
 
     @book.update!(pricing_params)
+    record_agent_action!(action: "book.pricing.set", subject: @book, metadata: pricing_params.to_h)
     render json: { book: serialize_book(@book) }
   end
 
@@ -29,6 +32,7 @@ class Api::BooksController < Api::BaseController
     return unless load_editable_book
 
     @book.update!(publication_params)
+    record_agent_action!(action: "book.publication.set", subject: @book, metadata: publication_params.to_h)
     render json: { book: serialize_book(@book) }
   end
 
@@ -41,6 +45,7 @@ class Api::BooksController < Api::BaseController
     elsif ActiveModel::Type::Boolean.new.cast(params[:remove_cover])
       @book.cover.purge if @book.cover.attached?
     end
+    record_agent_action!(action: "book.cover.upload", subject: @book, metadata: { cover_attached: @book.cover.attached? })
 
     render json: { book: serialize_book(@book) }
   end
@@ -50,6 +55,7 @@ class Api::BooksController < Api::BaseController
     return unless load_editable_book(id_key: :book_id)
 
     leaf = upsert_leaf(type: Section, leafable_params: chapter_params)
+    record_agent_action!(action: "book.chapter.upsert", subject: leaf, metadata: { book_id: @book.id })
     render json: { chapter: serialize_leaf(leaf) }, status: leaf.previously_new_record? ? :created : :ok
   end
 
@@ -58,6 +64,7 @@ class Api::BooksController < Api::BaseController
     return unless load_editable_book(id_key: :book_id)
 
     leaf = upsert_leaf(type: Page, leafable_params: page_params)
+    record_agent_action!(action: "book.page.upsert", subject: leaf, metadata: { book_id: @book.id })
     render json: { page: serialize_leaf(leaf) }, status: leaf.previously_new_record? ? :created : :ok
   end
 

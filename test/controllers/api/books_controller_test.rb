@@ -26,10 +26,12 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
 
   test "creates a book" do
     assert_difference -> { Book.count }, +1 do
-      post api_books_url,
-        params: { book: { title: "Agent Book", subtitle: "Sub", author: "Bot", theme: "green", everyone_access: false } },
-        headers: write_headers("create-book"),
-        as: :json
+      assert_difference -> { ApiKeyEvent.count }, +1 do
+        post api_books_url,
+          params: { book: { title: "Agent Book", subtitle: "Sub", author: "Bot", theme: "green", everyone_access: false } },
+          headers: write_headers("create-book"),
+          as: :json
+      end
     end
 
     assert_response :created

@@ -4,6 +4,7 @@ class ApiKey < ApplicationRecord
 
   belongs_to :user
   has_many :idempotency_keys, dependent: :delete_all
+  has_many :events, class_name: "ApiKeyEvent", dependent: :delete_all
 
   validates :name, presence: true
   validates :key_digest, presence: true, uniqueness: true

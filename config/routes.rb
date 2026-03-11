@@ -18,6 +18,12 @@ Rails.application.routes.draw do
       resource :custom_styles, only: %i[ edit update ]
     end
   end
+  resources :api_keys, only: %i[ index create ] do
+    member do
+      patch :revoke
+      patch :rotate
+    end
+  end
 
   resources :books, except: %i[ index show ] do
     resource :publication, controller: "books/publications", only: %i[ show edit update ]
