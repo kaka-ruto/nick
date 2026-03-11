@@ -3,11 +3,15 @@ class BooksController < ApplicationController
 
   before_action :ensure_index_is_not_empty, only: :index
   before_action :set_book, only: %i[ show edit update destroy ]
-  before_action :set_users, only: %i[ new edit ]
+  before_action :set_users, :set_categories, only: %i[ new edit ]
   before_action :ensure_editable, only: %i[ edit update destroy ]
 
   def index
-    @books = Book.accessable_or_published.ordered
+    books = Book.accessable_or_published
+    books = books.where(category_id: params[:category_id]) if params[:category_id].present?
+    @books = books.ordered
+    @popular_books = Book.published.popular.limit(6)
+    @categories = Category.ordered
   end
 
   def new
@@ -16,6 +20,7 @@ class BooksController < ApplicationController
 
   def create
     book = Book.create! book_params
+    book.assign_tags!(tag_names)
     update_accesses(book)
 
     redirect_to book_slug_url(book)
@@ -24,6 +29,7 @@ class BooksController < ApplicationController
   def show
     @can_read = @book.readable_by?
     @leaves = @can_read ? @book.leaves.active.with_leafables.positioned : []
+    record_view if @can_read
   end
 
   def edit
@@ -31,6 +37,7 @@ class BooksController < ApplicationController
 
   def update
     @book.update(book_params)
+    @book.assign_tags!(tag_names)
     update_accesses(@book)
     remove_cover if params[:remove_cover] == "true"
 
@@ -63,7 +70,11 @@ class BooksController < ApplicationController
     end
 
     def book_params
-      params.require(:book).permit(:title, :subtitle, :author, :cover, :remove_cover, :everyone_access, :theme, :pricing_type, :price_cents)
+      params.require(:book).permit(:title, :subtitle, :author, :cover, :remove_cover, :everyone_access, :theme, :pricing_type, :price_cents, :category_id)
+    end
+
+    def tag_names
+      params.dig(:book, :tag_names)
     end
 
     def update_accesses(book)
@@ -75,5 +86,17 @@ class BooksController < ApplicationController
 
     def remove_cover
       @book.cover.purge
+    end
+
+    def set_categories
+      @categories = Category.ordered
+    end
+
+    def record_view
+      BookView.record!(book: @book, user: Current.user, visitor_id: visitor_id)
+    end
+
+    def visitor_id
+      cookies.signed[:visitor_id] ||= SecureRandom.uuid
     end
 end

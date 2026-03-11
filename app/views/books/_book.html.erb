@@ -16,6 +16,10 @@
         <strong><%= book.title %></strong>
         <span class="overflow-line-clamp"><%= book.author %></span>
       </h2>
+      <small><%= book.category.name %></small>
+      <% if book.tags.any? %>
+        <small class="overflow-line-clamp"><%= book.tag_names.join(", ") %></small>
+      <% end %>
     </div>
   </figure>
 <% end %>

@@ -71,6 +71,14 @@
           <%= form.number_field :price_cents, min: 100, step: 100, class: "input", placeholder: "Price in cents" %>
         </label>
       </div>
+      <div class="flex align-center gap txt-medium">
+        <strong>Category</strong>
+        <%= form.collection_select :category_id, categories, :id, :name, {}, { class: "input" } %>
+      </div>
+      <div class="flex align-center gap txt-medium">
+        <strong>Tags</strong>
+        <%= form.text_field :tag_names, value: book.tag_names.join(", "), class: "input", placeholder: "e.g. handbook, ops, onboarding" %>
+      </div>
     </div>
   </div>
 

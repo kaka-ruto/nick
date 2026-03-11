@@ -23,6 +23,16 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", text: "Manual"
   end
 
+  test "index filters by category" do
+    books(:manual).update!(published: true)
+
+    get root_url, params: { category_id: categories(:engineering).id }
+
+    assert_response :success
+    assert_select "h2", text: "Manual"
+    assert_select "h2", text: "Handbook", count: 0
+  end
+
   test "index shows published books when not logged in" do
     books(:manual).update!(published: true)
 
@@ -85,5 +95,18 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
     assert_select "meta[property='og:title'][content='Handbook']"
     assert_select "meta[property='og:url'][content='#{book_slug_url(books(:handbook))}']"
+  end
+
+  test "show records one view for signed out visitor" do
+    books(:handbook).update!(published: true)
+    sign_out
+
+    assert_difference -> { BookView.count }, +1 do
+      get book_slug_url(books(:handbook))
+    end
+
+    assert_no_difference -> { BookView.count } do
+      get book_slug_url(books(:handbook))
+    end
   end
 end

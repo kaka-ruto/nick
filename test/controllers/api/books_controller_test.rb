@@ -28,7 +28,7 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_difference -> { Book.count }, +1 do
       assert_difference -> { ApiKeyEvent.count }, +1 do
         post api_books_url,
-          params: { book: { title: "Agent Book", subtitle: "Sub", author: "Bot", theme: "green", everyone_access: false } },
+          params: { book: { title: "Agent Book", subtitle: "Sub", author: "Bot", theme: "green", everyone_access: false, category_id: categories(:engineering).id, tag_names: [ "ops", "runbook" ] } },
           headers: write_headers("create-book"),
           as: :json
       end
@@ -37,6 +37,8 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     assert_equal "Agent Book", response.parsed_body.dig("book", "title")
     assert_equal "green", response.parsed_body.dig("book", "theme")
+    assert_equal "Engineering", response.parsed_body.dig("book", "category")
+    assert_equal [ "ops", "runbook" ], response.parsed_body.dig("book", "tags")
   end
 
   test "replays same idempotency key" do

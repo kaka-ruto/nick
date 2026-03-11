@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_11_211000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_11_214000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -102,8 +102,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_211000) do
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
+  create_table "book_tags", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id", "tag_id"], name: "index_book_tags_on_book_id_and_tag_id", unique: true
+    t.index ["book_id"], name: "index_book_tags_on_book_id"
+    t.index ["tag_id"], name: "index_book_tags_on_tag_id"
+  end
+
+  create_table "book_views", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.date "viewed_on", null: false
+    t.string "visitor_id"
+    t.index ["book_id", "viewed_on", "user_id"], name: "index_book_views_on_book_date_user", unique: true, where: "(user_id IS NOT NULL)"
+    t.index ["book_id", "viewed_on", "visitor_id"], name: "index_book_views_on_book_date_visitor", unique: true, where: "(visitor_id IS NOT NULL)"
+    t.index ["book_id"], name: "index_book_views_on_book_id"
+    t.index ["user_id"], name: "index_book_views_on_user_id"
+  end
+
   create_table "books", force: :cascade do |t|
     t.string "author"
+    t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.boolean "everyone_access", default: true, null: false
     t.integer "price_cents"
@@ -115,9 +139,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_211000) do
     t.string "theme", default: "blue", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["pricing_type"], name: "index_books_on_pricing_type"
     t.index ["published"], name: "index_books_on_published"
     t.index ["stripe_product_id"], name: "index_books_on_stripe_product_id"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
   create_table "edits", force: :cascade do |t|
@@ -291,6 +325,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_211000) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "active", default: true
     t.datetime "created_at", null: false
@@ -310,6 +353,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_211000) do
   add_foreign_key "api_key_events", "api_keys"
   add_foreign_key "api_key_events", "users"
   add_foreign_key "api_keys", "users"
+  add_foreign_key "book_tags", "books"
+  add_foreign_key "book_tags", "tags"
+  add_foreign_key "book_views", "books"
+  add_foreign_key "book_views", "users"
+  add_foreign_key "books", "categories"
   add_foreign_key "edits", "leaves"
   add_foreign_key "idempotency_keys", "api_keys"
   add_foreign_key "leaves", "books"

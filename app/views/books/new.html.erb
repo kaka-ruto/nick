@@ -9,7 +9,7 @@
   </nav>
 <% end %>
 
-<%= render "books/form", book: @book, users: @users, creating_user: Current.user %>
+<%= render "books/form", book: @book, users: @users, categories: @categories, creating_user: Current.user %>
 
 <% content_for :footer do %>
   <nav class="new-book-btn flex justify-center pad">

@@ -28,4 +28,11 @@ class BookTest < ActiveSupport::TestCase
 
     assert book.valid?
   end
+
+  test "assign tags keeps maximum five" do
+    book = books(:handbook)
+    book.assign_tags!(%w[one two three four five six seven])
+
+    assert_equal 5, book.tags.size
+  end
 end

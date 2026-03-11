@@ -3,6 +3,7 @@ class Api::BooksController < Api::BaseController
     return unless authenticate_request!(required_scope: "books:write")
 
     book = Book.create!(book_params)
+    book.assign_tags!(tag_names)
     book.update_access(editors: [ Current.user.id ], readers: [ Current.user.id ])
     record_agent_action!(action: "book.create", subject: book)
 
@@ -14,6 +15,7 @@ class Api::BooksController < Api::BaseController
     return unless load_editable_book
 
     @book.update!(book_params)
+    @book.assign_tags!(tag_names) if params.dig(:book, :tag_names).present?
     record_agent_action!(action: "book.update", subject: @book)
     render json: { book: serialize_book(@book) }
   end
@@ -81,7 +83,11 @@ class Api::BooksController < Api::BaseController
     end
 
     def book_params
-      params.require(:book).permit(:title, :subtitle, :author, :everyone_access, :theme)
+      params.require(:book).permit(:title, :subtitle, :author, :everyone_access, :theme, :category_id)
+    end
+
+    def tag_names
+      params.dig(:book, :tag_names)
     end
 
     def pricing_params
@@ -134,7 +140,9 @@ class Api::BooksController < Api::BaseController
         pricing_type: book.pricing_type,
         price_cents: book.price_cents,
         published: book.published,
-        cover_attached: book.cover.attached?
+        cover_attached: book.cover.attached?,
+        category: book.category&.name,
+        tags: book.tag_names
       }
     end
 

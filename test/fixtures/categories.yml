@@ -1,0 +1,7 @@
+general:
+  name: General
+  slug: general
+
+engineering:
+  name: Engineering
+  slug: engineering

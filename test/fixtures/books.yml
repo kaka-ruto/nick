@@ -1,7 +1,9 @@
 handbook:
   title: Handbook
   slug: handbook
+  category: general
 
 manual:
   title: Manual
   slug: manual
+  category: engineering

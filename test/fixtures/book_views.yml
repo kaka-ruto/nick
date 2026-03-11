@@ -1,0 +1,4 @@
+handbook_recent_view:
+  book: handbook
+  visitor_id: visitor-1
+  viewed_on: <%= Date.current %>

@@ -15,10 +15,12 @@ Scopes:
 ### Create book
 - `POST /api/books`
 - Scope: `books:write`
+- Supports `category_id` and optional `tag_names` (max 5)
 
 ### Update book
 - `PATCH /api/books/:id`
 - Scope: `books:write`
+- Supports `category_id` and optional `tag_names` (max 5)
 
 ### Set pricing
 - `PATCH /api/books/:id/pricing`
@@ -62,3 +64,9 @@ Every successful agent write records an `ApiKeyEvent` with:
 - action
 - subject (book/leaf)
 - metadata
+
+## Public discovery data
+
+- Books have one category (`category_id`)
+- Books can have up to five tags
+- Reads are tracked for signed-in (`user_id`) and signed-out (`visitor_id`) readers for popularity ranking
