@@ -1,49 +1,63 @@
 <% content_for(:title) { "Library | Chapterwan" } %>
-<% @layout_class = "books" %>
+<% @layout_class = "books landing" %>
 
 <% content_for :header do %>
-  <nav>
-    <span class="btn btn--placeholder" aria-hidden="true"></span>
-
-    <a href="https://once.com/chapterwan" class="product__wordmark btn btn--plain txt-large center" target="_blank">
+  <nav class="lp-header">
+    <a href="<%= root_path %>" class="product__wordmark btn btn--plain txt-large center">
       <%= image_tag "chapterwan-icon.svg", aria: { hidden: true }, size: 24 %>
       <span>Chapterwan</span>
     </a>
 
-    <% if Current.user %>
-      <%= link_to users_path, class: "btn" do %>
-        <%= image_tag "settings.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">Manage people and settings</span>
+    <div class="flex gap-half align-center">
+      <% if Current.user %>
+        <%= link_to "Dashboard", users_path, class: "btn btn--plain" %>
+      <% else %>
+        <%= link_to "Sign in", new_session_path, class: "btn" %>
       <% end %>
-    <% else %>
-      <%= link_to new_session_path, class: "btn" do %>
-        <%= image_tag "login-keys.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">Sign in</span>
-      <% end %>
-    <% end %>
+    </div>
   </nav>
 <% end %>
 
-<% cache [ @books, signed_in? ] do %>
-  <div class="pad">
-    <%= form_with url: root_path, method: :get, local: true, class: "flex gap align-center" do |form| %>
-      <%= form.label :category_id, "Filter by category" %>
-      <%= form.select :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), { include_blank: "All" }, { class: "input" } %>
-      <%= form.submit "Filter", class: "btn" %>
-    <% end %>
-  </div>
+<section class="lp-hero">
+  <p class="lp-kicker">Public Library</p>
+  <h1>Browse published books and discover what readers are opening now.</h1>
 
-  <% if @popular_books.any? %>
-    <section class="pad">
-      <h3 class="txt-large">Most Read</h3>
-      <div class="library">
-        <%= render @popular_books %>
-      </div>
-    </section>
+  <%= form_with url: root_path, method: :get, local: true, class: "lp-search" do |form| %>
+    <%= form.search_field :q, value: params[:q], placeholder: "Search books, authors, or tags", class: "input" %>
+    <%= form.select :category_id, options_from_collection_for_select(@categories, :id, :name, params[:category_id]), { include_blank: "All categories" }, { class: "input" } %>
+    <%= form.submit "Search", class: "btn btn--reversed" %>
   <% end %>
 
-  <div class="library">
+  <% if @featured_book.present? %>
+    <article class="lp-featured theme--<%= @featured_book.theme %>">
+      <p>Featured</p>
+      <h2><%= @featured_book.title %></h2>
+      <p><%= @featured_book.subtitle.presence || @featured_book.author.presence || @featured_book.category.name %></p>
+      <%= link_to "Read now", book_slug_path(@featured_book), class: "btn btn--plain" %>
+    </article>
+  <% end %>
+</section>
+
+<% if @popular_books.any? %>
+  <section class="lp-section">
+    <div class="lp-section__header">
+      <h3>Most Read</h3>
+      <small>Based on recent unique readers</small>
+    </div>
+    <div class="library lp-grid">
+      <%= render @popular_books %>
+    </div>
+  </section>
+<% end %>
+
+<section class="lp-section">
+  <div class="lp-section__header">
+    <h3><%= params[:q].present? ? "Search Results" : "Library" %></h3>
+    <small><%= pluralize(@books.size, "book") %></small>
+  </div>
+
+  <div class="library lp-grid">
     <%= render @books %>
     <%= render "books/new" if signed_in? %>
   </div>
-<% end %>
+</section>

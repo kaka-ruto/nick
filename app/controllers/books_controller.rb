@@ -9,8 +9,14 @@ class BooksController < ApplicationController
   def index
     books = Book.accessable_or_published
     books = books.where(category_id: params[:category_id]) if params[:category_id].present?
+    books = books.left_outer_joins(:tags).where(
+      "books.title ILIKE :q OR books.subtitle ILIKE :q OR books.author ILIKE :q OR tags.name ILIKE :q",
+      q: "%#{params[:q]}%"
+    ).distinct if params[:q].present?
+
     @books = books.ordered
     @popular_books = Book.published.popular.limit(6)
+    @featured_book = @popular_books.first || @books.first
     @categories = Category.ordered
   end
 

@@ -12,6 +12,114 @@
   inline-size: 100%;
 }
 
+.landing {
+  --lp-panel: color-mix(in oklab, var(--color-bg) 88%, var(--color-subtle-light));
+  --lp-border: color-mix(in oklab, var(--color-subtle-dark) 30%, transparent);
+  --lp-shadow: 0 1.5rem 3rem -2rem color-mix(in oklab, var(--color-ink) 35%, transparent);
+
+  font-family: "Avenir Next", "Segoe UI", var(--font-sans);
+  inline-size: min(120ch, 100vw);
+  text-align: left;
+}
+
+.lp-header {
+  backdrop-filter: blur(14px);
+  background: color-mix(in oklab, var(--color-bg) 82%, transparent);
+  border: 1px solid var(--lp-border);
+  border-radius: 0.8rem;
+  margin: var(--block-space-half) auto;
+  max-inline-size: min(120ch, 96vw);
+  padding: 0.7rem;
+}
+
+.lp-hero {
+  background:
+    radial-gradient(120rem 45rem at -12% -35%, color-mix(in oklab, var(--theme-color--blue) 22%, transparent), transparent),
+    radial-gradient(80rem 34rem at 120% -40%, color-mix(in oklab, var(--theme-color--orange) 20%, transparent), transparent),
+    var(--lp-panel);
+  border: 1px solid var(--lp-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--lp-shadow);
+  display: grid;
+  gap: 1rem;
+  margin-block: var(--block-space-double);
+  padding: clamp(1rem, 3vw, 2rem);
+
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", var(--font-serif);
+    font-size: clamp(1.6rem, 3.2vw, 2.9rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+    max-inline-size: 20ch;
+  }
+}
+
+.lp-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.lp-search {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 70ch) {
+    grid-template-columns: 1fr 16rem auto;
+  }
+}
+
+.lp-featured {
+  border: 1px solid var(--lp-border);
+  border-radius: 1rem;
+  color: var(--color-always-white);
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+
+  h2 {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .btn {
+    justify-self: start;
+    margin-top: 0.35rem;
+  }
+}
+
+.lp-section {
+  margin-block: var(--block-space-double);
+}
+
+.lp-section__header {
+  align-items: baseline;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+  margin-block-end: 0.8rem;
+
+  h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", var(--font-serif);
+    font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+    margin: 0;
+  }
+}
+
+.lp-grid {
+  gap: clamp(0.9rem, 2vw, 1.4rem);
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
 .book {
   --cover-height: auto;
   --space: clamp(2ch, 10%, 6ch);
