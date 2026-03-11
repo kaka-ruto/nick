@@ -1,7 +1,6 @@
 class BooksController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
 
-  before_action :ensure_index_is_not_empty, only: :index
   before_action :set_book, only: %i[ show edit update destroy ]
   before_action :set_users, :set_categories, only: %i[ new edit ]
   before_action :ensure_editable, only: %i[ edit update destroy ]
@@ -67,12 +66,6 @@ class BooksController < ApplicationController
 
     def ensure_editable
       head :forbidden unless @book.editable?
-    end
-
-    def ensure_index_is_not_empty
-      if !signed_in? && Book.published.none?
-        require_authentication
-      end
     end
 
     def book_params

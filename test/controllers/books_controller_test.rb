@@ -44,11 +44,11 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", text: "Manual"
   end
 
-  test "index redirects to login if not signed in and no published books exist" do
+  test "index is publicly accessible when not signed in and no published books exist" do
     sign_out
     get root_url
 
-    assert_redirected_to new_session_url
+    assert_response :success
   end
 
   test "create makes the current user an editor" do

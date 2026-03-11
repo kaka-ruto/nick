@@ -9,12 +9,12 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "new redirects to first run when no users exist" do
+  test "new is accessible when no users exist" do
     User.destroy_all
 
     get new_session_url
 
-    assert_redirected_to first_run_url
+    assert_response :success
   end
 
   test "new denied with incompatible browser" do
