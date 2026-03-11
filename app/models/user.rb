@@ -3,6 +3,7 @@ class User < ApplicationRecord
   pay_customer default_payment_processor: :stripe
 
   has_many :sessions, dependent: :destroy
+  has_many :api_keys, dependent: :destroy
   has_secure_password validations: false
 
   has_many :accesses, dependent: :destroy

@@ -76,6 +76,20 @@ Rails.application.routes.draw do
     post "/uploads" => "markdown/uploads#create", as: :markdown_uploads
   end
 
+
+  namespace :api do
+    resources :books, only: %i[ create update ] do
+      member do
+        patch :pricing, action: :set_pricing
+        patch :publication, action: :set_publication
+        put :cover, action: :upload_cover
+      end
+
+      post :chapters, action: :upsert_chapter
+      post :pages, action: :upsert_page
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

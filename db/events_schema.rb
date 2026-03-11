@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_11_194000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_11_203000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -73,6 +73,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_194000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "api_keys", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "key_digest", null: false
+    t.datetime "last_used_at"
+    t.string "name", null: false
+    t.datetime "revoked_at"
+    t.string "scopes", default: [], null: false, array: true
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["key_digest"], name: "index_api_keys_on_key_digest", unique: true
+    t.index ["revoked_at"], name: "index_api_keys_on_revoked_at"
+    t.index ["user_id"], name: "index_api_keys_on_user_id"
+  end
+
   create_table "books", force: :cascade do |t|
     t.string "author"
     t.datetime "created_at", null: false
@@ -100,6 +114,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_194000) do
     t.datetime "updated_at", null: false
     t.index ["leaf_id"], name: "index_edits_on_leaf_id"
     t.index ["leafable_type", "leafable_id"], name: "index_edits_on_leafable"
+  end
+
+  create_table "idempotency_keys", force: :cascade do |t|
+    t.bigint "api_key_id", null: false
+    t.datetime "created_at", null: false
+    t.string "key", null: false
+    t.string "request_fingerprint", null: false
+    t.text "response_body"
+    t.integer "response_status"
+    t.datetime "updated_at", null: false
+    t.index ["api_key_id", "key"], name: "index_idempotency_keys_on_api_key_id_and_key", unique: true
+    t.index ["api_key_id"], name: "index_idempotency_keys_on_api_key_id"
   end
 
   create_table "leaf_search_index", primary_key: "rowid", force: :cascade do |t|
@@ -474,7 +500,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_194000) do
   add_foreign_key "accesses", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "api_keys", "users"
   add_foreign_key "edits", "leaves"
+  add_foreign_key "idempotency_keys", "api_keys"
   add_foreign_key "leaves", "books"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
