@@ -10,14 +10,20 @@ Markdown is the import source format for this system.
 
 ## Current parser behavior
 
-- Front matter is read from markdown source.
-- Top-level headings (`# Heading`) split content into units.
-- If no top-level heading exists, a fallback unit is created.
+- Single markdown uploads:
+  - front matter is read from markdown source
+  - one file becomes one unit
+- Zip bundle uploads:
+  - `book.yml` provides global metadata and ordering
+  - each markdown file becomes one unit
+  - per-file front matter drives unit metadata
+  - `class: Section` maps a file to a section leaf
 
 ## Authoring guidance
 
 - Use clear top-level headings for predictable unit boundaries.
-- Keep front matter explicit for category/tags/pricing intent.
+- Keep front matter explicit for title, section class, and theme.
+- For multi-file books, keep canonical order in `book.yml`.
 - Keep markdown UTF-8 encoded.
 
 ## Formatting expectations

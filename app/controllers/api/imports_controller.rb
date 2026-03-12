@@ -8,8 +8,6 @@ class Api::ImportsController < Api::BaseController
     return render_error(:bad_request, "source_file_required") if source_file.blank?
 
     source_content = source_file.read
-    source_content = source_content.force_encoding("UTF-8")
-    source_content = source_content.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
     source_file.rewind
 
     import = Import.create!(
@@ -23,7 +21,7 @@ class Api::ImportsController < Api::BaseController
 
     import.source_file.attach(io: source_file, filename: source_file.original_filename, content_type: source_file.content_type)
 
-    parser_result = Imports::MarkdownParser.call(content: source_content)
+    parser_result = Imports::MarkdownParser.call(content: source_content, filename: source_file.original_filename)
     import.update!(
       status: :parsed,
       plan: {

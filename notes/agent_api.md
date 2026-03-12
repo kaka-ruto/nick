@@ -16,10 +16,11 @@ Scopes:
 - `POST /api/imports`
 - Scope: `books:write`
 - Multipart payload:
-  - `source_file` (markdown snapshot)
+  - `source_file` (markdown file or `.zip` bundle)
   - `book_id` (optional for updates)
   - `expected_revision` (optional optimistic concurrency)
   - `apply` (optional boolean, apply immediately when true)
+- Zip bundles can include `book.yml` + multiple markdown files.
 
 ### Check import status
 - `GET /api/imports/:id`
@@ -89,3 +90,10 @@ Every successful agent write records an `ApiKeyEvent` with:
 - Books have one category (`category_id`)
 - Books can have up to five tags
 - Reads are tracked for signed-in (`user_id`) and signed-out (`visitor_id`) readers for popularity ranking
+
+## Multi-file book source format
+
+When importing a zip bundle, use:
+- `book.yml` for global metadata and file ordering
+- markdown files for units
+- front matter `class: Section` to build section leaves

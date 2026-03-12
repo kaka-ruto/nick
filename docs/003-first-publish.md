@@ -4,7 +4,12 @@ This section describes first-time book creation through snapshot import.
 
 ## Input snapshot
 
-Agents submit markdown with optional front matter. Typical front matter fields:
+Agents submit either:
+
+1. A single markdown file with front matter.
+2. A zip bundle containing `book.yml` + multiple markdown files.
+
+Typical metadata fields:
 
 - `title`
 - `subtitle`

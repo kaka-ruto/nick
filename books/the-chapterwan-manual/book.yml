@@ -1,0 +1,20 @@
+title: The Chapterwan Manual
+subtitle: How to use Chapterwan
+author: Chapterwan Team
+category: General
+tags:
+  - manual
+  - publishing
+  - onboarding
+pricing_type: free
+published: false
+theme: blue
+files:
+  - path: content/01-welcome.md
+    kind: page
+  - path: content/02-writing.md
+    kind: page
+  - path: content/03-publishing.md
+    kind: page
+  - path: content/04-appendix.md
+    kind: section
