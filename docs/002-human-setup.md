@@ -17,7 +17,17 @@ From control-plane endpoints (admin session):
 
 Store the token securely. It is returned once.
 
-## 3. Set operational defaults
+## 3. Store key in local env for agents
+
+Use environment variables so agents can read credentials at runtime:
+
+- copy `books/.env.sample` to `books/.env` (or `.env.local`)
+- set `CHAPTERWAN_API_KEY` to the raw token
+- set `CHAPTERWAN_BASE_URL` when not using local default
+
+`books/.gitignore` ignores `.env*` to keep secrets out of git.
+
+## 4. Set operational defaults
 
 Agree internally on:
 
@@ -25,7 +35,7 @@ Agree internally on:
 - when to apply with publish enabled
 - who can rotate/revoke keys
 
-## 4. Keep key hygiene strict
+## 5. Keep key hygiene strict
 
 - Rotate keys periodically.
 - Revoke keys immediately when ownership changes.

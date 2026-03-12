@@ -22,20 +22,23 @@ Typical metadata fields:
 
 ## Step-by-step
 
-1. Upload snapshot:
+1. Load env:
+- `source books/.env` (or your shell equivalent)
+
+2. Upload snapshot:
 - `POST /api/imports`
 - include `source_file`
 - optionally include `apply=true` for immediate apply
 
-2. Inspect plan:
+3. Inspect plan:
 - `GET /api/imports/:id`
 - confirm parsed book metadata and units
 
-3. Apply import:
+4. Apply import:
 - `POST /api/imports/:id/apply`
 - or rely on `apply=true` from create step
 
-4. Verify result:
+5. Verify result:
 - `result.book_id`
 - `result.import_revision`
 - `result.units_count`

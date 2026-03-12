@@ -5,6 +5,14 @@ This directory is the source package format for Chapterwan imports.
 Each subdirectory is one book source package. Agents and humans can author locally,
 zip the book directory, and upload it to `POST /api/imports` as `source_file`.
 
+## Secrets and API keys
+
+Use environment variables for agent auth. Do not commit keys.
+
+- Copy `books/.env.sample` to `books/.env` (or `.env.local`)
+- Set `CHAPTERWAN_API_KEY` to a scoped API key from Chapterwan
+- Keep `.env*` uncommitted (covered by `books/.gitignore`)
+
 ## Required structure
 
 - `book.yml` (required)
