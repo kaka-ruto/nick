@@ -82,7 +82,7 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    resources :book_ingestions, only: %i[ create show ] do
+    resources :imports, only: %i[ create show ] do
       post :apply, on: :member
     end
 

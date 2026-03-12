@@ -12,16 +12,16 @@ This documentation set explains the operational flow around that contract.
 ## Core principles
 
 - Local-first authoring: content is prepared outside the platform.
-- Snapshot ingestion: the platform receives complete markdown snapshots.
+- Snapshot import: the platform receives complete markdown snapshots.
 - Deterministic apply: server-side parsing, planning, and revision-safe updates.
 - Human ownership: API keys, permissions, and revocation remain human-controlled.
 
 ## High-level lifecycle
 
-1. Admin creates API key with required scopes.
-2. Agent uploads a markdown snapshot (`POST /api/book_ingestions`).
+1. Human creates API key with required scopes.
+2. Agent uploads a markdown snapshot (`POST /api/imports`).
 3. Platform parses and stores a plan.
-4. Agent (or operator) applies the ingestion.
+4. Agent (or operator) applies the import.
 5. Book is updated and revision increments.
 
 ## What this is optimized for

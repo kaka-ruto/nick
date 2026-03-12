@@ -2,7 +2,7 @@ class Book < ApplicationRecord
   include Accessable, Sluggable
 
   has_many :leaves, dependent: :destroy
-  has_many :book_ingestions, dependent: :delete_all
+  has_many :imports, dependent: :delete_all
   has_many :book_units, dependent: :delete_all
   belongs_to :category
   has_many :book_tags, dependent: :destroy

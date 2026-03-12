@@ -1,6 +1,6 @@
 # 005 Markdown Guidelines
 
-Markdown is the ingestion source format for this system.
+Markdown is the import source format for this system.
 
 ## Why markdown
 
@@ -26,4 +26,4 @@ The platform stores and renders markdown content. To reduce surprises:
 
 - prefer standard markdown syntax
 - avoid dialect-specific features unless validated in your pipeline
-- run dry ingestion (without apply) to inspect the generated plan
+- run dry import (without apply) to inspect the generated plan

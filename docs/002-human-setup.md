@@ -12,8 +12,8 @@ From control-plane endpoints (admin session):
 
 - `POST /api_keys`
 - scopes:
-  - `books:write` for ingestion and content updates
-  - `books:publish` if ingestion may set `published: true`
+  - `books:write` for import and content updates
+  - `books:publish` if import may set `published: true`
 
 Store the token securely. It is returned once.
 

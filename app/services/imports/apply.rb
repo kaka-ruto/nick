@@ -1,11 +1,11 @@
-class Ingestions::Apply
-  def self.call(ingestion:)
-    new(ingestion: ingestion).call
+class Imports::Apply
+  def self.call(import:)
+    new(import: import).call
   end
 
-  def initialize(ingestion:)
-    @ingestion = ingestion
-    @plan = ingestion.plan.deep_symbolize_keys
+  def initialize(import:)
+    @import = import
+    @plan = import.plan.deep_symbolize_keys
   end
 
   def call
@@ -15,28 +15,28 @@ class Ingestions::Apply
       apply_book_attributes!(book)
       apply_units!(book)
 
-      book.update!(ingestion_revision: book.ingestion_revision + 1)
-      @ingestion.update!(status: :applied, book: book, applied_at: Time.current, result: result(book))
+      book.update!(import_revision: book.import_revision + 1)
+      @import.update!(status: :applied, book: book, applied_at: Time.current, result: result(book))
     end
   rescue StandardError => error
-    @ingestion.update!(status: :failed, error_message: error.message)
+    @import.update!(status: :failed, error_message: error.message)
     raise
   end
 
   private
     def find_or_build_book
-      if @ingestion.book_id.present?
-        Book.find(@ingestion.book_id)
+      if @import.book_id.present?
+        Book.find(@import.book_id)
       else
         Book.new
       end
     end
 
     def ensure_revision_matches!(book)
-      return if @ingestion.expected_revision.nil?
-      return if book.ingestion_revision == @ingestion.expected_revision
+      return if @import.expected_revision.nil?
+      return if book.import_revision == @import.expected_revision
 
-      raise StandardError, "ingestion revision mismatch"
+      raise StandardError, "import revision mismatch"
     end
 
     def apply_book_attributes!(book)
@@ -55,7 +55,7 @@ class Ingestions::Apply
       book.assign_tags!(tag_names) if tag_names.present?
 
       if book.accesses.none?
-        book.update_access(editors: [ @ingestion.user_id ], readers: [ @ingestion.user_id ])
+        book.update_access(editors: [ @import.user_id ], readers: [ @import.user_id ])
       end
     end
 
@@ -103,7 +103,7 @@ class Ingestions::Apply
     def result(book)
       {
         book_id: book.id,
-        ingestion_revision: book.ingestion_revision + 1,
+        import_revision: book.import_revision + 1,
         units_count: book.book_units.count
       }
     end

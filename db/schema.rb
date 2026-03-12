@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_12_103000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -102,26 +102,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
-  create_table "book_ingestions", force: :cascade do |t|
-    t.bigint "api_key_id", null: false
-    t.datetime "applied_at"
-    t.bigint "book_id"
-    t.datetime "created_at", null: false
-    t.text "error_message"
-    t.integer "expected_revision"
-    t.string "parser_version", null: false
-    t.jsonb "plan", default: {}, null: false
-    t.jsonb "result", default: {}, null: false
-    t.string "source_sha256", null: false
-    t.string "status", default: "uploaded", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["api_key_id"], name: "index_book_ingestions_on_api_key_id"
-    t.index ["book_id"], name: "index_book_ingestions_on_book_id"
-    t.index ["status"], name: "index_book_ingestions_on_status"
-    t.index ["user_id"], name: "index_book_ingestions_on_user_id"
-  end
-
   create_table "book_tags", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
@@ -163,7 +143,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.boolean "everyone_access", default: true, null: false
-    t.integer "ingestion_revision", default: 0, null: false
+    t.integer "import_revision", default: 0, null: false
     t.integer "price_cents"
     t.string "pricing_type", default: "free", null: false
     t.boolean "published", default: false, null: false
@@ -209,6 +189,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
     t.datetime "updated_at", null: false
     t.index ["api_key_id", "key"], name: "index_idempotency_keys_on_api_key_id_and_key", unique: true
     t.index ["api_key_id"], name: "index_idempotency_keys_on_api_key_id"
+  end
+
+  create_table "imports", force: :cascade do |t|
+    t.bigint "api_key_id", null: false
+    t.datetime "applied_at"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.text "error_message"
+    t.integer "expected_revision"
+    t.string "parser_version", null: false
+    t.jsonb "plan", default: {}, null: false
+    t.jsonb "result", default: {}, null: false
+    t.string "source_sha256", null: false
+    t.string "status", default: "uploaded", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["api_key_id"], name: "index_imports_on_api_key_id"
+    t.index ["book_id"], name: "index_imports_on_book_id"
+    t.index ["status"], name: "index_imports_on_status"
+    t.index ["user_id"], name: "index_imports_on_user_id"
   end
 
   create_table "leaf_search_index", primary_key: "rowid", force: :cascade do |t|
@@ -387,9 +387,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
   add_foreign_key "api_key_events", "api_keys"
   add_foreign_key "api_key_events", "users"
   add_foreign_key "api_keys", "users"
-  add_foreign_key "book_ingestions", "api_keys"
-  add_foreign_key "book_ingestions", "books"
-  add_foreign_key "book_ingestions", "users"
   add_foreign_key "book_tags", "books"
   add_foreign_key "book_tags", "tags"
   add_foreign_key "book_units", "books"
@@ -399,6 +396,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
   add_foreign_key "books", "categories"
   add_foreign_key "edits", "leaves"
   add_foreign_key "idempotency_keys", "api_keys"
+  add_foreign_key "imports", "api_keys"
+  add_foreign_key "imports", "books"
+  add_foreign_key "imports", "users"
   add_foreign_key "leaves", "books"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"

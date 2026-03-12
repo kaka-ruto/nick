@@ -1,10 +1,10 @@
 require "test_helper"
 
-class Ingestions::MarkdownParserTest < ActiveSupport::TestCase
+class Imports::MarkdownParserTest < ActiveSupport::TestCase
   test "parses front matter and heading units" do
-    markdown = file_fixture("ingestion_book.md").read
+    markdown = file_fixture("import_book.md").read
 
-    result = Ingestions::MarkdownParser.call(content: markdown)
+    result = Imports::MarkdownParser.call(content: markdown)
 
     assert_equal "Ingestion Manual", result.book_attributes[:title]
     assert_equal "Engineering", result.book_attributes[:category_name]
@@ -17,7 +17,7 @@ class Ingestions::MarkdownParserTest < ActiveSupport::TestCase
   end
 
   test "uses fallback unit when no top heading exists" do
-    result = Ingestions::MarkdownParser.call(content: "Just body")
+    result = Imports::MarkdownParser.call(content: "Just body")
 
     assert_equal 1, result.units.size
     assert_equal "Untitled", result.units.first[:title]

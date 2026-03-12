@@ -5,15 +5,15 @@ Reliable updates are based on snapshot + expected revision.
 ## Update flow
 
 1. Agent edits local markdown snapshot.
-2. Agent uploads new ingestion with:
+2. Agent uploads new import with:
 - `book_id`
 - `expected_revision` (current server revision)
 3. Platform parses and stores plan.
-4. Apply ingestion.
+4. Apply import.
 
 ## Revision safety
 
-- If `expected_revision` matches current `book.ingestion_revision`, apply proceeds.
+- If `expected_revision` matches current `book.import_revision`, apply proceeds.
 - If it does not match, apply fails with revision mismatch.
 
 This prevents silent overwrites from stale local copies.

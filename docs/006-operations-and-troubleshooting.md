@@ -8,7 +8,7 @@
 2. `forbidden` with `required_scope`
 - Key lacks required scope (`books:write` or `books:publish`).
 
-3. `ingestion_apply_failed` with revision mismatch
+3. `import_apply_failed` with revision mismatch
 - `expected_revision` is stale.
 - Refresh latest revision and retry with rebased snapshot.
 
@@ -18,14 +18,14 @@
 ## Observability and audit
 
 - Agent writes emit `ApiKeyEvent` records.
-- Ingestion records include:
+- Import records include:
   - parse plan
   - result payload
   - error message (if failed)
 
 ## Recovery strategy
 
-- Keep original source snapshots attached to ingestion records.
+- Keep original source snapshots attached to import records.
 - Re-run apply after correcting permissions/data.
 - Use revision checks to avoid accidental rollback-overwrite.
 

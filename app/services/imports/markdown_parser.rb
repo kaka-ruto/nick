@@ -1,4 +1,4 @@
-class Ingestions::MarkdownParser
+class Imports::MarkdownParser
   Result = Struct.new(:book_attributes, :units, keyword_init: true)
 
   def self.call(content:)

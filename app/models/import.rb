@@ -1,4 +1,4 @@
-class BookIngestion < ApplicationRecord
+class Import < ApplicationRecord
   PARSER_VERSION = "markdown-v1"
 
   belongs_to :api_key

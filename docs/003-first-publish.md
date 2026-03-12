@@ -1,6 +1,6 @@
 # 003 First Publish
 
-This section describes first-time book creation through snapshot ingestion.
+This section describes first-time book creation through snapshot import.
 
 ## Input snapshot
 
@@ -18,21 +18,21 @@ Agents submit markdown with optional front matter. Typical front matter fields:
 ## Step-by-step
 
 1. Upload snapshot:
-- `POST /api/book_ingestions`
+- `POST /api/imports`
 - include `source_file`
 - optionally include `apply=true` for immediate apply
 
 2. Inspect plan:
-- `GET /api/book_ingestions/:id`
+- `GET /api/imports/:id`
 - confirm parsed book metadata and units
 
-3. Apply ingestion:
-- `POST /api/book_ingestions/:id/apply`
+3. Apply import:
+- `POST /api/imports/:id/apply`
 - or rely on `apply=true` from create step
 
 4. Verify result:
 - `result.book_id`
-- `result.ingestion_revision`
+- `result.import_revision`
 - `result.units_count`
 
 ## Publishing scope
