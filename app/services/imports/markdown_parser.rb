@@ -47,11 +47,11 @@ class Imports::MarkdownParser
         end
       end
 
-      order = ordered_paths(markdown_entries.keys, manifest)
+      order = ordered_paths(markdown_entries.keys)
       units = order.filter_map.with_index do |path, index|
         next unless markdown_entries.key?(path)
 
-        build_unit_from_markdown(markdown_entries.fetch(path), index:, path:, manifest_entry: manifest_entry_for(path, manifest))
+        build_unit_from_markdown(markdown_entries.fetch(path), index:, path:)
       end
 
       Result.new(
@@ -64,7 +64,7 @@ class Imports::MarkdownParser
       parsed = parse_markdown(raw_markdown)
       Result.new(
         book_attributes: parse_front_matter_book_attributes(parsed.front_matter || {}),
-        units: [ build_unit(parsed:, index: 0, path: @filename.presence || "source.md", manifest_kind: nil) ]
+        units: [ build_unit(parsed:, index: 0, path: @filename.presence || "source.md") ]
       )
     end
 
@@ -107,34 +107,19 @@ class Imports::MarkdownParser
       end
     end
 
-    def ordered_paths(paths, manifest)
-      declared = Array(manifest["files"]).filter_map do |entry|
-        case entry
-        when Hash then entry["path"].to_s
-        when String then entry
-        end
-      end
-
-      return paths.sort if declared.empty?
-
-      (declared + (paths - declared).sort).uniq
+    def ordered_paths(paths)
+      paths.sort
     end
 
-    def manifest_entry_for(path, manifest)
-      Array(manifest["files"]).find do |entry|
-        entry.is_a?(Hash) && entry["path"].to_s == path
-      end
-    end
-
-    def build_unit_from_markdown(raw_markdown, index:, path:, manifest_entry:)
+    def build_unit_from_markdown(raw_markdown, index:, path:)
       parsed = parse_markdown(raw_markdown)
-      build_unit(parsed:, index:, path:, manifest_kind: manifest_entry&.[]("kind"))
+      build_unit(parsed:, index:, path:)
     end
 
-    def build_unit(parsed:, index:, path:, manifest_kind:)
+    def build_unit(parsed:, index:, path:)
       front_matter = parsed.front_matter || {}
       title = front_matter["title"].to_s.strip.presence || heading_title(parsed.content.to_s) || fallback_title(path, index)
-      kind = normalize_kind(manifest_kind, front_matter["class"])
+      kind = normalize_kind(front_matter["class"])
       body = parsed.content.to_s.strip
       external_id = front_matter["id"].to_s.strip.presence || external_id_from_path(path, index)
       theme = front_matter["theme"].to_s.strip.presence
@@ -175,8 +160,8 @@ class Imports::MarkdownParser
       normalized.gsub("/", "--")
     end
 
-    def normalize_kind(manifest_kind, klass)
-      value = manifest_kind.to_s.downcase.presence || klass.to_s.downcase
+    def normalize_kind(klass)
+      value = klass.to_s.downcase
       return "section" if value == "section"
 
       "page"

@@ -27,14 +27,9 @@ class Imports::ApplyTest < ActiveSupport::TestCase
       "book.yml" => <<~YML,
         title: Multi File
         category: General
-        files:
-          - path: content/01.md
-            kind: page
-          - path: content/02.md
-            kind: section
       YML
-      "content/01.md" => "---\ntitle: Intro\nid: intro\n---\n# Intro\nOne",
-      "content/02.md" => "---\nclass: Section\ntitle: Notes\nid: notes\ntheme: dark\n---\nTwo"
+      "content/001-intro.md" => "---\ntitle: Intro\nid: intro\n---\n# Intro\nOne",
+      "content/010-notes.md" => "---\nclass: Section\ntitle: Notes\nid: notes\ntheme: dark\n---\nTwo"
     )
 
     import = create_import_from_zip(initial_zip)
@@ -44,14 +39,9 @@ class Imports::ApplyTest < ActiveSupport::TestCase
       "book.yml" => <<~YML,
         title: Multi File
         category: General
-        files:
-          - path: content/01.md
-            kind: page
-          - path: content/03.md
-            kind: page
       YML
-      "content/01.md" => "---\ntitle: Intro\nid: intro\n---\n# Intro\nOne updated",
-      "content/03.md" => "---\ntitle: Added\nid: added\n---\n# Added\nThree"
+      "content/001-intro.md" => "---\ntitle: Intro\nid: intro\n---\n# Intro\nOne updated",
+      "content/002-added.md" => "---\ntitle: Added\nid: added\n---\n# Added\nThree"
     )
 
     update_import = create_import_from_zip(updated_zip, book: import.book, expected_revision: 1)

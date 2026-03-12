@@ -9,12 +9,3 @@ tags:
 pricing_type: free
 published: false
 theme: blue
-files:
-  - path: content/01-welcome.md
-    kind: page
-  - path: content/02-writing.md
-    kind: page
-  - path: content/03-publishing.md
-    kind: page
-  - path: content/04-appendix.md
-    kind: section

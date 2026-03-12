@@ -62,8 +62,8 @@ class Api::ImportsControllerTest < ActionDispatch::IntegrationTest
 
   test "apply with published true needs publish scope" do
     zip_data = build_zip_from_hash(
-      "book.yml" => "title: Scoped Publish\ncategory: General\npublished: true\nfiles:\n  - path: content/01.md\n",
-      "content/01.md" => "---\ntitle: Intro\n---\nBody"
+      "book.yml" => "title: Scoped Publish\ncategory: General\npublished: true\n",
+      "content/001-intro.md" => "---\ntitle: Intro\n---\nBody"
     )
 
     post api_imports_url,
@@ -107,20 +107,11 @@ class Api::ImportsControllerTest < ActionDispatch::IntegrationTest
             - onboarding
           pricing_type: free
           published: false
-          files:
-            - path: content/01-welcome.md
-              kind: page
-            - path: content/02-writing.md
-              kind: page
-            - path: content/04-appendix.md
-              kind: section
-            - path: content/05-new.md
-              kind: page
         YML
-        "content/01-welcome.md" => "---\ntitle: Welcome\nid: welcome\n---\n# Welcome\nUpdated",
-        "content/02-writing.md" => "---\ntitle: Writing in Markdown\nid: writing-markdown\n---\n# Writing in Markdown\nStill here",
-        "content/04-appendix.md" => "---\nclass: Section\ntitle: Appendix\nid: appendix\ntheme: dark\n---\nReference material",
-        "content/05-new.md" => "---\ntitle: New Page\nid: new-page\n---\n# New Page\nBrand new"
+        "content/001-welcome.md" => "---\ntitle: Welcome\nid: welcome\n---\n# Welcome\nUpdated",
+        "content/002-writing.md" => "---\ntitle: Writing in Markdown\nid: writing-markdown\n---\n# Writing in Markdown\nStill here",
+        "content/010-appendix.md" => "---\nclass: Section\ntitle: Appendix\nid: appendix\ntheme: dark\n---\nReference material",
+        "content/011-new.md" => "---\ntitle: New Page\nid: new-page\n---\n# New Page\nBrand new"
       )
 
       upload_zip_data(zip_data)

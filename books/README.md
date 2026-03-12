@@ -22,7 +22,6 @@ zip the book directory, and upload it to `POST /api/imports` as `source_file`.
 - `price_cents` (required for paid)
 - `published` (`true` or `false`)
 - `theme` (optional)
-- `files` (ordered list of markdown files)
 
 Example:
 
@@ -36,11 +35,6 @@ tags:
   - onboarding
 pricing_type: free
 published: false
-files:
-  - path: content/01-welcome.md
-    kind: page
-  - path: content/04-appendix.md
-    kind: section
 ```
 
 ## Markdown front matter
@@ -52,7 +46,10 @@ Each markdown file can define:
 - `theme` (for section leaves)
 - `id` (optional stable external id override)
 
-If `files` ordering is omitted in `book.yml`, files are processed by sorted path.
+Files are processed in sorted path order, so use numeric filename prefixes:
+- `content/001-welcome.md`
+- `content/002-writing.md`
+- `content/010-appendix.md`
 
 ## Import workflow
 
