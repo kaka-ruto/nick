@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require_relative "support/vcr"
 
 ActiveStorage::FixtureSet.file_fixture_path = Rails.root.join("test/fixtures/files")
 Rails.application.config.active_storage.service_configurations ||= ActiveSupport::ConfigurationFile.parse(
