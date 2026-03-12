@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_11_214000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_12_082000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -102,6 +102,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_214000) do
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
+  create_table "book_ingestions", force: :cascade do |t|
+    t.bigint "api_key_id", null: false
+    t.datetime "applied_at"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.text "error_message"
+    t.integer "expected_revision"
+    t.string "parser_version", null: false
+    t.jsonb "plan", default: {}, null: false
+    t.jsonb "result", default: {}, null: false
+    t.string "source_sha256", null: false
+    t.string "status", default: "uploaded", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["api_key_id"], name: "index_book_ingestions_on_api_key_id"
+    t.index ["book_id"], name: "index_book_ingestions_on_book_id"
+    t.index ["status"], name: "index_book_ingestions_on_status"
+    t.index ["user_id"], name: "index_book_ingestions_on_user_id"
+  end
+
   create_table "book_tags", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
@@ -110,6 +130,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_214000) do
     t.index ["book_id", "tag_id"], name: "index_book_tags_on_book_id_and_tag_id", unique: true
     t.index ["book_id"], name: "index_book_tags_on_book_id"
     t.index ["tag_id"], name: "index_book_tags_on_tag_id"
+  end
+
+  create_table "book_units", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.string "content_sha256", null: false
+    t.datetime "created_at", null: false
+    t.string "external_id", null: false
+    t.bigint "leaf_id", null: false
+    t.integer "position", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id", "external_id"], name: "index_book_units_on_book_id_and_external_id", unique: true
+    t.index ["book_id"], name: "index_book_units_on_book_id"
+    t.index ["leaf_id"], name: "index_book_units_on_leaf_id"
   end
 
   create_table "book_views", force: :cascade do |t|
@@ -130,6 +163,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_214000) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.boolean "everyone_access", default: true, null: false
+    t.integer "ingestion_revision", default: 0, null: false
     t.integer "price_cents"
     t.string "pricing_type", default: "free", null: false
     t.boolean "published", default: false, null: false
@@ -353,8 +387,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_214000) do
   add_foreign_key "api_key_events", "api_keys"
   add_foreign_key "api_key_events", "users"
   add_foreign_key "api_keys", "users"
+  add_foreign_key "book_ingestions", "api_keys"
+  add_foreign_key "book_ingestions", "books"
+  add_foreign_key "book_ingestions", "users"
   add_foreign_key "book_tags", "books"
   add_foreign_key "book_tags", "tags"
+  add_foreign_key "book_units", "books"
+  add_foreign_key "book_units", "leaves"
   add_foreign_key "book_views", "books"
   add_foreign_key "book_views", "users"
   add_foreign_key "books", "categories"

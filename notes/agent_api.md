@@ -12,6 +12,24 @@ Scopes:
 
 ## Endpoints
 
+### Upload ingestion snapshot
+- `POST /api/book_ingestions`
+- Scope: `books:write`
+- Multipart payload:
+  - `source_file` (markdown snapshot)
+  - `book_id` (optional for updates)
+  - `expected_revision` (optional optimistic concurrency)
+  - `apply` (optional boolean, apply immediately when true)
+
+### Check ingestion status
+- `GET /api/book_ingestions/:id`
+- Scope: `books:write`
+
+### Apply parsed ingestion
+- `POST /api/book_ingestions/:id/apply`
+- Scope: `books:write`
+- If plan sets `published: true`, key must also include `books:publish`
+
 ### Create book
 - `POST /api/books`
 - Scope: `books:write`
@@ -56,6 +74,7 @@ Session-authenticated admin endpoints:
 For same API key + same idempotency key:
 - Same request fingerprint: stored response replayed
 - Different request fingerprint: request rejected
+- Ingestion endpoints follow the same idempotency rules
 
 ## Audit
 

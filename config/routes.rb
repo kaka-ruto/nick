@@ -82,6 +82,10 @@ Rails.application.routes.draw do
 
 
   namespace :api do
+    resources :book_ingestions, only: %i[ create show ] do
+      post :apply, on: :member
+    end
+
     resources :books, only: %i[ create update ] do
       member do
         patch :pricing, action: :set_pricing
