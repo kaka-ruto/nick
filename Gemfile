@@ -39,6 +39,7 @@ gem "omniauth-rails_csrf_protection"
 gem "omniauth-github"
 gem "omniauth-google-oauth2"
 gem "rack-attack"
+gem "friendly_id", "~> 5.5"
 
 group :development, :test do
   gem "debug"

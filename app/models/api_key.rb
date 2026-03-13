@@ -2,7 +2,8 @@ class ApiKey < ApplicationRecord
   SCOPES = %w[books:write books:publish].freeze
   TOKEN_PREFIX = "cwk_"
 
-  belongs_to :user
+  belongs_to :user, optional: true
+  belongs_to :agent, optional: true
   has_many :idempotency_keys, dependent: :delete_all
   has_many :events, class_name: "ApiKeyEvent", dependent: :delete_all
 
@@ -13,11 +14,14 @@ class ApiKey < ApplicationRecord
 
   scope :active, -> { where(revoked_at: nil) }
 
-  def self.issue!(user:, name:, scopes:)
+  validate :exactly_one_principal
+
+  def self.issue!(user: nil, agent: nil, name:, scopes:)
     token = generate_token
 
     key = create!(
       user: user,
+      agent: agent,
       name: name,
       scopes: scopes,
       key_digest: digest(token)
@@ -44,6 +48,10 @@ class ApiKey < ApplicationRecord
     scopes.include?(scope)
   end
 
+  def principal
+    agent || user
+  end
+
   def rotate!
     token = self.class.generate_token
 
@@ -61,6 +69,12 @@ class ApiKey < ApplicationRecord
   end
 
   private
+    def exactly_one_principal
+      if user.present? == agent.present?
+        errors.add(:base, "must belong to exactly one principal")
+      end
+    end
+
     def scopes_are_supported
       unsupported = scopes - SCOPES
       return if unsupported.empty?

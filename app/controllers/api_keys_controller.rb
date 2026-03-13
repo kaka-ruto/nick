@@ -3,7 +3,7 @@ class ApiKeysController < ApplicationController
   before_action :set_api_key, only: %i[ revoke rotate ]
 
   def index
-    render json: { api_keys: ApiKey.includes(:user).order(created_at: :desc).map { |key| serialize_api_key(key) } }
+    render json: { api_keys: ApiKey.includes(:user, :agent).order(created_at: :desc).map { |key| serialize_api_key(key) } }
   end
 
   def create
@@ -35,7 +35,9 @@ class ApiKeysController < ApplicationController
         id: key.id,
         name: key.name,
         user_id: key.user_id,
-        user_name: key.user.name,
+        user_name: key.user&.name,
+        agent_id: key.agent_id,
+        agent_name: key.agent&.name,
         scopes: key.scopes,
         last_used_at: key.last_used_at,
         revoked_at: key.revoked_at,

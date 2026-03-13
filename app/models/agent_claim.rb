@@ -1,7 +1,7 @@
 class AgentClaim < ApplicationRecord
   CLAIM_TTL = 15.minutes
 
-  belongs_to :agent, class_name: "User"
+  belongs_to :agent
   belongs_to :claimed_by_user, class_name: "User", optional: true
 
   validates :token_digest, presence: true, uniqueness: true
@@ -34,7 +34,7 @@ class AgentClaim < ApplicationRecord
 
       now = Time.current
       claim.update!(claimed_at: now, claimed_by_user: claimant)
-      claim.agent.update!(claimed_at: now, claimed_by_user: claimant)
+      claim.agent.update!(claimed_at: now, owner_user: claimant)
     end
 
     claim

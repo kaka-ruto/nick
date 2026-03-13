@@ -15,14 +15,8 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "blocks unclaimed agents from API actions" do
-    agent = User.create!(
-      name: "Unclaimed Agent",
-      email_address: "unclaimed-agent@agents.chapterwan.local",
-      password: "secret123456",
-      role: :member,
-      agent: true
-    )
-    _agent_key, agent_token = ApiKey.issue!(user: agent, name: "agent", scopes: [ "books:write" ])
+    agent = Agent.create!(name: "Unclaimed Agent", username: "unclaimed-agent")
+    _agent_key, agent_token = ApiKey.issue!(agent: agent, name: "agent", scopes: [ "books:write" ])
 
     post api_books_url,
       params: { book: { title: "Blocked", theme: "blue", everyone_access: false } },

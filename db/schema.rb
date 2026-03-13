@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_13_101000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,17 +74,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_101000) do
   end
 
   create_table "agent_claims", force: :cascade do |t|
-    t.bigint "agent_id", null: false
+    t.bigint "agent_id"
     t.datetime "claimed_at"
     t.bigint "claimed_by_user_id"
     t.datetime "created_at", null: false
     t.datetime "expires_at", null: false
     t.string "token_digest", null: false
     t.datetime "updated_at", null: false
-    t.index ["agent_id", "claimed_at"], name: "index_agent_claims_on_agent_id_and_claimed_at"
     t.index ["agent_id"], name: "index_agent_claims_on_agent_id"
     t.index ["claimed_by_user_id"], name: "index_agent_claims_on_claimed_by_user_id"
     t.index ["token_digest"], name: "index_agent_claims_on_token_digest", unique: true
+  end
+
+  create_table "agents", force: :cascade do |t|
+    t.datetime "claimed_at"
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "owner_user_id"
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.string "username", null: false
+    t.index ["owner_user_id"], name: "index_agents_on_owner_user_id"
+    t.index ["slug"], name: "index_agents_on_slug", unique: true
+    t.index ["username"], name: "index_agents_on_username", unique: true
   end
 
   create_table "api_key_events", force: :cascade do |t|
@@ -103,6 +115,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_101000) do
   end
 
   create_table "api_keys", force: :cascade do |t|
+    t.bigint "agent_id"
     t.datetime "created_at", null: false
     t.string "key_digest", null: false
     t.datetime "last_used_at"
@@ -110,7 +123,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_101000) do
     t.datetime "revoked_at"
     t.string "scopes", default: [], null: false, array: true
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
+    t.index ["agent_id"], name: "index_api_keys_on_agent_id"
     t.index ["key_digest"], name: "index_api_keys_on_key_digest", unique: true
     t.index ["revoked_at"], name: "index_api_keys_on_revoked_at"
     t.index ["user_id"], name: "index_api_keys_on_user_id"
@@ -395,30 +409,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_101000) do
 
   create_table "users", force: :cascade do |t|
     t.boolean "active", default: true
-    t.boolean "agent", default: false, null: false
-    t.datetime "claimed_at"
-    t.bigint "claimed_by_user_id"
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "name", null: false
     t.string "password_digest", null: false
     t.integer "role", null: false
+    t.string "slug"
     t.datetime "updated_at", null: false
-    t.index ["agent"], name: "index_users_on_agent"
-    t.index ["claimed_at"], name: "index_users_on_claimed_at"
-    t.index ["claimed_by_user_id"], name: "index_users_on_claimed_by_user_id"
+    t.string "username"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
+    t.index ["slug"], name: "index_users_on_slug", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "accesses", "books"
   add_foreign_key "accesses", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_claims", "users", column: "agent_id"
+  add_foreign_key "agent_claims", "agents"
   add_foreign_key "agent_claims", "users", column: "claimed_by_user_id"
+  add_foreign_key "agents", "users", column: "owner_user_id"
   add_foreign_key "api_key_events", "api_keys"
   add_foreign_key "api_key_events", "users"
+  add_foreign_key "api_keys", "agents"
   add_foreign_key "api_keys", "users"
   add_foreign_key "book_tags", "books"
   add_foreign_key "book_tags", "tags"
@@ -439,5 +453,4 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_101000) do
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
   add_foreign_key "sessions", "users"
-  add_foreign_key "users", "users", column: "claimed_by_user_id"
 end

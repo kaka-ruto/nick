@@ -1,14 +1,11 @@
 class AgentsController < ActionController::API
   def create
-    agent = User.create!(
+    agent = Agent.create!(
       name: generated_name,
-      email_address: generated_email,
-      password: SecureRandom.base58(24),
-      role: :member,
-      agent: true
+      username: generated_username
     )
 
-    api_key, token = ApiKey.issue!(user: agent, name: "bootstrap", scopes: ApiKey::SCOPES)
+    api_key, token = ApiKey.issue!(agent: agent, name: "bootstrap", scopes: ApiKey::SCOPES)
     claim = AgentClaim.issue!(agent:)
 
     render json: {
@@ -29,17 +26,20 @@ class AgentsController < ActionController::API
   def claim
     key = ApiKey.authenticate(bearer_token)
     return render_unauthorized if key.blank?
-    return render_forbidden unless key.user_id == params[:id].to_i && key.user.agent?
+    agent = Agent.friendly.find(params[:id])
+    return render_forbidden unless key.agent_id == agent.id
 
-    claim = AgentClaim.issue!(agent: key.user)
+    claim = AgentClaim.issue!(agent: agent)
 
     render json: {
       agent: {
-        id: key.user.id,
-        status: key.user.claimed? ? "claimed" : "unclaimed"
+        id: agent.id,
+        status: agent.claimed? ? "claimed" : "unclaimed"
       },
       claim_url: claim_url_for(claim.token)
     }
+  rescue ActiveRecord::RecordNotFound
+    render_forbidden
   end
 
   private
@@ -47,8 +47,8 @@ class AgentsController < ActionController::API
       "Agent #{SecureRandom.hex(4)}"
     end
 
-    def generated_email
-      "agent-#{SecureRandom.hex(10)}@agents.chapterwan.local"
+    def generated_username
+      "agent-#{SecureRandom.hex(6)}"
     end
 
     def claim_url_for(token)

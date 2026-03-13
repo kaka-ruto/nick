@@ -7,10 +7,11 @@ class Api::BaseController < ActionController::API
       return render_error(:unauthorized, "unauthorized") if key.blank?
 
       key.update_column(:last_used_at, Time.current)
-      Current.user = key.user
+      Current.agent = key.agent
+      Current.user = key.user || key.agent&.owner_user
       Current.api_key = key
 
-      if key.user.agent? && !key.user.claimed?
+      if key.agent.present? && !key.agent.claimed?
         return render_error(:forbidden, "agent_unclaimed")
       end
 

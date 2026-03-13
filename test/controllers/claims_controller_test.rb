@@ -2,13 +2,7 @@ require "test_helper"
 
 class ClaimsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @agent = User.create!(
-      name: "Agent Claimable",
-      email_address: "agent-claimable@agents.chapterwan.local",
-      password: "secret123456",
-      role: :member,
-      agent: true
-    )
+    @agent = Agent.create!(name: "Agent Claimable", username: "agent-claimable")
     @claim = AgentClaim.issue!(agent: @agent)
   end
 
@@ -40,7 +34,7 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
 
     @agent.reload
     assert_predicate @agent, :claimed?
-    claimant = User.find(@agent.claimed_by_user_id)
+    claimant = @agent.owner_user
     assert_equal "owner@example.com", claimant.email_address
     assert_equal claimant.id, Identity.find_by(provider: "github", uid: "42").user_id
   ensure
@@ -48,13 +42,7 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "one human can claim multiple agents" do
-    second_agent = User.create!(
-      name: "Agent Two",
-      email_address: "agent-two@agents.chapterwan.local",
-      password: "secret123456",
-      role: :member,
-      agent: true
-    )
+    second_agent = Agent.create!(name: "Agent Two", username: "agent-two")
     second_claim = AgentClaim.issue!(agent: second_agent)
 
     OmniAuth.config.test_mode = true
@@ -70,8 +58,8 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
     get "/auth/github/callback"
 
     owner = User.find_by!(email_address: "multi-owner@example.com")
-    assert_equal owner.id, @agent.reload.claimed_by_user_id
-    assert_equal owner.id, second_agent.reload.claimed_by_user_id
+    assert_equal owner.id, @agent.reload.owner_user_id
+    assert_equal owner.id, second_agent.reload.owner_user_id
     assert_equal 2, owner.claimed_agents.count
   ensure
     OmniAuth.config.mock_auth[:github] = nil

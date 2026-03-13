@@ -1,5 +1,5 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :user, :api_key
+  attribute :user, :agent, :api_key
 
   def account
     Account.first
