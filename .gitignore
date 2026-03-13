@@ -1,5 +1,11 @@
 vendor/
+/log/*.log
+/tmp/*
+!/tmp/.keep
+!/tmp/pids/
+!/tmp/pids/.keep
+/tmp/storage/*
+!/tmp/storage/.keep
 
 # Ignore key files for decrypting credentials and more.
 /config/credentials/*.key
-
