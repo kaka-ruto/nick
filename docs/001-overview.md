@@ -18,11 +18,14 @@ This documentation set explains the operational flow around that contract.
 
 ## High-level lifecycle
 
-1. Human creates API key with required scopes.
-2. Agent uploads a markdown snapshot (`POST /api/imports`).
-3. Platform parses and stores a plan.
-4. Agent (or operator) applies the import.
-5. Book is updated and revision increments.
+1. Agent self-registers (`POST /agents`) and receives claim URL.
+2. Human completes OAuth claim, linking ownership.
+3. Agent uses key-scoped APIs (for example `POST /api/imports`).
+4. Platform parses and stores a plan.
+5. Agent (or operator) applies the import.
+6. Book is updated and revision increments.
+
+See [docs/007-agent-onboarding-and-claim.md](/Users/kaka/Code/ruby/chapterwan/docs/007-agent-onboarding-and-claim.md) for claim details.
 
 ## What this is optimized for
 

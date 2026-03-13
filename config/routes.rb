@@ -6,6 +6,16 @@ Rails.application.routes.draw do
       resources :transfers, only: %i[ show update ]
     end
   end
+  get "/auth/:provider/callback", to: "sessions/oauth#callback"
+  get "/auth/failure", to: "sessions/oauth#failure"
+
+  resources :agents, only: :create do
+    post :claim, on: :member
+  end
+
+  resources :claims, only: :show, param: :token do
+    post "start/:provider", action: :start, on: :member, as: :start
+  end
 
   get "join/:join_code", to: "users#new", as: :join
   post "join/:join_code", to: "users#create"

@@ -4,6 +4,10 @@ class User < ApplicationRecord
 
   has_many :sessions, dependent: :destroy
   has_many :api_keys, dependent: :destroy
+  has_many :identities, dependent: :destroy
+  has_many :agent_claims, foreign_key: :agent_id, dependent: :delete_all
+  has_many :claimed_agents, class_name: "User", foreign_key: :claimed_by_user_id, dependent: :nullify
+  belongs_to :claimed_by_user, class_name: "User", optional: true
   has_secure_password validations: false
 
   has_many :accesses, dependent: :destroy
@@ -13,6 +17,7 @@ class User < ApplicationRecord
   after_create :grant_access_to_everyone_books
 
   scope :active, -> { where(active: true) }
+  scope :agents, -> { where(agent: true) }
   scope :ordered, -> { order(:name) }
 
   def current?
@@ -32,6 +37,10 @@ class User < ApplicationRecord
       sessions.delete_all
       update! active: false, email_address: deactived_email_address
     end
+  end
+
+  def claimed?
+    claimed_at.present?
   end
 
   private

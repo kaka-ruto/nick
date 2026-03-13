@@ -10,6 +10,10 @@ class Api::BaseController < ActionController::API
       Current.user = key.user
       Current.api_key = key
 
+      if key.user.agent? && !key.user.claimed?
+        return render_error(:forbidden, "agent_unclaimed")
+      end
+
       unless key.allows?(required_scope)
         render json: { error: "forbidden", required_scope: required_scope }, status: :forbidden
         return false

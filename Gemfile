@@ -34,6 +34,11 @@ gem "front_matter_parser"
 gem "pay", "~> 11.2"
 gem "solid_events", github: "kaka-ruto/solid_events", tag: "v0.2.4"
 gem "benchmark"
+gem "omniauth"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-github"
+gem "omniauth-google-oauth2"
+gem "rack-attack"
 
 group :development, :test do
   gem "debug"

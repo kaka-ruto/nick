@@ -14,6 +14,25 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "unauthorized", response.parsed_body["error"]
   end
 
+  test "blocks unclaimed agents from API actions" do
+    agent = User.create!(
+      name: "Unclaimed Agent",
+      email_address: "unclaimed-agent@agents.chapterwan.local",
+      password: "secret123456",
+      role: :member,
+      agent: true
+    )
+    _agent_key, agent_token = ApiKey.issue!(user: agent, name: "agent", scopes: [ "books:write" ])
+
+    post api_books_url,
+      params: { book: { title: "Blocked", theme: "blue", everyone_access: false } },
+      headers: { "Authorization" => "Bearer #{agent_token}", "Idempotency-Key" => "agent-create" },
+      as: :json
+
+    assert_response :forbidden
+    assert_equal "agent_unclaimed", response.parsed_body["error"]
+  end
+
   test "requires idempotency key for writes" do
     post api_books_url,
       params: { book: { title: "No Key", theme: "blue" } },

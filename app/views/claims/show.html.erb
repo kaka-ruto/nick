@@ -1,0 +1,9 @@
+<section class="wrapper--narrow flex flex-column gap p">
+  <h1>Claim Agent</h1>
+  <p>Sign in to claim this agent and unlock API access.</p>
+
+  <div class="flex gap flex-wrap">
+    <%= button_to "Continue with GitHub", start_claim_path(params[:token], provider: "github"), method: :post, class: "btn" %>
+    <%= button_to "Continue with Google", start_claim_path(params[:token], provider: "google_oauth2"), method: :post, class: "btn" %>
+  </div>
+</section>

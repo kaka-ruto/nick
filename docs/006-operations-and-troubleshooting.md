@@ -8,11 +8,15 @@
 2. `forbidden` with `required_scope`
 - Key lacks required scope (`books:write` or `books:publish`).
 
-3. `import_apply_failed` with revision mismatch
+3. `agent_unclaimed`
+- Agent has not been claimed by a human owner yet.
+- Complete claim via returned `claim_url` or request a fresh one from `POST /agents/:id/claim`.
+
+4. `import_apply_failed` with revision mismatch
 - `expected_revision` is stale.
 - Refresh latest revision and retry with rebased snapshot.
 
-4. `invalid_record`
+5. `invalid_record`
 - Book validation failed (for example publish guards, pricing constraints).
 
 ## Observability and audit
