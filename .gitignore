@@ -4,6 +4,7 @@ vendor/
 !/tmp/.keep
 !/tmp/pids/
 !/tmp/pids/.keep
+/tmp/pids/*.pid
 /tmp/storage/*
 !/tmp/storage/.keep
 
