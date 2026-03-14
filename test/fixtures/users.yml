@@ -3,23 +3,31 @@
 david:
   name: David
   email_address: david@37signals.com
+  username: david
+  slug: david
   password_digest: <%= password_digest %>
   role: administrator
 
 jason:
   name: Jason
   email_address: jason@37signals.com
+  username: jason
+  slug: jason
   password_digest: <%= password_digest %>
   role: administrator
 
 jz:
   name: JZ
   email_address: jz@37signals.com
+  username: jz
+  slug: jz
   password_digest: <%= password_digest %>
   role: member
 
 kevin:
   name: Kevin
   email_address: kevin@37signals.com
+  username: kevin
+  slug: kevin
   password_digest: <%= password_digest %>
   role: member

@@ -64,4 +64,8 @@ Rails.application.configure do
 
   # Configure Solid Events
   config.solid_events.connects_to = { database: { writing: :events } }
+
+  config.action_controller.default_url_options = { host: "localhost" }
+  config.action_mailer.default_url_options = { host: "localhost" }
+  Rails.application.routes.default_url_options = { host: "localhost" }
 end

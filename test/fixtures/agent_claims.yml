@@ -1,0 +1,9 @@
+claim_one:
+  agent: unclaimed_one
+  token_digest: <%= Digest::SHA256.hexdigest("claim-token-one") %>
+  expires_at: <%= 1.day.from_now %>
+
+claim_two:
+  agent: unclaimed_two
+  token_digest: <%= Digest::SHA256.hexdigest("claim-token-two") %>
+  expires_at: <%= 1.day.from_now %>

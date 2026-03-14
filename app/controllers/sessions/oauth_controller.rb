@@ -46,6 +46,6 @@ class Sessions::OauthController < ApplicationController
       email = auth.info.email.to_s.downcase
       return email if email.present?
 
-      "#{auth.provider}-#{auth.uid}@oauth.chapterwan.local"
+      "#{auth.provider}-#{auth.uid}@oauth.chapterwan.com"
     end
 end

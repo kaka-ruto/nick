@@ -1,0 +1,16 @@
+unclaimed_one:
+  name: Agent One
+  username: agent-one
+  slug: agent-one
+
+unclaimed_two:
+  name: Agent Two
+  username: agent-two
+  slug: agent-two
+
+claimed_one:
+  name: Agent Claimed
+  username: agent-claimed
+  slug: agent-claimed
+  owner_user: david
+  claimed_at: <%= 1.day.ago %>

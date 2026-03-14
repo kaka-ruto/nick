@@ -2,21 +2,23 @@ require "test_helper"
 
 class ClaimsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @agent = Agent.create!(name: "Agent Claimable", username: "agent-claimable")
-    @claim = AgentClaim.issue!(agent: @agent)
+    @agent = agents(:unclaimed_one)
+    @second_agent = agents(:unclaimed_two)
+    @claim_token = "claim-token-one"
+    @second_claim_token = "claim-token-two"
   end
 
   test "show renders claim screen when token is valid" do
-    get claim_url(@claim.token)
+    get claim_url(@claim_token)
 
     assert_response :success
   end
 
   test "start stores token in session and redirects to provider" do
-    post start_claim_url(@claim.token, provider: "github")
+    post start_claim_url(@claim_token, provider: "github")
 
     assert_response :redirect
-    assert_equal "http://www.example.com/auth/github", response.location
+    assert_equal "http://localhost/auth/github", response.location
   end
 
   test "callback claims agent and creates identity-backed user" do
@@ -27,7 +29,7 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
       info: { email: "owner@example.com", name: "Owner" }
     )
 
-    post start_claim_url(@claim.token, provider: "github")
+    post start_claim_url(@claim_token, provider: "github")
     get "/auth/github/callback"
 
     assert_response :redirect
@@ -42,9 +44,6 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "one human can claim multiple agents" do
-    second_agent = Agent.create!(name: "Agent Two", username: "agent-two")
-    second_claim = AgentClaim.issue!(agent: second_agent)
-
     OmniAuth.config.test_mode = true
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(
       provider: "github",
@@ -52,14 +51,14 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
       info: { email: "multi-owner@example.com", name: "Multi Owner" }
     )
 
-    post start_claim_url(@claim.token, provider: "github")
+    post start_claim_url(@claim_token, provider: "github")
     get "/auth/github/callback"
-    post start_claim_url(second_claim.token, provider: "github")
+    post start_claim_url(@second_claim_token, provider: "github")
     get "/auth/github/callback"
 
     owner = User.find_by!(email_address: "multi-owner@example.com")
     assert_equal owner.id, @agent.reload.owner_user_id
-    assert_equal owner.id, second_agent.reload.owner_user_id
+    assert_equal owner.id, @second_agent.reload.owner_user_id
     assert_equal 2, owner.claimed_agents.count
   ensure
     OmniAuth.config.mock_auth[:github] = nil

@@ -1,5 +1,5 @@
 vendor/
-/log/*.log
+/log/*.log*
 /tmp/*
 !/tmp/.keep
 !/tmp/pids/

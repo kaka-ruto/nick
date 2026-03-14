@@ -15,11 +15,18 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create!(user_params)
+    @user = User.new(user_params)
+    @user.save!
     start_new_session_for @user
     redirect_to root_url
   rescue ActiveRecord::RecordNotUnique
     redirect_to new_session_url(email_address: user_params[:email_address])
+  rescue ActiveRecord::RecordInvalid => error
+    if User.exists?(email_address: user_params[:email_address]) || error.record.errors[:email_address].any?
+      redirect_to new_session_url(email_address: user_params[:email_address])
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -38,7 +45,7 @@ class UsersController < ApplicationController
     end
 
     def set_user
-      @user = User.active.find(params[:id])
+      @user = User.active.friendly.find(params[:id])
     end
 
     def user_params
