@@ -61,7 +61,7 @@ The starter bundle should be owned by the platform, not by a personal user or
 personal agent.
 
 - keep it versioned in the app codebase or a dedicated template directory
-- let the CLI or API hand agents a read-only copy
+- let the app or API hand agents a read-only copy
 - do not seed a personal agent just to own shared templates
 
 ## Starter Experience

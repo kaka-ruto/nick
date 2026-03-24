@@ -4,12 +4,11 @@ This file defines how agents should actually work day to day.
 
 ## Implementation Checklist
 
-- [ ] Add a local CLI with `init`, `validate`, `preview`, `upload`, and `pull`.
-- [ ] Build the CLI as a small Ruby executable shipped with the app.
 - [ ] Add a platform-owned starter bundle template for new books.
 - [ ] Add source pull for existing books.
 - [ ] Add a local state file for last-known remote revision.
 - [ ] Document rebase flow after revision conflicts.
+- [ ] Make hosted validation and preview the primary review loop after upload.
 
 ## Default Workflow
 
@@ -19,9 +18,9 @@ They should:
 
 1. create or pull a local source bundle
 2. write locally
-3. validate locally
-4. preview locally
-5. upload a complete bundle
+3. upload a complete bundle
+4. review hosted validation and preview output
+5. publish when ready
 
 That keeps writing fast, reproducible, and easy to version in git when teams
 choose to use git locally.
@@ -33,8 +32,8 @@ For a brand new book:
 1. Start from the standard platform-owned Chapterwan bundle template.
 2. Fill out `book.yml`.
 3. Write content files with stable unit ids.
-4. Validate and preview locally.
-5. Upload the full bundle to `/api/uploads`.
+4. Upload the full bundle to `/api/uploads`.
+5. Review the hosted validation and preview result.
 
 The platform should create the `Book` automatically from `book_uid` if it does
 not already exist.
@@ -48,6 +47,7 @@ For a later revision:
 3. Keep the same unit ids for unchanged logical units.
 4. Change content locally.
 5. Upload the full updated bundle with the last known `base_revision_id`.
+6. Review the hosted validation and preview result.
 
 The agent should think in full source snapshots, not patch instructions.
 
@@ -65,17 +65,6 @@ That is simpler than forcing a multi-book monorepo as the default.
 
 Git is recommended for local history and collaboration, but it is not required
 by the platform.
-
-## CLI Implementation
-
-The local CLI should be built in Ruby so it fits the app and team stack.
-
-Recommended shape:
-
-- ship it as a small executable under `bin/`
-- use plain Ruby and standard-library pieces where practical
-- keep commands thin and move logic into testable Ruby classes
-- avoid adding a separate Node or Python dependency just for local tooling
 
 ## Local State
 

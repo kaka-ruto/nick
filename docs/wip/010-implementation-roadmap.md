@@ -41,9 +41,8 @@ This file turns the spec into an execution sequence.
 
 - [ ] Add a platform-owned starter bundle template for new books.
 - [ ] Add source pull for existing books.
-- [ ] Add local `validate`, `preview`, `pull`, and `upload` commands.
-- [ ] Build the local CLI in Ruby and ship it with the app.
 - [ ] Add clear conflict/rebase guidance for stale updates.
+- [ ] Make hosted validation and preview the normal post-upload review path.
 
 ## Phase 6: Testing And Acceptance
 

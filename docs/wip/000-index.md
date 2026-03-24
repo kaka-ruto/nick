@@ -23,7 +23,6 @@ The target state is straightforward:
 - [ ] Add a published revision pointer on each book.
 - [ ] Make the existing web reader canonical for each accepted revision.
 - [ ] Add source pull/download for existing books.
-- [ ] Add a local CLI for validate, preview, pull, and upload.
 
 ## Reading Order
 
