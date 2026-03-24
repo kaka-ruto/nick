@@ -47,7 +47,7 @@ class Uploads::MarkdownParser
         end
       end
 
-      order = ordered_paths(markdown_entries.keys)
+      order = ordered_paths(markdown_entries.keys, manifest)
       units = order.filter_map.with_index do |path, index|
         next unless markdown_entries.key?(path)
 
@@ -80,15 +80,14 @@ class Uploads::MarkdownParser
     end
 
     def parse_manifest_book_attributes(manifest)
+      validate_manifest!(manifest)
+
       {}.tap do |attrs|
         attrs[:book_uid] = manifest["book_uid"].to_s.strip if manifest["book_uid"].present?
         attrs[:title] = manifest["title"].to_s.strip if manifest["title"].present?
         attrs[:subtitle] = manifest["subtitle"].to_s.strip if manifest["subtitle"].present?
         attrs[:author] = manifest["author"].to_s.strip if manifest["author"].present?
         attrs[:theme] = manifest["theme"].to_s.strip if manifest["theme"].present?
-        attrs[:pricing_type] = manifest["pricing_type"].to_s.strip if manifest["pricing_type"].present?
-        attrs[:price_cents] = manifest["price_cents"].to_i if manifest["price_cents"].present?
-        attrs[:published] = ActiveModel::Type::Boolean.new.cast(manifest["published"]) unless manifest["published"].nil?
         attrs[:tag_names] = Array(manifest["tags"]).map(&:to_s)
         attrs[:category_name] = manifest["category"].to_s.strip if manifest["category"].present?
       end
@@ -101,16 +100,21 @@ class Uploads::MarkdownParser
         attrs[:subtitle] = front_matter["subtitle"].to_s.strip if front_matter["subtitle"].present?
         attrs[:author] = front_matter["author"].to_s.strip if front_matter["author"].present?
         attrs[:theme] = front_matter["theme"].to_s.strip if front_matter["theme"].present?
-        attrs[:pricing_type] = front_matter["pricing_type"].to_s.strip if front_matter["pricing_type"].present?
-        attrs[:price_cents] = front_matter["price_cents"].to_i if front_matter["price_cents"].present?
-        attrs[:published] = ActiveModel::Type::Boolean.new.cast(front_matter["published"]) unless front_matter["published"].nil?
         attrs[:tag_names] = Array(front_matter["tags"]).map(&:to_s)
         attrs[:category_name] = front_matter["category"].to_s.strip if front_matter["category"].present?
       end
     end
 
-    def ordered_paths(paths)
-      paths.sort
+    def ordered_paths(paths, manifest)
+      declared = Array(manifest["reading_order"]).map { |entry| entry.to_s.strip }.reject(&:blank?)
+      return paths.sort if declared.empty?
+
+      missing = declared - paths
+      extra = paths - declared
+      raise ArgumentError, "reading_order has missing files: #{missing.join(', ')}" if missing.any?
+      raise ArgumentError, "reading_order has extra files not declared: #{extra.join(', ')}" if extra.any?
+
+      declared
     end
 
     def build_unit_from_markdown(raw_markdown, index:, path:)
@@ -123,7 +127,7 @@ class Uploads::MarkdownParser
       title = front_matter["title"].to_s.strip.presence || heading_title(parsed.content.to_s) || fallback_title(path, index)
       kind = normalize_kind(front_matter["class"])
       body = parsed.content.to_s.strip
-      external_id = front_matter["id"].to_s.strip.presence || external_id_from_path(path, index)
+      external_id = required_external_id(front_matter:, path:)
       theme = front_matter["theme"].to_s.strip.presence
 
       payload = {
@@ -156,10 +160,11 @@ class Uploads::MarkdownParser
       basename.presence || "Untitled #{index + 1}"
     end
 
-    def external_id_from_path(path, index)
-      normalized = path.to_s.downcase.gsub(/[^a-z0-9\/\-_]/, "-").sub(/\.md\z/, "")
-      normalized = "unit-#{index + 1}" if normalized.blank?
-      normalized.gsub("/", "--")
+    def required_external_id(front_matter:, path:)
+      external_id = front_matter["id"].to_s.strip
+      return external_id if external_id.present?
+
+      raise ArgumentError, "missing required front matter id for #{path}"
     end
 
     def normalize_kind(klass)
@@ -167,5 +172,11 @@ class Uploads::MarkdownParser
       return "section" if value == "section"
 
       "page"
+    end
+
+    def validate_manifest!(manifest)
+      required = %w[schema_version book_uid title author reading_order]
+      missing = required.reject { |key| manifest[key].present? }
+      raise ArgumentError, "book.yml missing required fields: #{missing.join(', ')}" if missing.any?
     end
 end

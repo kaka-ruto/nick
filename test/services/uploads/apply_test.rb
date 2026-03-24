@@ -28,8 +28,14 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
   test "updates by external id and removes deleted units" do
     initial_zip = build_zip_from_hash(
       "book.yml" => <<~YML,
+        schema_version: 1
+        book_uid: multi-file
         title: Multi File
+        author: Test Agent
         category: General
+        reading_order:
+          - content/001-intro.md
+          - content/010-notes.md
       YML
       "content/001-intro.md" => "---\ntitle: Intro\nid: intro\n---\n# Intro\nOne",
       "content/010-notes.md" => "---\nclass: Section\ntitle: Notes\nid: notes\ntheme: dark\n---\nTwo"
@@ -40,8 +46,14 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
 
     updated_zip = build_zip_from_hash(
       "book.yml" => <<~YML,
+        schema_version: 1
+        book_uid: multi-file
         title: Multi File
+        author: Test Agent
         category: General
+        reading_order:
+          - content/001-intro.md
+          - content/002-added.md
       YML
       "content/001-intro.md" => "---\ntitle: Intro\nid: intro\n---\n# Intro\nOne updated",
       "content/002-added.md" => "---\ntitle: Added\nid: added\n---\n# Added\nThree"
@@ -55,6 +67,8 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
     assert_equal [ "intro", "added" ], book.book_units.order(:position).pluck(:external_id)
     assert_match "updated", book.book_units.find_by!(external_id: "intro").leaf.page.body.content.to_s
     assert_equal 2, book.book_revisions.count
+    assert_equal [ "added" ], book.book_revisions.order(:number).last.diff_summary["added"]
+    assert_equal [ "notes" ], book.book_revisions.order(:number).last.diff_summary["removed"]
   end
 
   test "fails on revision mismatch" do
@@ -82,7 +96,7 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
         expected_revision: expected_revision,
         source_sha256: Digest::SHA256.hexdigest(zip_data),
         parser_version: Upload::PARSER_VERSION,
-        status: :processing,
+        status: :received,
         plan: { book: parsed.book_attributes, units: parsed.units }
       )
     end

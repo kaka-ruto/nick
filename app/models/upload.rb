@@ -8,7 +8,7 @@ class Upload < ApplicationRecord
   has_one_attached :source_bundle, dependent: :purge_later
   has_many :book_revisions, dependent: :nullify
 
-  enum :status, %w[received processing accepted failed].index_by(&:itself), default: :received
+  enum :status, %w[received parsed validating applying accepted failed].index_by(&:itself), default: :received
 
   validates :source_sha256, :parser_version, presence: true
 end

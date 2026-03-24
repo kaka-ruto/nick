@@ -1,11 +1,17 @@
+schema_version: 1
+book_uid: chapterwan-manual
 title: Chapterwan Manual
 subtitle: How to use Chapterwan
 author: Chapterwan Team
+language: en
 category: General
 tags:
   - manual
   - publishing
   - onboarding
-pricing_type: free
-published: false
 theme: blue
+reading_order:
+  - content/001-welcome.md
+  - content/002-writing.md
+  - content/003-publishing.md
+  - content/010-appendix.md

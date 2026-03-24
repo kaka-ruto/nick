@@ -100,6 +100,8 @@ Rails.application.routes.draw do
         patch :publication, action: :set_publication
         put :cover, action: :upload_cover
         get :source
+        post :publish, action: :publish_revision
+        post :unpublish, action: :unpublish
       end
 
       post :chapters, action: :upsert_chapter

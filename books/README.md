@@ -21,28 +21,33 @@ Use environment variables for agent auth. Do not commit keys.
 
 ## `book.yml` fields
 
+- `schema_version` (required, currently `1`)
+- `book_uid` (required stable identifier)
 - `title`
 - `subtitle`
 - `author`
+- `reading_order` (required explicit ordered list of markdown paths)
 - `category`
 - `tags` (list)
-- `pricing_type` (`free` or `paid`)
-- `price_cents` (required for paid)
-- `published` (`true` or `false`)
+- `language` (optional)
 - `theme` (optional)
 
 Example:
 
 ```yaml
+schema_version: 1
+book_uid: chapterwan-manual
 title: Chapterwan Manual
 subtitle: Quick start
 author: Chapterwan Team
+language: en
 category: General
 tags:
   - manual
   - onboarding
-pricing_type: free
-published: false
+reading_order:
+  - content/001-welcome.md
+  - content/002-writing.md
 ```
 
 ## Markdown front matter
@@ -52,22 +57,17 @@ Each markdown file can define:
 - `title` (recommended)
 - `class: Section` (for section leaves)
 - `theme` (for section leaves)
-- `id` (optional stable external id override)
-
-Files are processed in sorted path order, so use numeric filename prefixes:
-- `content/001-welcome.md`
-- `content/002-writing.md`
-- `content/010-appendix.md`
+- `id` (required stable external id)
 
 ## Upload workflow
 
 1. Zip the book directory.
 2. `POST /api/uploads` with `source_bundle=@book.zip`.
 3. Inspect upload status with `GET /api/uploads/:id`.
-4. For updates, include `book_id` and `expected_revision`.
+4. For updates, include `book_id` and `base_revision_id`.
 5. Pull source from `GET /api/books/:id/source` when rebasing.
 
 ## Notes
 
 - Chapterwan keeps source snapshots attached to uploads.
-- Stable updates are based on external ids and import revision checks.
+- Stable updates are based on explicit unit ids and revision checks.

@@ -14,7 +14,7 @@ class Uploads::Apply
       book = find_or_build_book
       ensure_revision_matches!(book)
       apply_book_attributes!(book)
-      apply_units!(book)
+      Uploads::ProjectUnits.call(book:, units: @plan[:units])
 
       revision = create_revision!(book)
       book.update!(
@@ -41,8 +41,9 @@ class Uploads::Apply
     end
 
     def ensure_revision_matches!(book)
-      return if @upload.expected_revision.nil?
-      return if book.import_revision == @upload.expected_revision
+      base_revision = @upload.base_revision_id || @upload.expected_revision
+      return if base_revision.nil?
+      return if book.import_revision == base_revision
 
       raise StandardError, "upload revision mismatch"
     end
@@ -69,82 +70,19 @@ class Uploads::Apply
       end
     end
 
-    def apply_units!(book)
-      units = Array(@plan[:units])
-      seen = []
-
-      units.each_with_index do |unit, index|
-        external_id = unit.fetch(:external_id)
-        seen << external_id
-
-        mapping = book.book_units.find_by(external_id: external_id)
-        if mapping&.content_sha256 == unit[:content_sha256]
-          mapping.update!(position: index)
-          next
-        end
-
-        leaf = upsert_leaf_for(book:, mapping:, unit:)
-
-        attrs = {
-          leaf_id: leaf.id,
-          position: index,
-          content_sha256: unit[:content_sha256]
-        }
-
-        if mapping
-          mapping.update!(attrs)
-        else
-          book.book_units.create!(attrs.merge(external_id: external_id))
-        end
-      end
-
-      book.book_units.where.not(external_id: seen).find_each do |mapping|
-        mapping.leaf.trashed!
-        mapping.destroy!
-      end
-    end
-
-    def upsert_leaf_for(book:, mapping:, unit:)
-      if mapping && compatible_leaf?(mapping.leaf, unit)
-        mapping.leaf.tap do |existing_leaf|
-          existing_leaf.edit(leaf_params: { title: unit[:title] }, leafable_params: leafable_params_for(unit))
-        end
-      else
-        mapping&.leaf&.trashed!
-        book.press(new_leafable_for(unit), title: unit[:title])
-      end
-    end
-
-    def compatible_leaf?(leaf, unit)
-      expected_type = unit[:kind] == "section" ? "Section" : "Page"
-      leaf.leafable_type == expected_type
-    end
-
-    def new_leafable_for(unit)
-      if unit[:kind] == "section"
-        Section.new(body: unit[:body], theme: unit[:theme])
-      else
-        Page.new(body: unit[:body])
-      end
-    end
-
-    def leafable_params_for(unit)
-      if unit[:kind] == "section"
-        { body: unit[:body], theme: unit[:theme] }
-      else
-        { body: unit[:body] }
-      end
-    end
-
     def create_revision!(book)
       number = book.book_revisions.maximum(:number).to_i + 1
+      previous_units = book.book_revisions.order(number: :desc).first&.units || []
+      next_units = Array(@plan[:units])
+
       BookRevision.create!(
         book: book,
         upload: @upload,
         number: number,
         source_sha256: @upload.source_sha256,
         metadata: @plan.fetch(:book, {}),
-        units: Array(@plan[:units])
+        units: next_units,
+        diff_summary: Uploads::RevisionDiff.call(previous_units:, next_units:)
       )
     end
 

@@ -6,6 +6,7 @@ class Uploads::MarkdownParserTest < ActiveSupport::TestCase
     markdown = <<~MD
       ---
       title: Single File
+      id: single-file
       class: Section
       theme: dark
       category: Engineering
@@ -26,6 +27,24 @@ class Uploads::MarkdownParserTest < ActiveSupport::TestCase
     assert_equal "section", unit[:kind]
     assert_equal "Single File", unit[:title]
     assert_equal "dark", unit[:theme]
+  end
+
+  test "requires explicit reading_order in bundle manifest" do
+    zip_data = build_zip_from_hash(
+      "book.yml" => <<~YML,
+        schema_version: 1
+        book_uid: manual
+        title: Manual
+        author: Agent
+      YML
+      "content/001.md" => "---\ntitle: Intro\nid: intro\n---\nOne"
+    )
+
+    error = assert_raises(ArgumentError) do
+      Uploads::MarkdownParser.call(content: zip_data, filename: "manual.zip")
+    end
+
+    assert_match "book.yml missing required fields", error.message
   end
 
   test "parses zip bundle with manifest ordering and kinds" do
@@ -54,6 +73,19 @@ class Uploads::MarkdownParserTest < ActiveSupport::TestCase
           relative = Pathname(file).relative_path_from(path).to_s
           zip.put_next_entry(relative)
           zip.write(File.binread(file))
+        end
+      end
+
+      io.string
+    end
+
+    def build_zip_from_hash(entries)
+      io = StringIO.new
+
+      Zip::OutputStream.write_buffer(io) do |zip|
+        entries.each do |path, content|
+          zip.put_next_entry(path)
+          zip.write(content)
         end
       end
 

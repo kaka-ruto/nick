@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -133,6 +133,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_100000) do
   create_table "book_revisions", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
+    t.jsonb "diff_summary", default: {}, null: false
     t.jsonb "metadata", default: {}, null: false
     t.integer "number", null: false
     t.string "source_sha256", null: false
@@ -616,21 +617,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_100000) do
   end
 
   create_table "uploads", force: :cascade do |t|
+    t.string "agent_run_id"
     t.bigint "api_key_id", null: false
     t.datetime "applied_at"
+    t.integer "base_revision_id"
     t.bigint "book_id"
+    t.string "book_uid"
+    t.text "build_log"
     t.datetime "created_at", null: false
     t.text "error_message"
     t.integer "expected_revision"
     t.string "parser_version", null: false
     t.jsonb "plan", default: {}, null: false
     t.jsonb "result", default: {}, null: false
+    t.string "source_commit"
     t.string "source_sha256", null: false
-    t.string "status", default: "uploaded", null: false
+    t.string "status", default: "received", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.jsonb "validation_errors", default: [], null: false
+    t.jsonb "warnings", default: [], null: false
     t.index ["api_key_id"], name: "index_uploads_on_api_key_id"
+    t.index ["base_revision_id"], name: "index_uploads_on_base_revision_id"
     t.index ["book_id"], name: "index_uploads_on_book_id"
+    t.index ["book_uid"], name: "index_uploads_on_book_uid"
     t.index ["status"], name: "index_uploads_on_status"
     t.index ["user_id"], name: "index_uploads_on_user_id"
   end

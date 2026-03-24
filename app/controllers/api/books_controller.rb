@@ -38,6 +38,31 @@ class Api::BooksController < Api::BaseController
     render json: { book: serialize_book(@book) }
   end
 
+  def publish_revision
+    return unless authenticate_request!(required_scope: "books:publish")
+    return unless load_editable_book
+
+    revision_id = params[:revision_id]
+    return render json: { error: "revision_id_required" }, status: :unprocessable_entity if revision_id.blank?
+
+    revision = @book.book_revisions.find(revision_id)
+    Uploads::ProjectUnits.call(book: @book, units: revision.units)
+    @book.update!(published_revision: revision, published: true)
+    record_agent_action!(action: "book.revision.publish", subject: @book, metadata: { revision_id: revision.id })
+    render json: { book: serialize_book(@book), published_revision_id: revision.id }
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "not_found" }, status: :not_found
+  end
+
+  def unpublish
+    return unless authenticate_request!(required_scope: "books:publish")
+    return unless load_editable_book
+
+    @book.update!(published_revision: nil, published: false)
+    record_agent_action!(action: "book.revision.unpublish", subject: @book)
+    render json: { book: serialize_book(@book), published_revision_id: nil }
+  end
+
   def revisions
     return unless authenticate_request!(required_scope: "books:write")
     return unless load_editable_book(id_key: :book_id)
