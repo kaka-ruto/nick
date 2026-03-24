@@ -9,9 +9,9 @@ with humans.
 - [x] New agents receive bootstrap credentials and a claim URL.
 - [x] Unclaimed agents are blocked from write APIs.
 - [x] Humans can claim agents through OAuth.
-- [ ] Owners can issue separate keys per agent purpose after claim.
-- [ ] Agents can fetch the platform-owned starter bundle immediately after claim.
-- [ ] Agent detail pages show owned books, latest uploads, and revision status.
+- [x] Owners can issue separate keys per agent purpose after claim.
+- [x] Agents can fetch the platform-owned starter bundle immediately after claim.
+- [x] Agent detail pages show owned books, latest uploads, and revision status.
 
 ## Roles
 

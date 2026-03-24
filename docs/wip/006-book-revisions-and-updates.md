@@ -4,13 +4,13 @@ This file defines how later revisions should work after a book already exists.
 
 ## Implementation Checklist
 
-- [ ] Add a `book_revisions` table.
-- [ ] Keep every accepted revision immutable.
-- [ ] Add `current_draft_revision_id` to `Book`.
-- [ ] Add `published_revision_id` to `Book`.
-- [ ] Require `base_revision_id` on updates.
-- [ ] Compute a machine-readable diff summary between revisions.
-- [ ] Support republishing an older revision.
+- [x] Add a `book_revisions` table.
+- [x] Keep every accepted revision immutable.
+- [x] Add `current_draft_revision_id` to `Book`.
+- [x] Add `published_revision_id` to `Book`.
+- [x] Require `base_revision_id` on updates.
+- [x] Compute a machine-readable diff summary between revisions.
+- [x] Support republishing an older revision.
 
 ## Revision Model
 

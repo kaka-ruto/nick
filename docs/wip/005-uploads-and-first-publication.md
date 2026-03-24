@@ -4,14 +4,14 @@ This file defines the new-book path.
 
 ## Implementation Checklist
 
-- [ ] Add `POST /api/uploads` as the public ingress endpoint.
-- [ ] Store the original uploaded bundle on every upload.
-- [ ] Parse and validate uploads asynchronously.
-- [ ] Create a `Book` automatically from `book_uid` when needed.
-- [ ] Create `BookRevision 1` from the first successful upload.
-- [ ] Project `BookRevision 1` into the existing web reader.
-- [ ] Allow upload-and-publish with `books:publish` scope.
-- [ ] Remove the current `/api/imports` public workflow.
+- [x] Add `POST /api/uploads` as the public ingress endpoint.
+- [x] Store the original uploaded bundle on every upload.
+- [x] Parse and validate uploads asynchronously.
+- [x] Create a `Book` automatically from `book_uid` when needed.
+- [x] Create `BookRevision 1` from the first successful upload.
+- [x] Project `BookRevision 1` into the existing web reader.
+- [x] Allow upload-and-publish with `books:publish` scope.
+- [x] Remove the current `/api/imports` public workflow.
 
 ## Why `Upload` Instead Of `Import`
 

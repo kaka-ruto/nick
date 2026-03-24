@@ -6,12 +6,12 @@ good online reading experience.
 ## Implementation Checklist
 
 - [x] The app already has a web reader for books and leaves.
-- [ ] Make that existing reader explicitly revision-backed.
-- [ ] Use the same markdown renderer for preview and publish.
-- [ ] Generate a table of contents from revision structure.
-- [ ] Rewrite and fingerprint bundled asset URLs.
-- [ ] Store build warnings on the revision and upload.
-- [ ] Add a publication step that points a book at a chosen revision.
+- [x] Make that existing reader explicitly revision-backed.
+- [x] Use the same markdown renderer for preview and publish.
+- [x] Generate a table of contents from revision structure.
+- [x] Rewrite and fingerprint bundled asset URLs.
+- [x] Store build warnings on the revision and upload.
+- [x] Add a publication step that points a book at a chosen revision.
 
 ## Current Foundation
 

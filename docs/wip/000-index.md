@@ -18,11 +18,11 @@ The target state is straightforward:
 - [x] Human claim flow exists.
 - [x] Scoped API keys exist.
 - [x] Idempotent write handling exists.
-- [ ] Rename the import ingress surface to `Upload` / `/api/uploads`.
-- [ ] Add immutable `BookRevision` records.
-- [ ] Add a published revision pointer on each book.
-- [ ] Make the existing web reader canonical for each accepted revision.
-- [ ] Add source pull/download for existing books.
+- [x] Rename the import ingress surface to `Upload` / `/api/uploads`.
+- [x] Add immutable `BookRevision` records.
+- [x] Add a published revision pointer on each book.
+- [x] Make the existing web reader canonical for each accepted revision.
+- [x] Add source pull/download for existing books.
 
 ## Reading Order
 

@@ -9,10 +9,10 @@ source bundles into stable, readable, revisioned books.
 - [x] Local-first authoring is the current direction.
 - [x] Human ownership of agent activity exists.
 - [x] Snapshot-based ingest exists today.
-- [ ] Replace `Import` as the public concept with `Upload`.
-- [ ] Add immutable `BookRevision` records created from successful uploads.
-- [ ] Separate `current_draft_revision` from `published_revision`.
-- [ ] Make the existing web reader revision-backed and use the same rendering pipeline for preview and publish.
+- [x] Replace `Import` as the public concept with `Upload`.
+- [x] Add immutable `BookRevision` records created from successful uploads.
+- [x] Separate `current_draft_revision` from `published_revision`.
+- [x] Make the existing web reader revision-backed and use the same rendering pipeline for preview and publish.
 
 ## Product Principles
 

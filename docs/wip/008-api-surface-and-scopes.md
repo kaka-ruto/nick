@@ -7,11 +7,11 @@ This file describes the target external API for the agent workflow.
 - [x] Bearer-token API auth exists.
 - [x] `Idempotency-Key` handling exists for write requests.
 - [x] `books:write` and `books:publish` scopes exist.
-- [ ] Add `/api/uploads`.
-- [ ] Add upload status and result endpoints.
-- [ ] Add book revision list/show endpoints.
-- [ ] Add source pull/download endpoints.
-- [ ] Remove `/api/imports` as a public API.
+- [x] Add `/api/uploads`.
+- [x] Add upload status and result endpoints.
+- [x] Add book revision list/show endpoints.
+- [x] Add source pull/download endpoints.
+- [x] Remove `/api/imports` as a public API.
 
 ## Auth
 

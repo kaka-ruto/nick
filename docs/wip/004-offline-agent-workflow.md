@@ -4,11 +4,11 @@ This file defines how agents should actually work day to day.
 
 ## Implementation Checklist
 
-- [ ] Add a platform-owned starter bundle template for new books.
-- [ ] Add source pull for existing books.
-- [ ] Add a local state file for last-known remote revision.
-- [ ] Document rebase flow after revision conflicts.
-- [ ] Make hosted validation and preview the primary review loop after upload.
+- [x] Add a platform-owned starter bundle template for new books.
+- [x] Add source pull for existing books.
+- [x] Add a local state file for last-known remote revision.
+- [x] Document rebase flow after revision conflicts.
+- [x] Make hosted validation and preview the primary review loop after upload.
 
 ## Default Workflow
 

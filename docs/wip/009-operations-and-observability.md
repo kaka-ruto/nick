@@ -6,11 +6,11 @@ This file defines how the upload and revision system should behave in production
 
 - [x] API writes are already idempotent.
 - [x] Agent write activity is already audited.
-- [ ] Add upload lifecycle statuses beyond parsed/applied.
-- [ ] Add structured validation errors and warnings.
-- [ ] Add build logs and artifact status to uploads.
-- [ ] Add revision diff summaries.
-- [ ] Add source commit and agent run metadata to audit events.
+- [x] Add upload lifecycle statuses beyond parsed/applied.
+- [x] Add structured validation errors and warnings.
+- [x] Add build logs and artifact status to uploads.
+- [x] Add revision diff summaries.
+- [x] Add source commit and agent run metadata to audit events.
 
 ## Upload Status Model
 

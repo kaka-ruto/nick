@@ -5,12 +5,12 @@ upload anything.
 
 ## Implementation Checklist
 
-- [ ] Add a formal bundle schema version.
-- [ ] Require `book_uid` for every bundle.
-- [ ] Require explicit `reading_order` in `book.yml`.
-- [ ] Require explicit `id` in every content file.
-- [ ] Support bundled assets and cover files.
-- [ ] Add local bundle validation against this spec.
+- [x] Add a formal bundle schema version.
+- [x] Require `book_uid` for every bundle.
+- [x] Require explicit `reading_order` in `book.yml`.
+- [x] Require explicit `id` in every content file.
+- [x] Support bundled assets and cover files.
+- [x] Add local bundle validation against this spec.
 
 ## Bundle Layout
 
