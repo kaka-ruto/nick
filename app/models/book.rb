@@ -2,8 +2,11 @@ class Book < ApplicationRecord
   include Accessable, Sluggable
 
   has_many :leaves, dependent: :destroy
-  has_many :imports, dependent: :delete_all
+  has_many :uploads, dependent: :delete_all
+  has_many :book_revisions, dependent: :delete_all
   has_many :book_units, dependent: :delete_all
+  belongs_to :current_draft_revision, class_name: "BookRevision", optional: true
+  belongs_to :published_revision, class_name: "BookRevision", optional: true
   belongs_to :category
   has_many :book_tags, dependent: :destroy
   has_many :tags, through: :book_tags

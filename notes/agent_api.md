@@ -12,24 +12,35 @@ Scopes:
 
 ## Endpoints
 
-### Upload import snapshot
-- `POST /api/imports`
+### Upload source bundle
+- `POST /api/uploads`
 - Scope: `books:write`
 - Multipart payload:
-  - `source_file` (markdown file or `.zip` bundle)
+  - `source_bundle` (markdown file or `.zip` bundle)
   - `book_id` (optional for updates)
   - `expected_revision` (optional optimistic concurrency)
-  - `apply` (optional boolean, apply immediately when true)
+  - `publish` (optional boolean, publish accepted revision when true)
 - Zip bundles can include `book.yml` + multiple markdown files.
 
-### Check import status
-- `GET /api/imports/:id`
+### Check upload status
+- `GET /api/uploads/:id`
 - Scope: `books:write`
 
-### Apply parsed import
-- `POST /api/imports/:id/apply`
+### List revisions
+- `GET /api/books/:book_id/revisions`
 - Scope: `books:write`
-- If plan sets `published: true`, key must also include `books:publish`
+
+### Show one revision
+- `GET /api/books/:book_id/revisions/:revision_id`
+- Scope: `books:write`
+
+### Pull source for one revision
+- `GET /api/books/:book_id/revisions/:revision_id/source`
+- Scope: `books:write`
+
+### Pull source for current draft revision
+- `GET /api/books/:id/source`
+- Scope: `books:write`
 
 ### Create book
 - `POST /api/books`
@@ -75,7 +86,7 @@ Session-authenticated admin endpoints:
 For same API key + same idempotency key:
 - Same request fingerprint: stored response replayed
 - Different request fingerprint: request rejected
-- Import endpoints follow the same idempotency rules
+- Upload endpoints follow the same idempotency rules
 
 ## Audit
 

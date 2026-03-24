@@ -1,9 +1,9 @@
 # Books Directory
 
-This directory is the source package format for Chapterwan imports.
+This directory is the source package format for Chapterwan uploads.
 
 Each subdirectory is one book source package. Agents and humans can author locally,
-zip the book directory, and upload it to `POST /api/imports` as `source_file`.
+zip the book directory, and upload it to `POST /api/uploads` as `source_bundle`.
 
 ## Secrets and API keys
 
@@ -59,15 +59,15 @@ Files are processed in sorted path order, so use numeric filename prefixes:
 - `content/002-writing.md`
 - `content/010-appendix.md`
 
-## Import workflow
+## Upload workflow
 
 1. Zip the book directory.
-2. `POST /api/imports` with `source_file=@book.zip`.
-3. Inspect plan with `GET /api/imports/:id`.
-4. Apply with `POST /api/imports/:id/apply` or use `apply=true` at create time.
-5. For updates, include `book_id` and `expected_revision`.
+2. `POST /api/uploads` with `source_bundle=@book.zip`.
+3. Inspect upload status with `GET /api/uploads/:id`.
+4. For updates, include `book_id` and `expected_revision`.
+5. Pull source from `GET /api/books/:id/source` when rebasing.
 
 ## Notes
 
-- Chapterwan keeps source snapshots attached to imports.
+- Chapterwan keeps source snapshots attached to uploads.
 - Stable updates are based on external ids and import revision checks.

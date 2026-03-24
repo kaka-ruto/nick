@@ -38,6 +38,72 @@ class Api::BooksController < Api::BaseController
     render json: { book: serialize_book(@book) }
   end
 
+  def revisions
+    return unless authenticate_request!(required_scope: "books:write")
+    return unless load_editable_book(id_key: :book_id)
+
+    revisions = @book.book_revisions.order(number: :desc)
+    render json: {
+      revisions: revisions.map { |revision| serialize_revision(revision) },
+      current_draft_revision_id: @book.current_draft_revision_id,
+      published_revision_id: @book.published_revision_id
+    }
+  end
+
+  def show_revision
+    return unless authenticate_request!(required_scope: "books:write")
+    return unless load_editable_book(id_key: :book_id)
+
+    revision = @book.book_revisions.find(params[:revision_id])
+    render json: { revision: serialize_revision(revision).merge(units: revision.units, metadata: revision.metadata) }
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "not_found" }, status: :not_found
+  end
+
+  def source_for_revision
+    return unless authenticate_request!(required_scope: "books:write")
+    return unless load_editable_book(id_key: :book_id)
+
+    revision = @book.book_revisions.find(params[:revision_id])
+    upload = revision.upload
+    return render json: { error: "source_missing" }, status: :not_found unless upload.source_bundle.attached?
+
+    render json: {
+      source: {
+        upload_id: upload.id,
+        filename: upload.source_bundle.filename.to_s,
+        content_type: upload.source_bundle.content_type,
+        byte_size: upload.source_bundle.byte_size,
+        url: rails_blob_path(upload.source_bundle, only_path: true)
+      }
+    }
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "not_found" }, status: :not_found
+  end
+
+  def source
+    return unless authenticate_request!(required_scope: "books:write")
+    return unless load_editable_book
+
+    revision = @book.current_draft_revision || @book.book_revisions.order(number: :desc).first
+    return render json: { error: "source_missing" }, status: :not_found if revision.blank?
+
+    upload = revision.upload
+    return render json: { error: "source_missing" }, status: :not_found unless upload.source_bundle.attached?
+
+    render json: {
+      source: {
+        upload_id: upload.id,
+        book_revision_id: revision.id,
+        revision_number: revision.number,
+        filename: upload.source_bundle.filename.to_s,
+        content_type: upload.source_bundle.content_type,
+        byte_size: upload.source_bundle.byte_size,
+        url: rails_blob_path(upload.source_bundle, only_path: true)
+      }
+    }
+  end
+
   def upload_cover
     return unless authenticate_request!(required_scope: "books:write")
     return unless load_editable_book
@@ -153,6 +219,16 @@ class Api::BooksController < Api::BaseController
         leafable_type: leaf.leafable_type,
         leafable_id: leaf.leafable_id,
         position_score: leaf.position_score
+      }
+    end
+
+    def serialize_revision(revision)
+      {
+        id: revision.id,
+        number: revision.number,
+        source_sha256: revision.source_sha256,
+        upload_id: revision.upload_id,
+        created_at: revision.created_at
       }
     end
 end

@@ -1,25 +1,28 @@
 require "test_helper"
 require "zip"
 
-class Imports::ApplyTest < ActiveSupport::TestCase
+class Uploads::ApplyTest < ActiveSupport::TestCase
   setup do
-    @api_key, = ApiKey.issue!(user: users(:david), name: "imports", scopes: [ "books:write", "books:publish" ])
+    @api_key, = ApiKey.issue!(user: users(:david), name: "uploads", scopes: [ "books:write", "books:publish" ])
   end
 
-  test "applies zip import by creating book pages and sections" do
-    import = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
+  test "applies zip upload by creating book pages sections and revision" do
+    upload = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
 
     assert_difference -> { Book.count }, +1 do
       assert_difference -> { BookUnit.count }, +4 do
-        Imports::Apply.call(import: import)
+        assert_difference -> { BookRevision.count }, +1 do
+          Uploads::Apply.call(upload: upload, publish: true)
+        end
       end
     end
 
-    import.reload
-    assert_equal "applied", import.status
-    assert_equal 1, import.book.import_revision
-    assert_equal [ "Page", "Page", "Page", "Section" ], import.book.book_units.order(:position).map { |unit| unit.leaf.leafable_type }
-    assert_equal [ "Welcome", "Writing in Markdown", "Publishing", "Appendix" ], import.book.book_units.order(:position).map { |unit| unit.leaf.title }
+    upload.reload
+    assert_equal "accepted", upload.status
+    assert_equal 1, upload.book.import_revision
+    assert_equal [ "Page", "Page", "Page", "Section" ], upload.book.book_units.order(:position).map { |unit| unit.leaf.leafable_type }
+    assert_equal [ "Welcome", "Writing in Markdown", "Publishing", "Appendix" ], upload.book.book_units.order(:position).map { |unit| unit.leaf.title }
+    assert_equal upload.book.current_draft_revision_id, upload.book.published_revision_id
   end
 
   test "updates by external id and removes deleted units" do
@@ -32,8 +35,8 @@ class Imports::ApplyTest < ActiveSupport::TestCase
       "content/010-notes.md" => "---\nclass: Section\ntitle: Notes\nid: notes\ntheme: dark\n---\nTwo"
     )
 
-    import = create_import_from_zip(initial_zip)
-    Imports::Apply.call(import: import)
+    upload = create_upload_from_zip(initial_zip)
+    Uploads::Apply.call(upload: upload)
 
     updated_zip = build_zip_from_hash(
       "book.yml" => <<~YML,
@@ -44,23 +47,24 @@ class Imports::ApplyTest < ActiveSupport::TestCase
       "content/002-added.md" => "---\ntitle: Added\nid: added\n---\n# Added\nThree"
     )
 
-    update_import = create_import_from_zip(updated_zip, book: import.book, expected_revision: 1)
-    Imports::Apply.call(import: update_import)
+    update_upload = create_upload_from_zip(updated_zip, book: upload.book, expected_revision: 1)
+    Uploads::Apply.call(upload: update_upload)
 
-    book = update_import.reload.book
+    book = update_upload.reload.book
     assert_equal 2, book.import_revision
     assert_equal [ "intro", "added" ], book.book_units.order(:position).pluck(:external_id)
     assert_match "updated", book.book_units.find_by!(external_id: "intro").leaf.page.body.content.to_s
+    assert_equal 2, book.book_revisions.count
   end
 
   test "fails on revision mismatch" do
-    import = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
-    Imports::Apply.call(import: import)
+    upload = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
+    Uploads::Apply.call(upload: upload)
 
-    conflict = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")), book: import.book, expected_revision: 0)
+    conflict = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")), book: upload.book, expected_revision: 0)
 
     assert_raises StandardError do
-      Imports::Apply.call(import: conflict)
+      Uploads::Apply.call(upload: conflict)
     end
 
     assert_equal "failed", conflict.reload.status
@@ -68,17 +72,17 @@ class Imports::ApplyTest < ActiveSupport::TestCase
   end
 
   private
-    def create_import_from_zip(zip_data, book: nil, expected_revision: nil)
-      parsed = Imports::MarkdownParser.call(content: zip_data, filename: "bundle.zip")
+    def create_upload_from_zip(zip_data, book: nil, expected_revision: nil)
+      parsed = Uploads::MarkdownParser.call(content: zip_data, filename: "bundle.zip")
 
-      Import.create!(
+      Upload.create!(
         api_key: @api_key,
         user: users(:david),
         book: book,
         expected_revision: expected_revision,
         source_sha256: Digest::SHA256.hexdigest(zip_data),
-        parser_version: Import::PARSER_VERSION,
-        status: :parsed,
+        parser_version: Upload::PARSER_VERSION,
+        status: :processing,
         plan: { book: parsed.book_attributes, units: parsed.units }
       )
     end

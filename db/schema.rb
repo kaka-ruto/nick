@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_25_100000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -130,6 +130,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
+  create_table "book_revisions", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.datetime "created_at", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.integer "number", null: false
+    t.string "source_sha256", null: false
+    t.jsonb "units", default: [], null: false
+    t.datetime "updated_at", null: false
+    t.bigint "upload_id", null: false
+    t.index ["book_id", "number"], name: "index_book_revisions_on_book_id_and_number", unique: true
+    t.index ["book_id"], name: "index_book_revisions_on_book_id"
+    t.index ["upload_id"], name: "index_book_revisions_on_upload_id"
+  end
+
   create_table "book_tags", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
@@ -168,22 +182,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
 
   create_table "books", force: :cascade do |t|
     t.string "author"
+    t.string "book_uid"
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "current_draft_revision_id"
     t.boolean "everyone_access", default: true, null: false
     t.integer "import_revision", default: 0, null: false
     t.integer "price_cents"
     t.string "pricing_type", default: "free", null: false
     t.boolean "published", default: false, null: false
+    t.bigint "published_revision_id"
     t.string "slug", null: false
     t.string "stripe_product_id"
     t.string "subtitle"
     t.string "theme", default: "blue", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["book_uid"], name: "index_books_on_book_uid", unique: true
     t.index ["category_id"], name: "index_books_on_category_id"
+    t.index ["current_draft_revision_id"], name: "index_books_on_current_draft_revision_id"
     t.index ["pricing_type"], name: "index_books_on_pricing_type"
     t.index ["published"], name: "index_books_on_published"
+    t.index ["published_revision_id"], name: "index_books_on_published_revision_id"
     t.index ["stripe_product_id"], name: "index_books_on_stripe_product_id"
   end
 
@@ -228,26 +248,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
     t.bigint "user_id", null: false
     t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_identities_on_user_id"
-  end
-
-  create_table "imports", force: :cascade do |t|
-    t.bigint "api_key_id", null: false
-    t.datetime "applied_at"
-    t.bigint "book_id"
-    t.datetime "created_at", null: false
-    t.text "error_message"
-    t.integer "expected_revision"
-    t.string "parser_version", null: false
-    t.jsonb "plan", default: {}, null: false
-    t.jsonb "result", default: {}, null: false
-    t.string "source_sha256", null: false
-    t.string "status", default: "uploaded", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["api_key_id"], name: "index_imports_on_api_key_id"
-    t.index ["book_id"], name: "index_imports_on_book_id"
-    t.index ["status"], name: "index_imports_on_status"
-    t.index ["user_id"], name: "index_imports_on_user_id"
   end
 
   create_table "leaf_search_index", primary_key: "rowid", force: :cascade do |t|
@@ -407,6 +407,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
     t.index ["slug"], name: "index_tags_on_slug", unique: true
   end
 
+  create_table "uploads", force: :cascade do |t|
+    t.bigint "api_key_id", null: false
+    t.datetime "applied_at"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.text "error_message"
+    t.integer "expected_revision"
+    t.string "parser_version", null: false
+    t.jsonb "plan", default: {}, null: false
+    t.jsonb "result", default: {}, null: false
+    t.string "source_sha256", null: false
+    t.string "status", default: "uploaded", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["api_key_id"], name: "index_uploads_on_api_key_id"
+    t.index ["book_id"], name: "index_uploads_on_book_id"
+    t.index ["status"], name: "index_uploads_on_status"
+    t.index ["user_id"], name: "index_uploads_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "active", default: true
     t.datetime "created_at", null: false
@@ -434,23 +454,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_114500) do
   add_foreign_key "api_key_events", "users"
   add_foreign_key "api_keys", "agents"
   add_foreign_key "api_keys", "users"
+  add_foreign_key "book_revisions", "books"
+  add_foreign_key "book_revisions", "uploads"
   add_foreign_key "book_tags", "books"
   add_foreign_key "book_tags", "tags"
   add_foreign_key "book_units", "books"
   add_foreign_key "book_units", "leaves"
   add_foreign_key "book_views", "books"
   add_foreign_key "book_views", "users"
+  add_foreign_key "books", "book_revisions", column: "current_draft_revision_id"
+  add_foreign_key "books", "book_revisions", column: "published_revision_id"
   add_foreign_key "books", "categories"
   add_foreign_key "edits", "leaves"
   add_foreign_key "idempotency_keys", "api_keys"
   add_foreign_key "identities", "users"
-  add_foreign_key "imports", "api_keys"
-  add_foreign_key "imports", "books"
-  add_foreign_key "imports", "users"
   add_foreign_key "leaves", "books"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_charges", "pay_subscriptions", column: "subscription_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
   add_foreign_key "sessions", "users"
+  add_foreign_key "uploads", "api_keys"
+  add_foreign_key "uploads", "books"
+  add_foreign_key "uploads", "users"
 end

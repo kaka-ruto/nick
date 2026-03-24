@@ -2,7 +2,7 @@ require "yaml"
 require "zip"
 require "json"
 
-class Imports::MarkdownParser
+class Uploads::MarkdownParser
   Result = Struct.new(:book_attributes, :units, keyword_init: true)
 
   def self.call(content:, filename: nil)
@@ -81,6 +81,7 @@ class Imports::MarkdownParser
 
     def parse_manifest_book_attributes(manifest)
       {}.tap do |attrs|
+        attrs[:book_uid] = manifest["book_uid"].to_s.strip if manifest["book_uid"].present?
         attrs[:title] = manifest["title"].to_s.strip if manifest["title"].present?
         attrs[:subtitle] = manifest["subtitle"].to_s.strip if manifest["subtitle"].present?
         attrs[:author] = manifest["author"].to_s.strip if manifest["author"].present?
@@ -95,6 +96,7 @@ class Imports::MarkdownParser
 
     def parse_front_matter_book_attributes(front_matter)
       {}.tap do |attrs|
+        attrs[:book_uid] = front_matter["book_uid"].to_s.strip if front_matter["book_uid"].present?
         attrs[:title] = front_matter["title"].to_s.strip if front_matter["title"].present?
         attrs[:subtitle] = front_matter["subtitle"].to_s.strip if front_matter["subtitle"].present?
         attrs[:author] = front_matter["author"].to_s.strip if front_matter["author"].present?

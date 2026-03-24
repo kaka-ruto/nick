@@ -1,7 +1,7 @@
 require "test_helper"
 require "zip"
 
-class Imports::MarkdownParserTest < ActiveSupport::TestCase
+class Uploads::MarkdownParserTest < ActiveSupport::TestCase
   test "parses single markdown file using front matter" do
     markdown = <<~MD
       ---
@@ -15,7 +15,7 @@ class Imports::MarkdownParserTest < ActiveSupport::TestCase
       Body
     MD
 
-    result = Imports::MarkdownParser.call(content: markdown, filename: "single.md")
+    result = Uploads::MarkdownParser.call(content: markdown, filename: "single.md")
 
     assert_equal "Single File", result.book_attributes[:title]
     assert_equal "Engineering", result.book_attributes[:category_name]
@@ -31,7 +31,7 @@ class Imports::MarkdownParserTest < ActiveSupport::TestCase
   test "parses zip bundle with manifest ordering and kinds" do
     zip_data = build_zip_from_directory(Rails.root.join("books/chapterwan-manual"))
 
-    result = Imports::MarkdownParser.call(content: zip_data, filename: "chapterwan-manual.zip")
+    result = Uploads::MarkdownParser.call(content: zip_data, filename: "chapterwan-manual.zip")
 
     assert_equal "Chapterwan Manual", result.book_attributes[:title]
     assert_equal "General", result.book_attributes[:category_name]

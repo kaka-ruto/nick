@@ -92,19 +92,21 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    resources :imports, only: %i[ create show ] do
-      post :apply, on: :member
-    end
+    resources :uploads, only: %i[ create show ]
 
     resources :books, only: %i[ create update ] do
       member do
         patch :pricing, action: :set_pricing
         patch :publication, action: :set_publication
         put :cover, action: :upload_cover
+        get :source
       end
 
       post :chapters, action: :upsert_chapter
       post :pages, action: :upsert_page
+      get :revisions, action: :revisions
+      get "revisions/:revision_id", action: :show_revision
+      get "revisions/:revision_id/source", action: :source_for_revision
     end
   end
 

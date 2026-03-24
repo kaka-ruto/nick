@@ -1,0 +1,254 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://127.0.0.1:9887/api/uploads
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        LS0tLS0tY2hhcHRlcndhbi1mNDkxZjAyYWE1MzVhMDQ5N2Y5Ng0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJwdWJsaXNoIg0KDQp0cnVlDQotLS0tLS1jaGFwdGVyd2FuLWY0OTFmMDJhYTUzNWEwNDk3Zjk2DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9InNvdXJjZV9idW5kbGUiOyBmaWxlbmFtZT0iY2hhcHRlcndhbi1tYW51YWwuemlwIg0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi96aXANCg0KUEsDBBQAAAAIAPEKeVxNy9udhQAAAMIAAAAIAAAAYm9vay55bWxVjT0OwjAMhXefwhfgAl0ZYGFjR0772kRKk8hxVPX2pJQBpudP78cWLGLgq5di0E0SPyQ1iVSbs9O7540tc6v4iZE081n/mk/ISqMYlqz7wDckaF8yWepAzBdez+njLM3FUH1Iywdzcll0OrBoGLu+bC/9+awAfcOYOkusIPNYu+liA70BUEsDBBQAAAAIAPEKeVxAiGkxZwAAAHwAAAAWAAAAY29udGVudC8wMDEtd2VsY29tZS5tZD3MMQrDMAxG4d2n+KGzeoCsPURnu1FqY8cylozo7ZuhdHvwwSOiYMUab3hye8nJoewb/Nd08e0v4ZHjMJ4eOzK3ofjIwlipFc1IIlVhAst8DRKWlv7GGWfdxTsdZarBZdajies9fAFQSwMEFAAAAAgA8Qp5XCTQY3tsAAAAogAAABYAAABjb250ZW50LzAwMi13cml0aW5nLm1kbYwxDsJADAT7e8VK1OYB+QN16hNniJXDjhxDlN/nAqRLY2lnd0xEKSQqd+hdQvQJUdyyj8UWTVI6LD9OrwNScy6n87RDxmpvx900WGPvp5rbPXw8pPKMrAUj8wT+sK8x/H+1MIvpV3er17QBUEsDBBQAAAAIAPEKeVzoRBgoYgAAAHwAAAAZAAAAY29udGVudC8wMDMtcHVibGlzaGluZy5tZE3KMQ6EIBBG4Z5T/ImteADbvYCd9QgTmUgGAkM23l673fLlfd57Z2KZV2zjyNKT6Okkrqi/9C+a/r/bEyvuMhpCUWM1SEdjiveMUXOhCEuM/orAqBQuOhlW8ElUjduXdHEPUEsDBBQAAAAIAPEKeVzLcC9LUwAAAF4AAAAXAAAAY29udGVudC8wMTAtYXBwZW5kaXgubWQ1y8ENgCAMRuF7p+gCOAA3V9AJGviNDVAJ9OD4cvH48uWFEChVmTPyieT6GLl6ReS9d1jWl/xGW51lFNIcWX4I6z1wYcASuIljqFQWy1zVytzoA1BLAQI0AxQAAAAIAPEKeVxNy9udhQAAAMIAAAAIAAAAAAAAAAEAAACkgQAAAABib29rLnltbFBLAQI0AxQAAAAIAPEKeVxAiGkxZwAAAHwAAAAWAAAAAAAAAAEAAACkgasAAABjb250ZW50LzAwMS13ZWxjb21lLm1kUEsBAjQDFAAAAAgA8Qp5XCTQY3tsAAAAogAAABYAAAAAAAAAAQAAAKSBRgEAAGNvbnRlbnQvMDAyLXdyaXRpbmcubWRQSwECNAMUAAAACADxCnlc6EQYKGIAAAB8AAAAGQAAAAAAAAABAAAApIHmAQAAY29udGVudC8wMDMtcHVibGlzaGluZy5tZFBLAQI0AxQAAAAIAPEKeVzLcC9LUwAAAF4AAAAXAAAAAAAAAAEAAACkgX8CAABjb250ZW50LzAxMC1hcHBlbmRpeC5tZFBLBQYAAAAABQAFAEoBAAAHAwAAAAANCi0tLS0tLWNoYXB0ZXJ3YW4tZjQ5MWYwMmFhNTM1YTA0OTdmOTYtLQ0K
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - 127.0.0.1:9887
+      Authorization:
+      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      Idempotency-Key:
+      - http-upload-create
+      Content-Type:
+      - multipart/form-data; boundary=----chapterwan-f491f02aa535a0497f96
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept
+      Etag:
+      - W/"a655da0972810ba8019ce38fe975b43e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b9a38658-d90c-40af-a8ae-bd67098673e8
+      X-Runtime:
+      - '0.206424'
+      Server:
+      - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
+      Date:
+      - Tue, 24 Mar 2026 22:23:34 GMT
+      Content-Length:
+      - '1681'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"upload":{"id":6,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"source_sha256":"cc1922da83341834dd67e6707d77a1137d1678ae54958ee38c89beaacc2b2964","applied_at":"2026-03-24T22:23:34.685Z","error_message":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
+        Manual","author":"Chapterwan Team","subtitle":"How to use Chapterwan","published":false,"tag_names":["manual","publishing","onboarding"],"pricing_type":"free","category_name":"General"},"units":[{"body":"#
+        Welcome\n\nChapterwan helps you publish books to the web using markdown-first
+        workflows.","kind":"page","theme":null,"title":"Welcome","external_id":"welcome","content_sha256":"440587465735cb17ce0ab714b99002c2e58959d7fcf45c0398f946925478d970"},{"body":"#
+        Writing in Markdown\n\nWrite your content in plain markdown files and keep
+        everything in version control.","kind":"page","theme":null,"title":"Writing
+        in Markdown","external_id":"writing-markdown","content_sha256":"be8205dbf8d871c223ea292556ff4e4cfa36fcab1de763ce94ed127a20c2d47a"},{"body":"#
+        Publishing\n\nWhen your content is ready, upload the source package to Chapterwan.","kind":"page","theme":null,"title":"Publishing","external_id":"publishing","content_sha256":"4d8af1d0e5982a3f040e1d55ca2a7140b2ffe567c7e1a8e3dc04634508a6c1a8"},{"body":"Reference
+        material and links.","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"8d05a59fcccef56cef4d474bcd81f27a7fb9be97752b9bcbfbfe39f287aa988d"}]},"result":{"book_id":1057022144,"units_count":4,"revision_number":1,"book_revision_id":5},"created_at":"2026-03-24T22:23:34.550Z","updated_at":"2026-03-24T22:23:34.686Z"}}'
+  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:9887/api/uploads/6
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - 127.0.0.1:9887
+      Authorization:
+      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      Idempotency-Key:
+      - http-upload-show
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept
+      Etag:
+      - W/"a655da0972810ba8019ce38fe975b43e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - dac278e7-f267-4659-bdab-fe02e664042a
+      X-Runtime:
+      - '0.006663'
+      Server:
+      - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
+      Date:
+      - Tue, 24 Mar 2026 22:23:34 GMT
+      Content-Length:
+      - '1681'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"upload":{"id":6,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"source_sha256":"cc1922da83341834dd67e6707d77a1137d1678ae54958ee38c89beaacc2b2964","applied_at":"2026-03-24T22:23:34.685Z","error_message":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
+        Manual","author":"Chapterwan Team","subtitle":"How to use Chapterwan","published":false,"tag_names":["manual","publishing","onboarding"],"pricing_type":"free","category_name":"General"},"units":[{"body":"#
+        Welcome\n\nChapterwan helps you publish books to the web using markdown-first
+        workflows.","kind":"page","theme":null,"title":"Welcome","external_id":"welcome","content_sha256":"440587465735cb17ce0ab714b99002c2e58959d7fcf45c0398f946925478d970"},{"body":"#
+        Writing in Markdown\n\nWrite your content in plain markdown files and keep
+        everything in version control.","kind":"page","theme":null,"title":"Writing
+        in Markdown","external_id":"writing-markdown","content_sha256":"be8205dbf8d871c223ea292556ff4e4cfa36fcab1de763ce94ed127a20c2d47a"},{"body":"#
+        Publishing\n\nWhen your content is ready, upload the source package to Chapterwan.","kind":"page","theme":null,"title":"Publishing","external_id":"publishing","content_sha256":"4d8af1d0e5982a3f040e1d55ca2a7140b2ffe567c7e1a8e3dc04634508a6c1a8"},{"body":"Reference
+        material and links.","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"8d05a59fcccef56cef4d474bcd81f27a7fb9be97752b9bcbfbfe39f287aa988d"}]},"result":{"book_id":1057022144,"units_count":4,"revision_number":1,"book_revision_id":5},"created_at":"2026-03-24T22:23:34.550Z","updated_at":"2026-03-24T22:23:34.686Z"}}'
+  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:9887/api/books/1057022144/revisions
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - 127.0.0.1:9887
+      Authorization:
+      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      Idempotency-Key:
+      - http-upload-revisions
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept
+      Etag:
+      - W/"1f27088469f7feb0ecc738952f54246d"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 42acbc91-56e7-41fb-9355-820700dfd189
+      X-Runtime:
+      - '0.013795'
+      Server:
+      - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
+      Date:
+      - Tue, 24 Mar 2026 22:23:34 GMT
+      Content-Length:
+      - '228'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"revisions":[{"id":5,"number":1,"source_sha256":"cc1922da83341834dd67e6707d77a1137d1678ae54958ee38c89beaacc2b2964","upload_id":6,"created_at":"2026-03-24T22:23:34.678Z"}],"current_draft_revision_id":5,"published_revision_id":5}'
+  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+- request:
+    method: get
+    uri: http://127.0.0.1:9887/api/books/1057022144/revisions/5/source
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - 127.0.0.1:9887
+      Authorization:
+      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      Idempotency-Key:
+      - http-upload-source
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - '0'
+      X-Content-Type-Options:
+      - nosniff
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Content-Type:
+      - application/json; charset=utf-8
+      Vary:
+      - Accept
+      Etag:
+      - W/"074f21e57da1b4d047594cbf8492da38"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 422f2947-1c83-493b-9089-17878d2daed2
+      X-Runtime:
+      - '0.010644'
+      Server:
+      - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
+      Date:
+      - Tue, 24 Mar 2026 22:23:34 GMT
+      Content-Length:
+      - '281'
+      Connection:
+      - Keep-Alive
+    body:
+      encoding: UTF-8
+      string: '{"source":{"upload_id":6,"filename":"chapterwan-manual.zip","content_type":"application/zip","byte_size":1127,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDc4LCJwdXIiOiJibG9iX2lkIn19--91d792fa786fc82f7815801c1e780dd75627875b/chapterwan-manual.zip"}}'
+  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+recorded_with: VCR 6.4.0
