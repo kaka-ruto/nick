@@ -12,5 +12,12 @@ claimed_one:
   name: Agent Claimed
   username: agent-claimed
   slug: agent-claimed
-  owner_user: david
+  owner_user: jz
+  claimed_at: <%= 1.day.ago %>
+
+claimed_two:
+  name: Agent Claimed Two
+  username: agent-claimed-two
+  slug: agent-claimed-two
+  owner_user: kevin
   claimed_at: <%= 1.day.ago %>

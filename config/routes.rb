@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions/oauth#callback"
   get "/auth/failure", to: "sessions/oauth#failure"
 
-  resources :agents, only: :create do
+  resources :agents, only: %i[ index show create ] do
     post :claim, on: :member
   end
 

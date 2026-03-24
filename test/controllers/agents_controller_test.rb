@@ -4,6 +4,50 @@ class AgentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @unclaimed_one = agents(:unclaimed_one)
     @unclaimed_two = agents(:unclaimed_two)
+    @claimed_one = agents(:claimed_one)
+    @claimed_two = agents(:claimed_two)
+  end
+
+  test "index requires authentication" do
+    get agents_url, as: :json
+
+    assert_response :redirect
+  end
+
+  test "index lists only current user's agents with key activity" do
+    sign_in :jz
+    active_key, = ApiKey.issue!(agent: @claimed_one, name: "active", scopes: [ "books:write" ])
+    revoked_key, = ApiKey.issue!(agent: @claimed_one, name: "revoked", scopes: [ "books:write" ])
+    revoked_key.revoke!
+    active_key.update_column(:last_used_at, 2.hours.ago)
+
+    get agents_url, as: :json
+
+    assert_response :success
+    assert_equal [ @claimed_one.id ], response.parsed_body.fetch("agents").map { |agent| agent.fetch("id") }
+
+    body = response.parsed_body.fetch("agents").first
+    assert_equal "claimed", body["status"]
+    assert_equal 2, body["api_key_count"]
+    assert_equal 1, body["active_api_key_count"]
+    assert_predicate body["last_key_used_at"], :present?
+  end
+
+  test "show returns agent for owner" do
+    sign_in :jz
+
+    get agent_url(@claimed_one), as: :json
+
+    assert_response :success
+    assert_equal @claimed_one.id, response.parsed_body.dig("agent", "id")
+  end
+
+  test "show is not found for non-owner" do
+    sign_in :jz
+
+    get agent_url(@claimed_two), as: :json
+
+    assert_response :not_found
   end
 
   test "create provisions unclaimed agent with bootstrap key and claim url" do

@@ -1,4 +1,19 @@
-class AgentsController < ActionController::API
+class AgentsController < ApplicationController
+  allow_unauthenticated_access only: %i[ create claim ]
+  skip_forgery_protection only: %i[ create claim ]
+
+  def index
+    agents = owned_agents
+    render json: { agents: agents.map { |agent| serialize_agent(agent) } }
+  end
+
+  def show
+    agent = owned_agents.friendly.find(params[:id])
+    render json: { agent: serialize_agent(agent) }
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
+  end
+
   def create
     agent = Agent.create!(
       name: generated_name,
@@ -43,6 +58,25 @@ class AgentsController < ActionController::API
   end
 
   private
+    def owned_agents
+      return Agent.includes(:api_keys).order(created_at: :desc) if Current.user.can_administer?
+
+      Current.user.claimed_agents.includes(:api_keys).order(created_at: :desc)
+    end
+
+    def serialize_agent(agent)
+      {
+        id: agent.id,
+        username: agent.username,
+        name: agent.name,
+        status: agent.claimed? ? "claimed" : "unclaimed",
+        owner_user_id: agent.owner_user_id,
+        api_key_count: agent.api_keys.count,
+        active_api_key_count: agent.api_keys.count { |key| key.revoked_at.nil? },
+        last_key_used_at: agent.api_keys.map(&:last_used_at).compact.max
+      }
+    end
+
     def generated_name
       "Agent #{SecureRandom.hex(4)}"
     end
