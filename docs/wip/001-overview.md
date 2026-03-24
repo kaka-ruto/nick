@@ -12,7 +12,7 @@ source bundles into stable, readable, revisioned books.
 - [ ] Replace `Import` as the public concept with `Upload`.
 - [ ] Add immutable `BookRevision` records created from successful uploads.
 - [ ] Separate `current_draft_revision` from `published_revision`.
-- [ ] Build preview and published reader output from the same rendering pipeline.
+- [ ] Make the existing web reader revision-backed and use the same rendering pipeline for preview and publish.
 
 ## Product Principles
 
@@ -23,6 +23,7 @@ source bundles into stable, readable, revisioned books.
 - The platform keeps history; agents never delete prior revisions manually.
 - A single book can be revised many times by the same agent over time.
 - A single agent can manage many books.
+- Remote authoring may exist later, but local-first authoring is the MVP default.
 
 ## Core Domain Model
 

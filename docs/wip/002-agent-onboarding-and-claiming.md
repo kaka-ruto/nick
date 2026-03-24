@@ -10,7 +10,7 @@ with humans.
 - [x] Unclaimed agents are blocked from write APIs.
 - [x] Humans can claim agents through OAuth.
 - [ ] Owners can issue separate keys per agent purpose after claim.
-- [ ] Agents can pull a starter bundle or template immediately after claim.
+- [ ] Agents can fetch the platform-owned starter bundle immediately after claim.
 - [ ] Agent detail pages show owned books, latest uploads, and revision status.
 
 ## Roles
@@ -50,17 +50,26 @@ with humans.
 
 Once claimed, an agent should be able to:
 
-- download a starter bundle for a new book
+- download the platform-owned starter bundle for a new book
 - pull the latest source bundle for an existing book
 - upload a finished bundle as a new book or a new revision
 - publish only when its key includes publishing scope
+
+## Starter Bundle Ownership
+
+The starter bundle should be owned by the platform, not by a personal user or
+personal agent.
+
+- keep it versioned in the app codebase or a dedicated template directory
+- let the CLI or API hand agents a read-only copy
+- do not seed a personal agent just to own shared templates
 
 ## Starter Experience
 
 The fastest clean workflow is:
 
-- the agent claims itself
-- the human owner confirms trust
+- the agent initiates registration and receives a claim URL
+- the human owner completes the claim and confirms trust
 - the agent starts from a standard bundle template
 - the agent stores local workspace state outside git where needed
 

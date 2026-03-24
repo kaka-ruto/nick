@@ -31,7 +31,7 @@ This file turns the spec into an execution sequence.
 
 ## Phase 4: Reader Build And Publication
 
-- [ ] Build canonical HTML output from `BookRevision`.
+- [ ] Make the existing reader render from `BookRevision`.
 - [ ] Attach assets and generate navigation.
 - [ ] Add publish and unpublish endpoints for revisions.
 - [ ] Support upload-and-publish when scope allows.
@@ -39,17 +39,26 @@ This file turns the spec into an execution sequence.
 
 ## Phase 5: Agent Workflow
 
-- [ ] Add bundle template tooling for new books.
+- [ ] Add a platform-owned starter bundle template for new books.
 - [ ] Add source pull for existing books.
 - [ ] Add local `validate`, `preview`, `pull`, and `upload` commands.
+- [ ] Build the local CLI in Ruby and ship it with the app.
 - [ ] Add clear conflict/rebase guidance for stale updates.
 
-## Phase 6: Migration And Cleanup
+## Phase 6: Testing And Acceptance
 
-- [ ] Keep `/api/imports` as a compatibility layer temporarily.
+- [ ] Prove the end-to-end flow by uploading the bundled Chapterwan Manual as a new book.
+- [ ] Prove the revision flow by revising and re-uploading that same manual as an existing book.
+- [ ] Add comprehensive unit and integration coverage around uploads, revisions, publication, and source pull.
+- [ ] Prefer minitest fixtures for setup and shared source data.
+- [ ] Prefer unit and integration tests for this work.
+- [ ] Do not add new controller tests or system tests for this area.
+
+## Phase 7: Cleanup
+
 - [ ] Update docs and examples to `/api/uploads`.
 - [ ] Update tests to revision terminology.
-- [ ] Remove import-first naming after migration is complete.
+- [ ] Remove `/api/imports` and import-first naming completely.
 
 ## Already In Place
 

@@ -9,9 +9,9 @@ This file defines the new-book path.
 - [ ] Parse and validate uploads asynchronously.
 - [ ] Create a `Book` automatically from `book_uid` when needed.
 - [ ] Create `BookRevision 1` from the first successful upload.
-- [ ] Build a readable HTML artifact from `BookRevision 1`.
+- [ ] Project `BookRevision 1` into the existing web reader.
 - [ ] Allow upload-and-publish with `books:publish` scope.
-- [ ] Deprecate the current two-step import/apply public workflow.
+- [ ] Remove the current `/api/imports` public workflow.
 
 ## Why `Upload` Instead Of `Import`
 
@@ -46,7 +46,7 @@ not be required for the happy path.
 3. Platform parses and validates the bundle.
 4. Platform creates the `Book` if `book_uid` is new.
 5. Platform creates immutable `BookRevision 1`.
-6. Platform builds the reader artifact.
+6. Platform projects the accepted revision into the existing reader.
 7. Platform publishes the revision if `publish=true` and scope allows it.
 
 ## Target Response Shape

@@ -5,12 +5,19 @@ good online reading experience.
 
 ## Implementation Checklist
 
-- [ ] Build a canonical HTML reader artifact from every accepted `BookRevision`.
+- [x] The app already has a web reader for books and leaves.
+- [ ] Make that existing reader explicitly revision-backed.
 - [ ] Use the same markdown renderer for preview and publish.
 - [ ] Generate a table of contents from revision structure.
 - [ ] Rewrite and fingerprint bundled asset URLs.
 - [ ] Store build warnings on the revision and upload.
 - [ ] Add a publication step that points a book at a chosen revision.
+
+## Current Foundation
+
+Chapterwan already renders books and pages on the web. The missing step is not
+inventing a second reader. The missing step is making the existing reader the
+canonical projection of an accepted `BookRevision`.
 
 ## Reader Output Contract
 
@@ -32,7 +39,7 @@ For every accepted upload:
 1. parse the source bundle
 2. normalize metadata and ordered units
 3. build `BookRevision`
-4. render canonical HTML for the online reader
+4. project the revision into the canonical online reader
 5. attach asset references
 6. generate navigation and table of contents
 

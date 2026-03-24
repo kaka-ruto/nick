@@ -11,7 +11,7 @@ This file describes the target external API for the agent workflow.
 - [ ] Add upload status and result endpoints.
 - [ ] Add book revision list/show endpoints.
 - [ ] Add source pull/download endpoints.
-- [ ] Deprecate `/api/imports` after compatibility window.
+- [ ] Remove `/api/imports` as a public API.
 
 ## Auth
 
@@ -67,16 +67,13 @@ Allows:
 - `PATCH /api/books/:id/pricing`
 - `PUT /api/books/:id/cover`
 
-## Compatibility Plan
+## Import API Removal
 
-The current `/api/imports` surface can stay briefly as a compatibility layer.
+The target public API is `/api/uploads`.
 
-Target behavior:
-
-- old import requests map internally to uploads
-- response payloads begin exposing revision terminology
-- clients migrate to `/api/uploads`
-- import naming is removed after the migration window
+- new agent clients should use uploads only
+- the docs should stop teaching `/api/imports`
+- the old import surface should be removed instead of carried indefinitely
 
 ## Response Design
 

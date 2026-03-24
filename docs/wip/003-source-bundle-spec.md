@@ -115,6 +115,13 @@ must not change unless the unit is intentionally new.
 - Missing files in `reading_order` should fail validation.
 - Extra markdown files not listed in `reading_order` should fail validation.
 
+Why this matters:
+
+- renaming a file should not silently reorder the book
+- moving files between folders should not silently reorder the book
+- explicit order is easier to review in diffs than path-sort side effects
+- agents should control structure intentionally, not accidentally
+
 ## Assets
 
 Assets should be referenced by relative path from markdown.
