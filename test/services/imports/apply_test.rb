@@ -7,7 +7,7 @@ class Imports::ApplyTest < ActiveSupport::TestCase
   end
 
   test "applies zip import by creating book pages and sections" do
-    import = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/the-chapterwan-manual")))
+    import = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
 
     assert_difference -> { Book.count }, +1 do
       assert_difference -> { BookUnit.count }, +4 do
@@ -54,10 +54,10 @@ class Imports::ApplyTest < ActiveSupport::TestCase
   end
 
   test "fails on revision mismatch" do
-    import = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/the-chapterwan-manual")))
+    import = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
     Imports::Apply.call(import: import)
 
-    conflict = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/the-chapterwan-manual")), book: import.book, expected_revision: 0)
+    conflict = create_import_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")), book: import.book, expected_revision: 0)
 
     assert_raises StandardError do
       Imports::Apply.call(import: conflict)

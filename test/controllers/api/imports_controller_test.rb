@@ -19,7 +19,7 @@ class Api::ImportsControllerTest < ActionDispatch::IntegrationTest
     import = Import.last
     assert_equal "parsed", import.status
     assert import.source_file.attached?
-    assert_equal "The Chapterwan Manual", import.plan.dig("book", "title")
+    assert_equal "Chapterwan Manual", import.plan.dig("book", "title")
     assert_equal 4, import.plan.fetch("units").size
     assert_equal "section", import.plan.fetch("units").last.fetch("kind")
   end
@@ -91,13 +91,13 @@ class Api::ImportsControllerTest < ActionDispatch::IntegrationTest
 
   private
     def bundled_upload
-      upload_zip_data(build_zip_from_directory(Rails.root.join("books/the-chapterwan-manual")))
+      upload_zip_data(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
     end
 
     def updated_bundle_upload
       zip_data = build_zip_from_hash(
         "book.yml" => <<~YML,
-          title: The Chapterwan Manual
+          title: Chapterwan Manual
           subtitle: How to use Chapterwan
           author: Chapterwan Team
           category: General

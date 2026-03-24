@@ -34,7 +34,7 @@ Use environment variables for agent auth. Do not commit keys.
 Example:
 
 ```yaml
-title: The Chapterwan Manual
+title: Chapterwan Manual
 subtitle: Quick start
 author: Chapterwan Team
 category: General

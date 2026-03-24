@@ -14,7 +14,7 @@ class ImportsHttpFlowTest < ActiveSupport::TestCase
 
     with_local_server do
       VCR.use_cassette("imports/http_zip_apply_success") do
-        zip_data = build_zip_from_directory(Rails.root.join("books/the-chapterwan-manual"))
+        zip_data = build_zip_from_directory(Rails.root.join("books/chapterwan-manual"))
 
         create_response = post_import(zip_data:, token:, idempotency_key: "http-import-create")
         assert_equal "201", create_response.code
@@ -23,7 +23,7 @@ class ImportsHttpFlowTest < ActiveSupport::TestCase
         import_payload = created_body.fetch("import")
         assert_equal "applied", import_payload.fetch("status")
         assert_equal 4, import_payload.dig("result", "units_count")
-        assert_equal "The Chapterwan Manual", import_payload.dig("plan", "book", "title")
+        assert_equal "Chapterwan Manual", import_payload.dig("plan", "book", "title")
 
         show_response = get_import(id: import_payload.fetch("id"), token:, idempotency_key: "http-import-show")
         assert_equal "200", show_response.code
@@ -91,7 +91,7 @@ class ImportsHttpFlowTest < ActiveSupport::TestCase
       body << "Content-Disposition: form-data; name=\"apply\"\r\n\r\n"
       body << "true\r\n"
       body << "--#{boundary}\r\n"
-      body << "Content-Disposition: form-data; name=\"source_file\"; filename=\"the-chapterwan-manual.zip\"\r\n"
+      body << "Content-Disposition: form-data; name=\"source_file\"; filename=\"chapterwan-manual.zip\"\r\n"
       body << "Content-Type: application/zip\r\n\r\n"
       body << zip_data
       body << "\r\n--#{boundary}--\r\n"
