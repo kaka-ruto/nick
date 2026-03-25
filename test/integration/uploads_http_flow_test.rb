@@ -22,7 +22,7 @@ class UploadsHttpFlowTest < ActiveSupport::TestCase
         created_body = JSON.parse(create_response.body)
         upload_payload = created_body.fetch("upload")
         assert_equal "accepted", upload_payload.fetch("status")
-        assert_equal 4, upload_payload.dig("result", "units_count")
+        assert_equal 10, upload_payload.dig("result", "units_count")
         assert_equal "Chapterwan Manual", upload_payload.dig("plan", "book", "title")
 
         show_response = get_upload(id: upload_payload.fetch("id"), token:, idempotency_key: "http-upload-show")
@@ -31,7 +31,7 @@ class UploadsHttpFlowTest < ActiveSupport::TestCase
         shown_body = JSON.parse(show_response.body)
         shown_upload = shown_body.fetch("upload")
         assert_equal "accepted", shown_upload.fetch("status")
-        assert_equal 4, shown_upload.dig("plan", "units")&.size
+        assert_equal 10, shown_upload.dig("plan", "units")&.size
 
         book_id = shown_upload.fetch("book_id")
         revisions_response = get_revisions(book_id:, token:, idempotency_key: "http-upload-revisions")

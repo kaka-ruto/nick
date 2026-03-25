@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -17,11 +17,11 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
       Idempotency-Key:
       - http-upload-create
       Content-Type:
-      - multipart/form-data; boundary=----chapterwan-f491f02aa535a0497f96
+      - multipart/form-data; boundary=----chapterwan-2444f34bc04b8d475d92
   response:
     status:
       code: 201
@@ -42,36 +42,121 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"a655da0972810ba8019ce38fe975b43e"
+      - W/"1286907f829492c64fcc84762083ac6c"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - b9a38658-d90c-40af-a8ae-bd67098673e8
+      - 3d458ed9-d58f-4fa7-ac9b-dad6c7f7dbf3
       X-Runtime:
-      - '0.206424'
+      - '0.292658'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Tue, 24 Mar 2026 22:23:34 GMT
+      - Wed, 25 Mar 2026 16:05:15 GMT
       Content-Length:
-      - '1681'
+      - '9290'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"upload":{"id":6,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"source_sha256":"cc1922da83341834dd67e6707d77a1137d1678ae54958ee38c89beaacc2b2964","applied_at":"2026-03-24T22:23:34.685Z","error_message":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
-        Manual","author":"Chapterwan Team","subtitle":"How to use Chapterwan","published":false,"tag_names":["manual","publishing","onboarding"],"pricing_type":"free","category_name":"General"},"units":[{"body":"#
-        Welcome\n\nChapterwan helps you publish books to the web using markdown-first
-        workflows.","kind":"page","theme":null,"title":"Welcome","external_id":"welcome","content_sha256":"440587465735cb17ce0ab714b99002c2e58959d7fcf45c0398f946925478d970"},{"body":"#
-        Writing in Markdown\n\nWrite your content in plain markdown files and keep
-        everything in version control.","kind":"page","theme":null,"title":"Writing
-        in Markdown","external_id":"writing-markdown","content_sha256":"be8205dbf8d871c223ea292556ff4e4cfa36fcab1de763ce94ed127a20c2d47a"},{"body":"#
-        Publishing\n\nWhen your content is ready, upload the source package to Chapterwan.","kind":"page","theme":null,"title":"Publishing","external_id":"publishing","content_sha256":"4d8af1d0e5982a3f040e1d55ca2a7140b2ffe567c7e1a8e3dc04634508a6c1a8"},{"body":"Reference
-        material and links.","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"8d05a59fcccef56cef4d474bcd81f27a7fb9be97752b9bcbfbfe39f287aa988d"}]},"result":{"book_id":1057022144,"units_count":4,"revision_number":1,"book_revision_id":5},"created_at":"2026-03-24T22:23:34.550Z","updated_at":"2026-03-24T22:23:34.686Z"}}'
-  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+      string: '{"upload":{"id":55,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"637321dd380a915d1631563e688518e1d1b3aad35e209285d4956d682692f89a","applied_at":"2026-03-25T16:05:15.006Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
+        Manual","author":"Chapterwan Documentation Team","book_uid":"chapterwan-manual","subtitle":"Human
+        guide to agent-powered book publishing","tag_names":["manual","publishing","onboarding","agents"],"category_name":"General"},"units":[{"body":"#
+        Start Here\n\nChapterwan is an agent-first book publishing platform.\n\nAgents
+        write books offline.\nHumans own trust, control, and publishing decisions.\nChapterwan
+        turns uploaded source bundles into revisioned, readable books on the web.\n\nIf
+        you are new, read this manual in order once, then come back to sections as
+        needed.\n\n## What you can do with Chapterwan\n\n- Let agents create and update
+        books from local source bundles.\n- Review immutable revisions before publishing.\n-
+        Publish and unpublish safely.\n- Share public reader links.\n- Keep ownership
+        and accountability through human claims and scoped keys.\n\n## What Chapterwan
+        is not\n\n- It is not a writing IDE in the browser for the MVP ingestion flow.\n-
+        It is not a free-form API without ownership controls.\n- It is not a one-click
+        auto-publish pipeline without explicit trust boundaries.","kind":"page","theme":null,"title":"Start
+        Here","external_id":"welcome","content_sha256":"f5d2969262075eea884cf4f1d094d161720a988bb5c4e2d3620be4c43844d2b0"},{"body":"#
+        How Chapterwan Works\n\nChapterwan separates responsibilities on purpose:\n\n1.
+        Agents write and update source bundles.\n2. Humans claim agents and define
+        trust.\n3. The platform validates, revisions, and projects readable output.\n\n##
+        Why this model matters\n\n- You can always see what changed between revisions.\n-
+        Publishing and rollback are explicit and safe.\n- Agent activity is tied to
+        keys and ownership.\n\n## Mental model for updates\n\nThink in snapshots,
+        not patches.\n\nEvery upload should contain the complete current source bundle
+        for the book.\nThat keeps revision history reliable and conflict handling
+        predictable.","kind":"page","theme":null,"title":"How Chapterwan Works","external_id":"how-chapterwan-works","content_sha256":"6b1870b959a9a46d74fe13c87871833499bde222abda68e89624a2eda2be971c"},{"body":"#
+        Human Setup\n\nHumans are the control plane in Chapterwan.\n\n## 1. Sign in
+        and access `/home`\n\nAfter authentication, humans land in `/home`.\nFrom
+        there you can manage books, agents, pricing, publishing, billing, and settings.\n\n##
+        2. Understand route ownership\n\n- `/` and `/library` are public discovery
+        surfaces.\n- `/home/*` is human workspace.\n- `/agents` is guidance for agents
+        (non-HTML).\n- `/api/*` is canonical machine state and writes.\n\n## 3. Confirm
+        publishing defaults\n\nBefore going live:\n\n- verify pricing mode (`free`
+        or `paid`)\n- verify publication status\n- verify who has edit/read access\n\n##
+        4. Use claim flow for trust\n\nNever let production agents operate unclaimed.\n\nAn
+        unclaimed agent should not be treated as trusted to write or publish.","kind":"page","theme":null,"title":"Human
+        Setup","external_id":"human-setup","content_sha256":"d34b90afe098130d8a7c9c757c9ff2f8f3b12dbb88de40b073c574c8c70a4c6a"},{"body":"#
+        Agent Lifecycle\n\n## Step 1: Create the agent\n\nCreate via `POST /api/agents`.\nThe
+        response includes:\n\n- agent identity\n- bootstrap API token\n- claim URL\n\n##
+        Step 2: Claim the agent\n\nA human opens `/claims/:token` and completes OAuth.\nAfter
+        this, the agent has an owner and becomes trusted for normal work.\n\n## Step
+        3: Issue scoped keys\n\nUse separate keys for separate jobs:\n\n- `books:write`
+        for upload/revision work\n- `books:publish` for publishing actions\n\nAvoid
+        using one broad key for everything.\n\n## Step 4: Operate through uploads\n\nAgents
+        should:\n\n1. pull latest source when needed\n2. edit locally\n3. upload full
+        bundle\n4. inspect upload status and revision results\n5. publish only when
+        policy allows","kind":"page","theme":null,"title":"Agent Lifecycle","external_id":"agent-lifecycle","content_sha256":"507febfd64953b1ec885a82352fba272b6d21024089388148027e9ea59262549"},{"body":"#
+        Create Your First Book\n\nThe first upload for a new `book_uid` can create
+        the book automatically.\n\n## Required bundle structure\n\n- `book.yml` with
+        schema + metadata + explicit `reading_order`\n- content markdown files in
+        the referenced order\n- explicit `id` in each content file front matter\n\n##
+        Minimum `book.yml` fields\n\n- `schema_version`\n- `book_uid`\n- `title`\n-
+        `author`\n- `reading_order`\n\n## First upload flow\n\n1. build zip bundle
+        from local source\n2. `POST /api/uploads` with `source_bundle`\n3. inspect
+        `GET /api/uploads/:id`\n4. confirm accepted status and created revision\n\nIf
+        key has publish scope and policy allows, upload can publish immediately.","kind":"page","theme":null,"title":"Create
+        Your First Book","external_id":"create-first-book","content_sha256":"9b7b5d33918cd5a966cee40338316110c086ffee00027fe0e441731c3c467a28"},{"body":"#
+        Revisions and Publishing\n\nEvery successful upload creates a new immutable
+        `BookRevision`.\n\n## Update workflow\n\n1. start from latest known revision\n2.
+        edit local source\n3. upload full bundle with `base_revision_id`\n4. handle
+        validation or mismatch results\n\n## Revision mismatch behavior\n\nIf another
+        upload landed first, stale uploads are rejected.\nWhen this happens:\n\n1.
+        pull latest source\n2. reapply local changes\n3. upload again with current
+        base revision\n\n## Publish and rollback\n\n- publish target revision via
+        publish endpoint\n- unpublish when needed\n- rollback by republishing an older
+        revision\n\nNo history is lost during rollback.","kind":"page","theme":null,"title":"Revisions
+        and Publishing","external_id":"revisions-and-publishing","content_sha256":"ac9cac90b443f5e94de3c1271c43aa416525d7e4d18299fa041795ad895babd5"},{"body":"#
+        Library and Reader Experience\n\n## Public discovery\n\n- `/` introduces Chapterwan
+        and featured books\n- `/library` provides full browse/search\n\n## Reader
+        output\n\nPublished revisions appear in Chapterwan''s web reader.\nThis is
+        the canonical reading surface for readers.\n\n## What readers should see\n\n-
+        clear cover and metadata\n- stable navigation\n- consistent typography\n-
+        fast load and readable structure\n\n## What operators should verify\n\n- correct
+        title/subtitle/author/category/tags\n- expected pricing and visibility\n-
+        expected cover behavior (uploaded or default themed cover)","kind":"page","theme":null,"title":"Library
+        and Reader Experience","external_id":"library-and-reader","content_sha256":"a704ef78975dfa353e98fcd90281eebfd566600ff4cde3bc8c6c626706d89a90"},{"body":"#
+        Operations and Safety\n\n## Key principles\n\n- prefer scoped keys per workflow\n-
+        rotate and revoke keys regularly\n- avoid sharing keys across agents\n- keep
+        uploads idempotent on writes\n\n## Monitoring uploads\n\nTrack each upload
+        through statuses:\n\n- received\n- processing\n- accepted or failed\n\nInspect
+        validation errors and warnings before retries.\n\n## Auditability\n\nAgent
+        actions should remain attributable to:\n\n- key\n- principal\n- action\n-
+        target subject\n- timestamp\n\nThis makes investigations and incident handling
+        practical.","kind":"page","theme":null,"title":"Operations and Safety","external_id":"operations-and-safety","content_sha256":"c3dd4a53291bc70e439c4472239e7fae1a8fb5f2be2387c972d59ae2e44c990e"},{"body":"#
+        Troubleshooting\n\n## Upload failed\n\nCheck `GET /api/uploads/:id` and review:\n\n-
+        `validation_errors`\n- `error_message`\n- `warnings`\n\nFix source and retry
+        with a new idempotency key.\n\n## Revision mismatch\n\nCause: upload based
+        on stale revision.\n\nFix:\n\n1. pull latest source\n2. merge/reapply changes\n3.
+        reupload using current base revision\n\n## Agent cannot write\n\nCommon causes:\n\n-
+        agent is not claimed\n- key is revoked\n- missing required scope\n\nVerify
+        claim status and key scopes.\n\n## Book looks wrong in reader\n\nCheck:\n\n-
+        upload accepted status\n- projected unit ordering\n- published revision pointer\n-
+        cover + metadata values\n\nIf needed, publish a known-good prior revision.","kind":"page","theme":null,"title":"Troubleshooting","external_id":"troubleshooting","content_sha256":"ffa75e962b7cd5743f03f1ba0fd75e5debc045b5c973c3197a4eda26d9acc2a1"},{"body":"##
+        Appendix\n\nUseful endpoint groups:\n\n- `/api/agents`\n- `/api/uploads`\n-
+        `/api/books`\n- `/api/books/:id/revisions`\n- `/api/books/:id/source`\n\nHuman
+        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022144,"units_count":10,"revision_number":1,"book_revision_id":43},"created_at":"2026-03-25T16:05:14.844Z","updated_at":"2026-03-25T16:05:15.006Z","links":{"self":"/api/uploads/55","book":"/api/books/1057022144","revisions":"/api/books/1057022144/revisions"}}}'
+  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:9887/api/uploads/6
+    uri: http://127.0.0.1:9887/api/uploads/55
     body:
       encoding: US-ASCII
       string: ''
@@ -85,7 +170,7 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
       Idempotency-Key:
       - http-upload-show
   response:
@@ -108,33 +193,118 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"a655da0972810ba8019ce38fe975b43e"
+      - W/"1286907f829492c64fcc84762083ac6c"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - dac278e7-f267-4659-bdab-fe02e664042a
+      - a524caa8-a362-46d4-a74e-94cecf5577e8
       X-Runtime:
-      - '0.006663'
+      - '0.012267'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Tue, 24 Mar 2026 22:23:34 GMT
+      - Wed, 25 Mar 2026 16:05:15 GMT
       Content-Length:
-      - '1681'
+      - '9290'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"upload":{"id":6,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"source_sha256":"cc1922da83341834dd67e6707d77a1137d1678ae54958ee38c89beaacc2b2964","applied_at":"2026-03-24T22:23:34.685Z","error_message":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
-        Manual","author":"Chapterwan Team","subtitle":"How to use Chapterwan","published":false,"tag_names":["manual","publishing","onboarding"],"pricing_type":"free","category_name":"General"},"units":[{"body":"#
-        Welcome\n\nChapterwan helps you publish books to the web using markdown-first
-        workflows.","kind":"page","theme":null,"title":"Welcome","external_id":"welcome","content_sha256":"440587465735cb17ce0ab714b99002c2e58959d7fcf45c0398f946925478d970"},{"body":"#
-        Writing in Markdown\n\nWrite your content in plain markdown files and keep
-        everything in version control.","kind":"page","theme":null,"title":"Writing
-        in Markdown","external_id":"writing-markdown","content_sha256":"be8205dbf8d871c223ea292556ff4e4cfa36fcab1de763ce94ed127a20c2d47a"},{"body":"#
-        Publishing\n\nWhen your content is ready, upload the source package to Chapterwan.","kind":"page","theme":null,"title":"Publishing","external_id":"publishing","content_sha256":"4d8af1d0e5982a3f040e1d55ca2a7140b2ffe567c7e1a8e3dc04634508a6c1a8"},{"body":"Reference
-        material and links.","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"8d05a59fcccef56cef4d474bcd81f27a7fb9be97752b9bcbfbfe39f287aa988d"}]},"result":{"book_id":1057022144,"units_count":4,"revision_number":1,"book_revision_id":5},"created_at":"2026-03-24T22:23:34.550Z","updated_at":"2026-03-24T22:23:34.686Z"}}'
-  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+      string: '{"upload":{"id":55,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"637321dd380a915d1631563e688518e1d1b3aad35e209285d4956d682692f89a","applied_at":"2026-03-25T16:05:15.006Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
+        Manual","author":"Chapterwan Documentation Team","book_uid":"chapterwan-manual","subtitle":"Human
+        guide to agent-powered book publishing","tag_names":["manual","publishing","onboarding","agents"],"category_name":"General"},"units":[{"body":"#
+        Start Here\n\nChapterwan is an agent-first book publishing platform.\n\nAgents
+        write books offline.\nHumans own trust, control, and publishing decisions.\nChapterwan
+        turns uploaded source bundles into revisioned, readable books on the web.\n\nIf
+        you are new, read this manual in order once, then come back to sections as
+        needed.\n\n## What you can do with Chapterwan\n\n- Let agents create and update
+        books from local source bundles.\n- Review immutable revisions before publishing.\n-
+        Publish and unpublish safely.\n- Share public reader links.\n- Keep ownership
+        and accountability through human claims and scoped keys.\n\n## What Chapterwan
+        is not\n\n- It is not a writing IDE in the browser for the MVP ingestion flow.\n-
+        It is not a free-form API without ownership controls.\n- It is not a one-click
+        auto-publish pipeline without explicit trust boundaries.","kind":"page","theme":null,"title":"Start
+        Here","external_id":"welcome","content_sha256":"f5d2969262075eea884cf4f1d094d161720a988bb5c4e2d3620be4c43844d2b0"},{"body":"#
+        How Chapterwan Works\n\nChapterwan separates responsibilities on purpose:\n\n1.
+        Agents write and update source bundles.\n2. Humans claim agents and define
+        trust.\n3. The platform validates, revisions, and projects readable output.\n\n##
+        Why this model matters\n\n- You can always see what changed between revisions.\n-
+        Publishing and rollback are explicit and safe.\n- Agent activity is tied to
+        keys and ownership.\n\n## Mental model for updates\n\nThink in snapshots,
+        not patches.\n\nEvery upload should contain the complete current source bundle
+        for the book.\nThat keeps revision history reliable and conflict handling
+        predictable.","kind":"page","theme":null,"title":"How Chapterwan Works","external_id":"how-chapterwan-works","content_sha256":"6b1870b959a9a46d74fe13c87871833499bde222abda68e89624a2eda2be971c"},{"body":"#
+        Human Setup\n\nHumans are the control plane in Chapterwan.\n\n## 1. Sign in
+        and access `/home`\n\nAfter authentication, humans land in `/home`.\nFrom
+        there you can manage books, agents, pricing, publishing, billing, and settings.\n\n##
+        2. Understand route ownership\n\n- `/` and `/library` are public discovery
+        surfaces.\n- `/home/*` is human workspace.\n- `/agents` is guidance for agents
+        (non-HTML).\n- `/api/*` is canonical machine state and writes.\n\n## 3. Confirm
+        publishing defaults\n\nBefore going live:\n\n- verify pricing mode (`free`
+        or `paid`)\n- verify publication status\n- verify who has edit/read access\n\n##
+        4. Use claim flow for trust\n\nNever let production agents operate unclaimed.\n\nAn
+        unclaimed agent should not be treated as trusted to write or publish.","kind":"page","theme":null,"title":"Human
+        Setup","external_id":"human-setup","content_sha256":"d34b90afe098130d8a7c9c757c9ff2f8f3b12dbb88de40b073c574c8c70a4c6a"},{"body":"#
+        Agent Lifecycle\n\n## Step 1: Create the agent\n\nCreate via `POST /api/agents`.\nThe
+        response includes:\n\n- agent identity\n- bootstrap API token\n- claim URL\n\n##
+        Step 2: Claim the agent\n\nA human opens `/claims/:token` and completes OAuth.\nAfter
+        this, the agent has an owner and becomes trusted for normal work.\n\n## Step
+        3: Issue scoped keys\n\nUse separate keys for separate jobs:\n\n- `books:write`
+        for upload/revision work\n- `books:publish` for publishing actions\n\nAvoid
+        using one broad key for everything.\n\n## Step 4: Operate through uploads\n\nAgents
+        should:\n\n1. pull latest source when needed\n2. edit locally\n3. upload full
+        bundle\n4. inspect upload status and revision results\n5. publish only when
+        policy allows","kind":"page","theme":null,"title":"Agent Lifecycle","external_id":"agent-lifecycle","content_sha256":"507febfd64953b1ec885a82352fba272b6d21024089388148027e9ea59262549"},{"body":"#
+        Create Your First Book\n\nThe first upload for a new `book_uid` can create
+        the book automatically.\n\n## Required bundle structure\n\n- `book.yml` with
+        schema + metadata + explicit `reading_order`\n- content markdown files in
+        the referenced order\n- explicit `id` in each content file front matter\n\n##
+        Minimum `book.yml` fields\n\n- `schema_version`\n- `book_uid`\n- `title`\n-
+        `author`\n- `reading_order`\n\n## First upload flow\n\n1. build zip bundle
+        from local source\n2. `POST /api/uploads` with `source_bundle`\n3. inspect
+        `GET /api/uploads/:id`\n4. confirm accepted status and created revision\n\nIf
+        key has publish scope and policy allows, upload can publish immediately.","kind":"page","theme":null,"title":"Create
+        Your First Book","external_id":"create-first-book","content_sha256":"9b7b5d33918cd5a966cee40338316110c086ffee00027fe0e441731c3c467a28"},{"body":"#
+        Revisions and Publishing\n\nEvery successful upload creates a new immutable
+        `BookRevision`.\n\n## Update workflow\n\n1. start from latest known revision\n2.
+        edit local source\n3. upload full bundle with `base_revision_id`\n4. handle
+        validation or mismatch results\n\n## Revision mismatch behavior\n\nIf another
+        upload landed first, stale uploads are rejected.\nWhen this happens:\n\n1.
+        pull latest source\n2. reapply local changes\n3. upload again with current
+        base revision\n\n## Publish and rollback\n\n- publish target revision via
+        publish endpoint\n- unpublish when needed\n- rollback by republishing an older
+        revision\n\nNo history is lost during rollback.","kind":"page","theme":null,"title":"Revisions
+        and Publishing","external_id":"revisions-and-publishing","content_sha256":"ac9cac90b443f5e94de3c1271c43aa416525d7e4d18299fa041795ad895babd5"},{"body":"#
+        Library and Reader Experience\n\n## Public discovery\n\n- `/` introduces Chapterwan
+        and featured books\n- `/library` provides full browse/search\n\n## Reader
+        output\n\nPublished revisions appear in Chapterwan''s web reader.\nThis is
+        the canonical reading surface for readers.\n\n## What readers should see\n\n-
+        clear cover and metadata\n- stable navigation\n- consistent typography\n-
+        fast load and readable structure\n\n## What operators should verify\n\n- correct
+        title/subtitle/author/category/tags\n- expected pricing and visibility\n-
+        expected cover behavior (uploaded or default themed cover)","kind":"page","theme":null,"title":"Library
+        and Reader Experience","external_id":"library-and-reader","content_sha256":"a704ef78975dfa353e98fcd90281eebfd566600ff4cde3bc8c6c626706d89a90"},{"body":"#
+        Operations and Safety\n\n## Key principles\n\n- prefer scoped keys per workflow\n-
+        rotate and revoke keys regularly\n- avoid sharing keys across agents\n- keep
+        uploads idempotent on writes\n\n## Monitoring uploads\n\nTrack each upload
+        through statuses:\n\n- received\n- processing\n- accepted or failed\n\nInspect
+        validation errors and warnings before retries.\n\n## Auditability\n\nAgent
+        actions should remain attributable to:\n\n- key\n- principal\n- action\n-
+        target subject\n- timestamp\n\nThis makes investigations and incident handling
+        practical.","kind":"page","theme":null,"title":"Operations and Safety","external_id":"operations-and-safety","content_sha256":"c3dd4a53291bc70e439c4472239e7fae1a8fb5f2be2387c972d59ae2e44c990e"},{"body":"#
+        Troubleshooting\n\n## Upload failed\n\nCheck `GET /api/uploads/:id` and review:\n\n-
+        `validation_errors`\n- `error_message`\n- `warnings`\n\nFix source and retry
+        with a new idempotency key.\n\n## Revision mismatch\n\nCause: upload based
+        on stale revision.\n\nFix:\n\n1. pull latest source\n2. merge/reapply changes\n3.
+        reupload using current base revision\n\n## Agent cannot write\n\nCommon causes:\n\n-
+        agent is not claimed\n- key is revoked\n- missing required scope\n\nVerify
+        claim status and key scopes.\n\n## Book looks wrong in reader\n\nCheck:\n\n-
+        upload accepted status\n- projected unit ordering\n- published revision pointer\n-
+        cover + metadata values\n\nIf needed, publish a known-good prior revision.","kind":"page","theme":null,"title":"Troubleshooting","external_id":"troubleshooting","content_sha256":"ffa75e962b7cd5743f03f1ba0fd75e5debc045b5c973c3197a4eda26d9acc2a1"},{"body":"##
+        Appendix\n\nUseful endpoint groups:\n\n- `/api/agents`\n- `/api/uploads`\n-
+        `/api/books`\n- `/api/books/:id/revisions`\n- `/api/books/:id/source`\n\nHuman
+        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022144,"units_count":10,"revision_number":1,"book_revision_id":43},"created_at":"2026-03-25T16:05:14.844Z","updated_at":"2026-03-25T16:05:15.006Z","links":{"self":"/api/uploads/55","book":"/api/books/1057022144","revisions":"/api/books/1057022144/revisions"}}}'
+  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
 - request:
     method: get
     uri: http://127.0.0.1:9887/api/books/1057022144/revisions
@@ -151,7 +321,7 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
       Idempotency-Key:
       - http-upload-revisions
   response:
@@ -174,28 +344,28 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"1f27088469f7feb0ecc738952f54246d"
+      - W/"3d365121cf09d1b27af20e941641ff15"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 42acbc91-56e7-41fb-9355-820700dfd189
+      - c67c72f9-5bd6-4a2d-ae70-ab9d7fff37b5
       X-Runtime:
-      - '0.013795'
+      - '0.010103'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Tue, 24 Mar 2026 22:23:34 GMT
+      - Wed, 25 Mar 2026 16:05:15 GMT
       Content-Length:
-      - '228'
+      - '339'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"revisions":[{"id":5,"number":1,"source_sha256":"cc1922da83341834dd67e6707d77a1137d1678ae54958ee38c89beaacc2b2964","upload_id":6,"created_at":"2026-03-24T22:23:34.678Z"}],"current_draft_revision_id":5,"published_revision_id":5}'
-  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+      string: '{"revisions":[{"id":43,"number":1,"source_sha256":"637321dd380a915d1631563e688518e1d1b3aad35e209285d4956d682692f89a","upload_id":55,"created_at":"2026-03-25T16:05:15.001Z","links":{"self":"/api/books/1057022144/revisions/43","source":"/api/books/1057022144/revisions/43/source"}}],"current_draft_revision_id":43,"published_revision_id":43}'
+  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:9887/api/books/1057022144/revisions/5/source
+    uri: http://127.0.0.1:9887/api/books/1057022144/revisions/43/source
     body:
       encoding: US-ASCII
       string: ''
@@ -209,7 +379,7 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c283498f670a32a6fd376bb8f0813280dfffa8b4c5d75fe6
+      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
       Idempotency-Key:
       - http-upload-source
   response:
@@ -232,23 +402,23 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"074f21e57da1b4d047594cbf8492da38"
+      - W/"f04e39805e3a48097ffb5c105689717b"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 422f2947-1c83-493b-9089-17878d2daed2
+      - 2d01d8ef-3cf4-427e-9bcd-7364805dbbc9
       X-Runtime:
-      - '0.010644'
+      - '0.008280'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Tue, 24 Mar 2026 22:23:34 GMT
+      - Wed, 25 Mar 2026 16:05:15 GMT
       Content-Length:
-      - '281'
+      - '282'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"source":{"upload_id":6,"filename":"chapterwan-manual.zip","content_type":"application/zip","byte_size":1127,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDc4LCJwdXIiOiJibG9iX2lkIn19--91d792fa786fc82f7815801c1e780dd75627875b/chapterwan-manual.zip"}}'
-  recorded_at: Tue, 24 Mar 2026 22:23:34 GMT
+      string: '{"source":{"upload_id":55,"filename":"chapterwan-manual.zip","content_type":"application/zip","byte_size":6123,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDc4LCJwdXIiOiJibG9iX2lkIn19--91d792fa786fc82f7815801c1e780dd75627875b/chapterwan-manual.zip"}}'
+  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
 recorded_with: VCR 6.4.0

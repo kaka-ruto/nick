@@ -10,7 +10,7 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
     upload = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
 
     assert_difference -> { Book.count }, +1 do
-      assert_difference -> { BookUnit.count }, +4 do
+      assert_difference -> { BookUnit.count }, +10 do
         assert_difference -> { BookRevision.count }, +1 do
           Uploads::Apply.call(upload: upload, publish: true)
         end
@@ -20,8 +20,12 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
     upload.reload
     assert_equal "accepted", upload.status
     assert_equal 1, upload.book.import_revision
-    assert_equal [ "Page", "Page", "Page", "Section" ], upload.book.book_units.order(:position).map { |unit| unit.leaf.leafable_type }
-    assert_equal [ "Welcome", "Writing in Markdown", "Publishing", "Appendix" ], upload.book.book_units.order(:position).map { |unit| unit.leaf.title }
+    assert_equal [ "Page", "Page", "Page", "Page", "Page", "Page", "Page", "Page", "Page", "Section" ], upload.book.book_units.order(:position).map { |unit| unit.leaf.leafable_type }
+    assert_equal(
+      [ "Start Here", "How Chapterwan Works", "Human Setup", "Agent Lifecycle", "Create Your First Book",
+        "Revisions and Publishing", "Library and Reader Experience", "Operations and Safety", "Troubleshooting", "Appendix" ],
+      upload.book.book_units.order(:position).map { |unit| unit.leaf.title }
+    )
     assert_equal upload.book.current_draft_revision_id, upload.book.published_revision_id
   end
 

@@ -54,11 +54,15 @@ class Uploads::MarkdownParserTest < ActiveSupport::TestCase
 
     assert_equal "Chapterwan Manual", result.book_attributes[:title]
     assert_equal "General", result.book_attributes[:category_name]
-    assert_equal [ "manual", "publishing", "onboarding" ], result.book_attributes[:tag_names]
+    assert_equal [ "manual", "publishing", "onboarding", "agents" ], result.book_attributes[:tag_names]
 
-    assert_equal 4, result.units.size
-    assert_equal [ "welcome", "writing-markdown", "publishing", "appendix" ], result.units.map { |u| u[:external_id] }
-    assert_equal [ "page", "page", "page", "section" ], result.units.map { |u| u[:kind] }
+    assert_equal 10, result.units.size
+    assert_equal(
+      [ "welcome", "how-chapterwan-works", "human-setup", "agent-lifecycle", "create-first-book",
+        "revisions-and-publishing", "library-and-reader", "operations-and-safety", "troubleshooting", "appendix" ],
+      result.units.map { |u| u[:external_id] }
+    )
+    assert_equal [ "page", "page", "page", "page", "page", "page", "page", "page", "page", "section" ], result.units.map { |u| u[:kind] }
     assert_equal "dark", result.units.last[:theme]
   end
 
