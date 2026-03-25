@@ -18,6 +18,13 @@ Common agent instructions for this repository.
 - Agent-first writing is out of scope for MVP ingestion: agents submit already-written work.
 - Prioritize fast, lovable, usable MVP delivery over hardening work not explicitly requested.
 
+## Frontend Styling Rules
+
+- For every new view, use Tailwind utility classes for styling.
+- When updating an existing view, prefer Tailwind classes for any new or changed styling.
+- Do not add new raw CSS files or selectors for view styling unless the user explicitly asks for it.
+- Existing legacy CSS can remain in place until the related view is updated.
+
 ## Backend/Infra Rules
 
 - Database support is Postgres only. Do not add or restore SQLite behavior.
