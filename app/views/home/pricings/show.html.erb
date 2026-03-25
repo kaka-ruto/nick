@@ -1,22 +1,22 @@
 <% content_for(:title) { "Pricing | Home" } %>
-<% @layout_class = "min-h-screen bg-slate-100 text-slate-900" %>
+<% @layout_class = "min-h-screen text-[color:var(--cw-ink)]" %>
+<% content_for :header do %>
+  <%= render "home/header", title: "Pricing" %>
+<% end %>
 
 <section class="mx-auto w-full max-w-7xl px-6 py-10 md:px-10">
-  <div class="mb-6 flex items-end justify-between">
-    <div>
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Human workspace</p>
-      <h1 class="mt-1 text-3xl font-semibold">Pricing</h1>
-    </div>
-    <%= link_to "Back to home", home_path, class: "rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:border-slate-400" %>
+  <div class="mb-6">
+    <p class="cw-kicker">Commercial controls</p>
+    <h1 class="mt-1 text-4xl font-semibold">Pricing</h1>
   </div>
 
-  <article class="rounded-2xl border border-slate-200 bg-white p-6">
-    <h2 class="text-lg font-semibold">Book pricing inventory</h2>
+  <article class="cw-panel p-6">
+    <h2 class="text-2xl font-semibold">Book pricing inventory</h2>
     <div class="mt-4 space-y-2">
       <% @books.each do |book| %>
-        <div class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+        <div class="cw-panel-soft px-3 py-2 text-sm">
           <span class="font-medium"><%= book.title %></span>
-          <span class="text-slate-500">· <%= book.pricing_type %> · <%= book.price_cents || 0 %> cents</span>
+          <span class="text-[color:var(--cw-muted)]">· <%= book.pricing_type %> · <%= book.price_cents || 0 %> cents</span>
         </div>
       <% end %>
     </div>

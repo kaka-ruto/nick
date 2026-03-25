@@ -1,71 +1,55 @@
 <% content_for(:title) { "Home | Chapterwan" } %>
-<% @layout_class = "min-h-screen bg-slate-950 text-slate-100" %>
-
+<% @layout_class = "min-h-screen text-[color:var(--cw-ink)]" %>
 <% content_for :header do %>
-  <header class="border-b border-slate-800 bg-slate-950/95 backdrop-blur">
-    <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-10">
-      <div>
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Human workspace</p>
-        <h1 class="text-xl font-semibold text-white">Home</h1>
-      </div>
-      <nav class="flex items-center gap-2">
-        <%= link_to "Books", home_books_path, class: "rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500" %>
-        <%= link_to "Agents", home_agents_path, class: "rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500" %>
-        <%= link_to "Pricing", home_pricing_path, class: "rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500" %>
-        <%= link_to "Publishing", home_publishing_path, class: "rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500" %>
-        <%= link_to "Billing", home_billing_path, class: "rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500" %>
-        <%= link_to "Settings", home_settings_path, class: "rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 hover:border-slate-500" %>
-      </nav>
-    </div>
-  </header>
+  <%= render "home/header", title: "Overview" %>
 <% end %>
 
 <section class="mx-auto w-full max-w-7xl space-y-6 px-6 py-8 md:px-10">
   <div class="grid gap-4 md:grid-cols-4">
-    <article class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Books in scope</p>
-      <p class="mt-2 text-3xl font-semibold text-white"><%= @books.count %></p>
+    <article class="cw-panel p-4">
+      <p class="cw-kicker">Books in scope</p>
+      <p class="mt-2 text-3xl font-semibold"><%= @books.count %></p>
     </article>
-    <article class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Owned agents</p>
-      <p class="mt-2 text-3xl font-semibold text-white"><%= @agents.count %></p>
+    <article class="cw-panel p-4">
+      <p class="cw-kicker">Owned agents</p>
+      <p class="mt-2 text-3xl font-semibold"><%= @agents.count %></p>
     </article>
-    <article class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Uploads to review</p>
-      <p class="mt-2 text-3xl font-semibold text-white"><%= @recent_uploads.count { |upload| upload.failed? || upload.validation_errors.present? } %></p>
+    <article class="cw-panel p-4">
+      <p class="cw-kicker">Uploads to review</p>
+      <p class="mt-2 text-3xl font-semibold"><%= @recent_uploads.count { |upload| upload.failed? || upload.validation_errors.present? } %></p>
     </article>
-    <article class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-      <p class="text-xs uppercase tracking-[0.16em] text-slate-500">Drafts awaiting publish</p>
-      <p class="mt-2 text-3xl font-semibold text-white"><%= @pending_publications.count %></p>
+    <article class="cw-panel p-4">
+      <p class="cw-kicker">Drafts awaiting publish</p>
+      <p class="mt-2 text-3xl font-semibold"><%= @pending_publications.count %></p>
     </article>
   </div>
 
   <div class="grid gap-4 md:grid-cols-2">
-    <article class="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+    <article class="cw-panel p-5">
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-white">Recent uploads</h2>
-        <span class="text-xs uppercase tracking-[0.16em] text-slate-500">Latest activity</span>
+        <h2 class="text-2xl font-semibold">Recent uploads</h2>
+        <span class="cw-kicker">Latest activity</span>
       </div>
       <div class="mt-4 space-y-3">
         <% @recent_uploads.each do |upload| %>
-          <div class="rounded-xl border border-slate-800 bg-slate-950/40 px-3 py-2 text-sm">
-            <p class="font-medium text-slate-100">Upload #<%= upload.id %> · <%= upload.status %></p>
-            <p class="text-slate-400"><%= upload.book&.title || "Unlinked book" %> · <%= upload.created_at.to_fs(:short) %></p>
+          <div class="cw-panel-soft px-3 py-2 text-sm">
+            <p class="font-medium">Upload #<%= upload.id %> · <%= upload.status %></p>
+            <p class="text-[color:var(--cw-muted)]"><%= upload.book&.title || "Unlinked book" %> · <%= upload.created_at.to_fs(:short) %></p>
           </div>
         <% end %>
       </div>
     </article>
 
-    <article class="rounded-2xl border border-slate-800 bg-slate-900 p-5">
+    <article class="cw-panel p-5">
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-white">Books needing action</h2>
-        <span class="text-xs uppercase tracking-[0.16em] text-slate-500">Publishing queue</span>
+        <h2 class="text-2xl font-semibold">Books needing action</h2>
+        <span class="cw-kicker">Publishing queue</span>
       </div>
       <div class="mt-4 space-y-3">
         <% @pending_publications.each do |book| %>
-          <div class="rounded-xl border border-slate-800 bg-slate-950/40 px-3 py-2 text-sm">
-            <p class="font-medium text-slate-100"><%= book.title %></p>
-            <p class="text-slate-400">Draft revision #<%= book.current_draft_revision&.number || "n/a" %> · Published: <%= book.published? ? "yes" : "no" %></p>
+          <div class="cw-panel-soft px-3 py-2 text-sm">
+            <p class="font-medium"><%= book.title %></p>
+            <p class="text-[color:var(--cw-muted)]">Draft revision #<%= book.current_draft_revision&.number || "n/a" %> · Published: <%= book.published? ? "yes" : "no" %></p>
           </div>
         <% end %>
       </div>

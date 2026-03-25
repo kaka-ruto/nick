@@ -10,6 +10,6 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     sign_in :david
     get home_url
     assert_response :success
-    assert_select "h1", text: "Home"
+    assert_select "h1", text: "Overview"
   end
 end

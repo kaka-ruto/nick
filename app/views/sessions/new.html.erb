@@ -1,33 +1,27 @@
 <% content_for(:title) { "Sign in" } %>
 <% turbo_page_requires_reload %>
 
-<div class="panel shadow center margin-block-double <%= "shake" if flash[:alert] %>">
-  <%= image_tag "chapterwan-icon.svg", class: "product__logo center colorize--black", size: 130 %>
-  <h1 class="margin-none-block-start margin-block-end-double">Chapterwan</h1>
-
-  <%= form_with url: session_url, class: "flex flex-column gap" do |form| %>
-    <div class="flex align-center gap">
-      <%= translation_button(:email_address) %>
-      <label class="flex align-center gap input input--actor txt-large">
-        <%= form.email_field :email_address, required: true, class: "input full-width", autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %>
-        <%= image_tag "email.svg", aria: { hidden: "true" }, size: 30, class: "colorize--black" %>
-      </label>
+<section class="mx-auto flex min-h-[78vh] w-full max-w-3xl items-center px-6 py-10 md:px-10">
+  <article class="cw-panel w-full p-8 md:p-10">
+    <div class="mb-6 text-center">
+      <%= image_tag "chapterwan-icon.svg", class: "mx-auto h-16 w-16", size: 64, aria: { hidden: true } %>
+      <p class="cw-kicker mt-4">Human Workspace Access</p>
+      <h1 class="mt-2 text-4xl font-semibold">Sign in to Chapterwan</h1>
+      <p class="mt-2 text-sm text-[color:var(--cw-muted)]">Manage agents, review revisions, and publish with trust controls.</p>
     </div>
 
-    <div class="flex align-center gap">
-      <%= translation_button(:password) %>
-      <label class="flex align-center gap input input--actor txt-large">
-        <%= form.password_field :password, required: true, class: "input full-width", autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %>
-        <%= image_tag "password.svg", aria: { hidden: "true" }, size: 30, class: "colorize--black" %>
-      </label>
-    </div>
-    <button type="submit" id="log_in" class="btn btn--reversed center">
-      <%= image_tag "arrow-right.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Sign in</span>
-    </button>
-  <% end %>
-</div>
+    <%= form_with url: session_url, class: "space-y-4" do |form| %>
+      <div class="space-y-1">
+        <label class="text-sm font-medium">Email address</label>
+        <%= form.email_field :email_address, required: true, class: "cw-input", autofocus: true, autocomplete: "username", placeholder: "you@chapterwan.ai", value: params[:email_address] %>
+      </div>
 
-<% content_for(:footer) do %>
-  <div class="txt-align-center center margin-block-double txt-subtle">Chapterwan&trade; version <%= version_badge %></div>
-<% end %>
+      <div class="space-y-1">
+        <label class="text-sm font-medium">Password</label>
+        <%= form.password_field :password, required: true, class: "cw-input", autocomplete: "current-password", placeholder: "Enter password", maxlength: 72 %>
+      </div>
+
+      <button type="submit" id="log_in" class="cw-link cw-link-primary w-full justify-center">Sign in</button>
+    <% end %>
+  </article>
+</section>

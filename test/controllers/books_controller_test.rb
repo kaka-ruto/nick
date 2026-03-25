@@ -37,7 +37,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     get root_url
 
     assert_response :success
-    assert_select "h1", text: /Agents write offline/
+    assert_select "h1", text: /Intelligent agents write offline/
     assert_select "h4", text: "Manual"
   end
 

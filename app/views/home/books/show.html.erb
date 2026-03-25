@@ -1,44 +1,47 @@
 <% content_for(:title) { "#{@book.title} | Home Books" } %>
-<% @layout_class = "min-h-screen bg-slate-100 text-slate-900" %>
+<% @layout_class = "min-h-screen text-[color:var(--cw-ink)]" %>
+<% content_for :header do %>
+  <%= render "home/header", title: "Book Detail" %>
+<% end %>
 
 <section class="mx-auto w-full max-w-7xl space-y-6 px-6 py-10 md:px-10">
   <div class="flex items-start justify-between gap-4">
     <div>
-      <p class="text-xs uppercase tracking-[0.16em] text-slate-500"><%= @book.category.name %></p>
+      <p class="cw-kicker"><%= @book.category.name %></p>
       <h1 class="mt-2 text-3xl font-semibold"><%= @book.title %></h1>
-      <p class="mt-1 text-slate-600"><%= @book.author %></p>
+      <p class="mt-1 text-[color:var(--cw-muted)]"><%= @book.author %></p>
     </div>
-    <%= link_to "Back to books", home_books_path, class: "rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:border-slate-400" %>
+    <%= link_to "Back to books", home_books_path, class: "cw-link" %>
   </div>
 
   <div class="grid gap-4 md:grid-cols-2">
-    <article class="rounded-2xl border border-slate-200 bg-white p-5">
+    <article class="cw-panel p-5">
       <h2 class="text-lg font-semibold">Revision state</h2>
       <dl class="mt-4 space-y-2 text-sm">
         <div class="flex justify-between">
-          <dt class="text-slate-500">Current draft</dt>
+          <dt class="text-[color:var(--cw-muted)]">Current draft</dt>
           <dd class="font-medium"><%= @book.current_draft_revision&.number || "n/a" %></dd>
         </div>
         <div class="flex justify-between">
-          <dt class="text-slate-500">Published revision</dt>
+          <dt class="text-[color:var(--cw-muted)]">Published revision</dt>
           <dd class="font-medium"><%= @book.published_revision&.number || "none" %></dd>
         </div>
         <div class="flex justify-between">
-          <dt class="text-slate-500">Published flag</dt>
+          <dt class="text-[color:var(--cw-muted)]">Published flag</dt>
           <dd class="font-medium"><%= @book.published? ? "yes" : "no" %></dd>
         </div>
       </dl>
     </article>
 
-    <article class="rounded-2xl border border-slate-200 bg-white p-5">
+    <article class="cw-panel p-5">
       <h2 class="text-lg font-semibold">Commerce</h2>
       <dl class="mt-4 space-y-2 text-sm">
         <div class="flex justify-between">
-          <dt class="text-slate-500">Pricing type</dt>
+          <dt class="text-[color:var(--cw-muted)]">Pricing type</dt>
           <dd class="font-medium"><%= @book.pricing_type %></dd>
         </div>
         <div class="flex justify-between">
-          <dt class="text-slate-500">Price cents</dt>
+          <dt class="text-[color:var(--cw-muted)]">Price cents</dt>
           <dd class="font-medium"><%= @book.price_cents || 0 %></dd>
         </div>
       </dl>
@@ -46,21 +49,21 @@
   </div>
 
   <div class="grid gap-4 md:grid-cols-2">
-    <article class="rounded-2xl border border-slate-200 bg-white p-5">
+    <article class="cw-panel p-5">
       <h2 class="text-lg font-semibold">Recent revisions</h2>
       <div class="mt-4 space-y-2">
         <% @revisions.each do |revision| %>
-          <div class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+          <div class="cw-panel-soft px-3 py-2 text-sm">
             Revision #<%= revision.number %> · upload #<%= revision.upload_id %> · <%= revision.created_at.to_fs(:short) %>
           </div>
         <% end %>
       </div>
     </article>
-    <article class="rounded-2xl border border-slate-200 bg-white p-5">
+    <article class="cw-panel p-5">
       <h2 class="text-lg font-semibold">Recent uploads</h2>
       <div class="mt-4 space-y-2">
         <% @uploads.each do |upload| %>
-          <div class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+          <div class="cw-panel-soft px-3 py-2 text-sm">
             Upload #<%= upload.id %> · <%= upload.status %> · <%= upload.created_at.to_fs(:short) %>
           </div>
         <% end %>

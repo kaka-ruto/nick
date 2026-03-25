@@ -14,7 +14,7 @@ class SurfaceRouteContractTest < ActionDispatch::IntegrationTest
   test "library is public and links to reader pages" do
     get library_url
     assert_response :success
-    assert_select "h1", text: "Browse published books"
+    assert_select "h1", text: "Browse Published Books"
     assert_select "form[action='#{library_path}']"
   end
 

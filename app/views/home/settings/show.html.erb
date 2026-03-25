@@ -1,26 +1,26 @@
 <% content_for(:title) { "Settings | Home" } %>
-<% @layout_class = "min-h-screen bg-slate-100 text-slate-900" %>
+<% @layout_class = "min-h-screen text-[color:var(--cw-ink)]" %>
+<% content_for :header do %>
+  <%= render "home/header", title: "Settings" %>
+<% end %>
 
 <section class="mx-auto w-full max-w-7xl px-6 py-10 md:px-10">
-  <div class="mb-6 flex items-end justify-between">
-    <div>
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Human workspace</p>
-      <h1 class="mt-1 text-3xl font-semibold">Settings</h1>
-    </div>
-    <%= link_to "Back to home", home_path, class: "rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:border-slate-400" %>
+  <div class="mb-6">
+    <p class="cw-kicker">Account controls</p>
+    <h1 class="mt-1 text-4xl font-semibold">Settings</h1>
   </div>
 
   <div class="grid gap-4 md:grid-cols-2">
-    <article class="rounded-2xl border border-slate-200 bg-white p-6">
-      <h2 class="text-lg font-semibold">Current user</h2>
-      <p class="mt-3 text-sm text-slate-600"><%= @user.name %> · <%= @user.email_address %></p>
-      <p class="mt-2 text-xs uppercase tracking-[0.16em] text-slate-500">Role: <%= @user.role %></p>
+    <article class="cw-panel p-6">
+      <h2 class="text-2xl font-semibold">Current user</h2>
+      <p class="mt-3 text-sm text-[color:var(--cw-muted)]"><%= @user.name %> · <%= @user.email_address %></p>
+      <p class="mt-2 text-xs uppercase tracking-[0.16em] text-[color:var(--cw-muted)]">Role: <%= @user.role %></p>
     </article>
 
-    <article class="rounded-2xl border border-slate-200 bg-white p-6">
-      <h2 class="text-lg font-semibold">Account</h2>
-      <p class="mt-3 text-sm text-slate-600"><%= @account&.name || "Default Account" %></p>
-      <p class="mt-2 text-xs uppercase tracking-[0.16em] text-slate-500">Join code: <%= @account&.join_code || "n/a" %></p>
+    <article class="cw-panel p-6">
+      <h2 class="text-2xl font-semibold">Account</h2>
+      <p class="mt-3 text-sm text-[color:var(--cw-muted)]"><%= @account&.name || "Default Account" %></p>
+      <p class="mt-2 text-xs uppercase tracking-[0.16em] text-[color:var(--cw-muted)]">Join code: <%= @account&.join_code || "n/a" %></p>
     </article>
   </div>
 </section>
