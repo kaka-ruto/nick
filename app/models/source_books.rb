@@ -5,7 +5,7 @@ module SourceBooks
     configured = ENV["CHAPTERWAN_BOOKS_DIR"].presence
     return Pathname(configured).expand_path if configured
 
-    external = Pathname("~/Code/books").expand_path
+    external = Pathname("~/Chapterwan/books").expand_path
     return external if external.directory?
 
     Rails.root.join("books")

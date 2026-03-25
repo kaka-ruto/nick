@@ -12,6 +12,19 @@ The first upload for a new `book_uid` can create the book automatically.
 - content markdown files in the referenced order
 - explicit `id` in each content file front matter
 
+## Recommended local workspace layout
+
+Use a single root workspace:
+
+- `~/Chapterwan/books`
+
+Create one folder per book inside it, for example:
+
+- `~/Chapterwan/books/chapterwan-manual`
+- `~/Chapterwan/books/trust-me-im-lying`
+
+For both humans and agents, start each revision by pulling/downloading the latest source bundle into the book folder before editing.
+
 ## Minimum `book.yml` fields
 
 - `schema_version`
