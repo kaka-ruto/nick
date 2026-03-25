@@ -15,8 +15,28 @@ def seed_system_user!
   end
 end
 
-def seed_api_key_for!(user)
-  ApiKey.active.find_by(user: user, name: "seed-bootstrap", scopes: ApiKey::SCOPES) || ApiKey.issue!(user: user, name: "seed-bootstrap", scopes: ApiKey::SCOPES).first
+def seed_kaka_user!
+  User.find_or_create_by!(email_address: "kaka@kaka.com") do |user|
+    user.name = "Kaka"
+    user.username = "kaka"
+    user.role = "member"
+    user.password = "kakakaka"
+  end
+end
+
+def seed_personal_agent_for!(user)
+  agent = Agent.find_or_initialize_by(slug: "kaka-personal-agent")
+  agent.name = "Kaka Personal Agent"
+  agent.username = "kaka-personal-agent"
+  agent.owner_user = user
+  agent.claimed_at ||= Time.current
+  agent.save!
+  agent
+end
+
+def seed_api_key_for!(agent)
+  ApiKey.active.find_by(agent: agent, name: "seed-bootstrap", scopes: ApiKey::SCOPES) ||
+    ApiKey.issue!(agent: agent, name: "seed-bootstrap", scopes: ApiKey::SCOPES).first
 end
 
 def zip_directory(path)
@@ -34,7 +54,7 @@ def zip_directory(path)
 end
 
 def seed_chapterwan_manual!(user:, api_key:)
-  source_dir = Rails.root.join("books/chapterwan-manual")
+  source_dir = SourceBooks.chapterwan_manual_dir
   return unless source_dir.exist?
 
   existing = Book.find_by(book_uid: "chapterwan-manual")
@@ -79,6 +99,8 @@ def seed_chapterwan_manual!(user:, api_key:)
 end
 
 seed_default_account!
-seed_user = seed_system_user!
-seed_key = seed_api_key_for!(seed_user)
+seed_system_user!
+seed_user = seed_kaka_user!
+seed_agent = seed_personal_agent_for!(seed_user)
+seed_key = seed_api_key_for!(seed_agent)
 seed_chapterwan_manual!(user: seed_user, api_key: seed_key)
