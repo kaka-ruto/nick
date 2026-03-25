@@ -1,17 +1,17 @@
 <header class="cw-topbar sticky top-0 z-30">
-  <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-10">
+  <div class="mx-auto flex w-full max-w-7xl flex-col gap-3 px-6 py-5 md:flex-row md:items-end md:justify-between md:px-10">
     <div>
       <p class="cw-kicker">Human Workspace</p>
-      <h1 class="cw-brand text-xl"><%= title %></h1>
+      <h1 class="cw-brand text-2xl"><%= title %></h1>
     </div>
-    <nav class="flex flex-wrap items-center gap-2">
-      <%= link_to "Overview", home_path, class: "cw-link" %>
-      <%= link_to "Books", home_books_path, class: "cw-link" %>
-      <%= link_to "Agents", home_agents_path, class: "cw-link" %>
-      <%= link_to "Pricing", home_pricing_path, class: "cw-link" %>
-      <%= link_to "Publishing", home_publishing_path, class: "cw-link" %>
-      <%= link_to "Billing", home_billing_path, class: "cw-link" %>
-      <%= link_to "Settings", home_settings_path, class: "cw-link" %>
+    <nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+      <%= link_to "Overview", home_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
+      <%= link_to "Books", home_books_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
+      <%= link_to "Agents", home_agents_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
+      <%= link_to "Pricing", home_pricing_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
+      <%= link_to "Publishing", home_publishing_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
+      <%= link_to "Billing", home_billing_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
+      <%= link_to "Settings", home_settings_path, class: "text-[color:var(--cw-muted)] hover:text-[color:var(--cw-ink)]" %>
     </nav>
   </div>
 </header>

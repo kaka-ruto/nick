@@ -1,55 +1,58 @@
 <% content_for(:title) { "Home | Chapterwan" } %>
-<% @layout_class = "min-h-screen text-[color:var(--cw-ink)]" %>
+<% @layout_class = "cw-main-wide min-h-screen text-[color:var(--cw-ink)]" %>
 <% content_for :header do %>
   <%= render "home/header", title: "Overview" %>
 <% end %>
 
-<section class="mx-auto w-full max-w-7xl space-y-6 px-6 py-8 md:px-10">
+<section class="mx-auto w-full max-w-7xl space-y-10 px-6 py-10 md:px-10 md:py-14">
   <div class="grid gap-4 md:grid-cols-4">
-    <article class="cw-panel p-4">
+    <article class="cw-panel p-5">
       <p class="cw-kicker">Books in scope</p>
-      <p class="mt-2 text-3xl font-semibold"><%= @books.count %></p>
+      <p class="mt-2 text-4xl font-semibold"><%= @books.count %></p>
     </article>
-    <article class="cw-panel p-4">
+    <article class="cw-panel p-5">
       <p class="cw-kicker">Owned agents</p>
-      <p class="mt-2 text-3xl font-semibold"><%= @agents.count %></p>
+      <p class="mt-2 text-4xl font-semibold"><%= @agents.count %></p>
     </article>
-    <article class="cw-panel p-4">
+    <article class="cw-panel p-5">
       <p class="cw-kicker">Uploads to review</p>
-      <p class="mt-2 text-3xl font-semibold"><%= @recent_uploads.count { |upload| upload.failed? || upload.validation_errors.present? } %></p>
+      <p class="mt-2 text-4xl font-semibold"><%= @recent_uploads.count { |upload| upload.failed? || upload.validation_errors.present? } %></p>
     </article>
-    <article class="cw-panel p-4">
+    <article class="cw-panel p-5">
       <p class="cw-kicker">Drafts awaiting publish</p>
-      <p class="mt-2 text-3xl font-semibold"><%= @pending_publications.count %></p>
+      <p class="mt-2 text-4xl font-semibold"><%= @pending_publications.count %></p>
     </article>
   </div>
 
-  <div class="grid gap-4 md:grid-cols-2">
-    <article class="cw-panel p-5">
+  <div class="grid gap-6 md:grid-cols-2">
+    <article class="cw-panel p-7">
       <div class="flex items-center justify-between">
         <h2 class="text-2xl font-semibold">Recent uploads</h2>
         <span class="cw-kicker">Latest activity</span>
       </div>
-      <div class="mt-4 space-y-3">
+      <div class="mt-4">
         <% @recent_uploads.each do |upload| %>
-          <div class="cw-panel-soft px-3 py-2 text-sm">
-            <p class="font-medium">Upload #<%= upload.id %> · <%= upload.status %></p>
-            <p class="text-[color:var(--cw-muted)]"><%= upload.book&.title || "Unlinked book" %> · <%= upload.created_at.to_fs(:short) %></p>
+          <div class="cw-row text-sm">
+            <div>
+              <p class="font-medium">Upload #<%= upload.id %> · <%= upload.status %></p>
+              <p class="text-[color:var(--cw-muted)]"><%= upload.book&.title || "Unlinked book" %></p>
+            </div>
+            <p class="text-xs text-[color:var(--cw-muted)]"><%= upload.created_at.to_fs(:short) %></p>
           </div>
         <% end %>
       </div>
     </article>
 
-    <article class="cw-panel p-5">
+    <article class="cw-panel p-7">
       <div class="flex items-center justify-between">
         <h2 class="text-2xl font-semibold">Books needing action</h2>
         <span class="cw-kicker">Publishing queue</span>
       </div>
-      <div class="mt-4 space-y-3">
+      <div class="mt-4">
         <% @pending_publications.each do |book| %>
-          <div class="cw-panel-soft px-3 py-2 text-sm">
+          <div class="cw-row text-sm">
             <p class="font-medium"><%= book.title %></p>
-            <p class="text-[color:var(--cw-muted)]">Draft revision #<%= book.current_draft_revision&.number || "n/a" %> · Published: <%= book.published? ? "yes" : "no" %></p>
+            <p class="text-xs text-[color:var(--cw-muted)]">draft #<%= book.current_draft_revision&.number || "n/a" %> · live <%= book.published? ? "yes" : "no" %></p>
           </div>
         <% end %>
       </div>
