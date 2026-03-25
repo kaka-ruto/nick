@@ -14,7 +14,7 @@
     <% @books.each do |book| %>
       <article class="cw-row px-5 md:px-7">
         <div class="flex items-start gap-4">
-          <%= image_tag(book.cover.attached? ? book.cover : "empty-cover.png", alt: "Cover for #{book.title}", class: "h-20 w-14 flex-none rounded-md border border-[color:var(--cw-border)] object-cover") %>
+          <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}", class: "h-20 w-14 flex-none rounded-md border border-[color:var(--cw-border)] object-cover") %>
           <div>
           <p class="cw-kicker"><%= book.category.name %></p>
           <h2 class="mt-2 text-2xl font-semibold"><%= book.title %></h2>

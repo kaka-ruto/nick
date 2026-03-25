@@ -42,7 +42,7 @@
     <article class="cw-panel mb-8 grid gap-5 p-6 md:grid-cols-[1.2fr_auto] md:items-center">
       <div>
         <p class="cw-kicker">Featured Book</p>
-        <%= image_tag(@featured_book.cover.attached? ? @featured_book.cover : "empty-cover.png", alt: "Cover for #{@featured_book.title}", class: "mt-4 aspect-[3/4] w-40 rounded-lg border border-[color:var(--cw-border)] object-cover") %>
+        <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "mt-4 aspect-[3/4] w-40 rounded-lg border border-[color:var(--cw-border)] object-cover") %>
         <h2 class="mt-2 text-4xl font-semibold"><%= @featured_book.title %></h2>
         <p class="mt-2 text-sm text-[color:var(--cw-muted)]"><%= @featured_book.author %> · <%= @featured_book.category.name %></p>
       </div>
@@ -53,7 +53,7 @@
   <div class="grid gap-4 md:grid-cols-3">
     <% @books.each do |book| %>
       <article class="cw-panel p-5">
-        <%= image_tag(book.cover.attached? ? book.cover : "empty-cover.png", alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg border border-[color:var(--cw-border)] object-cover") %>
+        <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg border border-[color:var(--cw-border)] object-cover") %>
         <p class="cw-kicker"><%= book.category.name %></p>
         <h3 class="mt-2 text-2xl font-semibold"><%= book.title %></h3>
         <p class="mt-1 text-sm text-[color:var(--cw-muted)]"><%= book.author %></p>

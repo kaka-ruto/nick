@@ -1,4 +1,20 @@
 module BooksHelper
+  def book_cover_image(book)
+    return book.cover if book.cover.attached?
+
+    "covers/cover-#{book.theme}.png"
+  end
+
+  def book_cover_social_image_url(book)
+    return url_for(book.cover) if book.cover.attached?
+
+    asset_url("covers/cover-#{book.theme}-og.png")
+  end
+
+  def book_has_uploaded_cover?(book)
+    book.cover.attached?
+  end
+
   def book_toc_tag(book, &)
     tag.ol class: "toc", tabindex: 0,
       data: {
