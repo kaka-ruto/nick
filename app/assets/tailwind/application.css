@@ -128,55 +128,6 @@
     border-radius: var(--cw-radius-sm);
   }
 
-  .cw-cover-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    box-shadow: var(--cw-shadow);
-  }
-
-  .cw-cover-card img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-  }
-
-  .cw-cover-meta {
-    position: absolute;
-    inset-inline: 0;
-    inset-block-start: 0;
-    padding: 0.9rem 1rem;
-    background: color-mix(in srgb, var(--cw-bg) 82%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, var(--cw-border) 70%, transparent);
-    backdrop-filter: blur(2px);
-  }
-
-  .cw-cover-title {
-    font-family: var(--cw-serif);
-    font-size: 1.15rem;
-    line-height: 1.15;
-    font-weight: 650;
-    color: var(--cw-ink);
-    text-wrap: balance;
-  }
-
-  .cw-cover-subtitle {
-    margin-top: 0.15rem;
-    font-size: 0.82rem;
-    color: var(--cw-muted);
-    line-height: 1.3;
-  }
-
-  .cw-cover-author {
-    margin-top: 0.35rem;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--cw-muted);
-    font-weight: 600;
-  }
-
   .cw-read-btn {
     display: inline-flex;
     align-items: center;

@@ -42,14 +42,14 @@
     <article class="cw-panel mb-8 grid gap-5 p-6 md:grid-cols-[1.2fr_auto] md:items-center">
       <div>
         <p class="cw-kicker">Featured Book</p>
-        <div class="cw-cover-card mt-4 w-44">
-          <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}") %>
-          <div class="cw-cover-meta">
-            <h2 class="cw-cover-title"><%= @featured_book.title %></h2>
+        <div class="relative mt-4 w-44 overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
+          <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "block aspect-[3/4] w-full object-cover") %>
+          <div class="absolute inset-x-0 top-0 p-3">
+            <h2 class="font-[var(--cw-serif)] text-base font-semibold leading-tight text-[#f5f5f0] [text-shadow:0_1px_0_rgba(0,0,0,0.45),0_2px_8px_rgba(0,0,0,0.45)]"><%= @featured_book.title %></h2>
             <% if @featured_book.subtitle.present? %>
-              <p class="cw-cover-subtitle"><%= @featured_book.subtitle %></p>
+              <p class="mt-1 text-[11px] leading-snug text-[#f5f5f0]/95 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= @featured_book.subtitle %></p>
             <% end %>
-            <p class="cw-cover-author"><%= @featured_book.author %></p>
+            <p class="mt-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f5f5f0]/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= @featured_book.author %></p>
           </div>
         </div>
       </div>
@@ -60,14 +60,14 @@
   <div class="grid gap-4 md:grid-cols-3">
     <% @books.each do |book| %>
       <article class="cw-panel p-5">
-        <div class="cw-cover-card">
-          <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}") %>
-          <div class="cw-cover-meta">
-            <h3 class="cw-cover-title"><%= book.title %></h3>
+        <div class="relative overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
+          <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}", class: "block aspect-[3/4] w-full object-cover") %>
+          <div class="absolute inset-x-0 top-0 p-4">
+            <h3 class="font-[var(--cw-serif)] text-lg font-semibold leading-tight text-[#f5f5f0] [text-shadow:0_1px_0_rgba(0,0,0,0.45),0_2px_8px_rgba(0,0,0,0.45)]"><%= book.title %></h3>
             <% if book.subtitle.present? %>
-              <p class="cw-cover-subtitle"><%= book.subtitle %></p>
+              <p class="mt-1 text-xs leading-snug text-[#f5f5f0]/95 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= book.subtitle %></p>
             <% end %>
-            <p class="cw-cover-author"><%= book.author %></p>
+            <p class="mt-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f5f5f0]/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= book.author %></p>
           </div>
         </div>
         <% if book.tags.any? %>
