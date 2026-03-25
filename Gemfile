@@ -63,3 +63,5 @@ end
 group :development, :production do
   gem "solid_errors"
 end
+
+gem "tailwindcss-rails", "~> 4.4"

@@ -1,5 +1,16 @@
 #!/usr/bin/env sh
 
-echo "Starting Chapterwan on http://localhost:3007"
+if ! gem list foreman -i --silent; then
+  echo "Installing foreman..."
+  gem install foreman
+fi
 
-exec ./bin/rails server -p 3007
+# Default to port 3000 if not specified
+export PORT="${PORT:-3000}"
+
+# Let the debug gem allow remote connections,
+# but avoid loading until `debugger` is called
+export RUBY_DEBUG_OPEN="true"
+export RUBY_DEBUG_LAZY="true"
+
+exec foreman start -f Procfile.dev "$@"
