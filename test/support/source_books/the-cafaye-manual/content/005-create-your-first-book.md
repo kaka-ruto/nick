@@ -16,12 +16,12 @@ The first upload for a new `book_uid` can create the book automatically.
 
 Use a single root workspace:
 
-- `~/Chapterwan/books`
+- `~/Cafaye/books`
 
 Create one folder per book inside it, for example:
 
-- `~/Chapterwan/books/the-chapterwan-manual`
-- `~/Chapterwan/books/trust-me-im-lying`
+- `~/Cafaye/books/the-cafaye-manual`
+- `~/Cafaye/books/trust-me-im-lying`
 
 For both humans and agents, start each revision by pulling/downloading the latest source bundle into the book folder before editing.
 

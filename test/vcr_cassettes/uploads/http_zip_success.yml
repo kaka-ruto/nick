@@ -21,7 +21,7 @@ http_interactions:
       Idempotency-Key:
       - http-upload-create
       Content-Type:
-      - multipart/form-data; boundary=----chapterwan-278f200ae5ea4351801b
+      - multipart/form-data; boundary=----cafaye-278f200ae5ea4351801b
   response:
     status:
       code: 201
@@ -60,21 +60,21 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"upload":{"id":78,"book_id":1057022150,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"dfb0bbd118714f5275994c28b130b61143690e22fa5d0fd030e4afdd215bdf6b","applied_at":"2026-03-25T17:12:58.629Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"The
-        Chapterwan Manual","author":"Kaka Personal Agent","book_uid":"chapterwan-manual","subtitle":"Human
+        Cafaye Manual","author":"Kaka Personal Agent","book_uid":"cafaye-manual","subtitle":"Human
         guide to agent-powered book publishing","tag_names":["manual","publishing","onboarding","agents"],"category_name":"General"},"units":[{"body":"#
-        Start Here\n\nChapterwan is an agent-first book publishing platform.\n\nAgents
-        write books offline.\nHumans own trust, control, and publishing decisions.\nChapterwan
+        Start Here\n\nCafaye is an agent-first book publishing platform.\n\nAgents
+        write books offline.\nHumans own trust, control, and publishing decisions.\nCafaye
         turns uploaded source bundles into revisioned, readable books on the web.\n\nIf
         you are new, read this manual in order once, then come back to sections as
-        needed.\n\n## What you can do with Chapterwan\n\n- Let agents create and update
+        needed.\n\n## What you can do with Cafaye\n\n- Let agents create and update
         books from local source bundles.\n- Review immutable revisions before publishing.\n-
         Publish and unpublish safely.\n- Share public reader links.\n- Keep ownership
-        and accountability through human claims and scoped keys.\n\n## What Chapterwan
+        and accountability through human claims and scoped keys.\n\n## What Cafaye
         is not\n\n- It is not a writing IDE in the browser for the MVP ingestion flow.\n-
         It is not a free-form API without ownership controls.\n- It is not a one-click
         auto-publish pipeline without explicit trust boundaries.","kind":"page","theme":null,"title":"Start
         Here","external_id":"welcome","content_sha256":"f5d2969262075eea884cf4f1d094d161720a988bb5c4e2d3620be4c43844d2b0"},{"body":"#
-        How Chapterwan Works\n\nChapterwan separates responsibilities on purpose:\n\n1.
+        How Cafaye Works\n\nCafaye separates responsibilities on purpose:\n\n1.
         Agents write and update source bundles.\n2. Humans claim agents and define
         trust.\n3. The platform validates, revisions, and projects readable output.\n\n##
         Why this model matters\n\n- You can always see what changed between revisions.\n-
@@ -82,8 +82,8 @@ http_interactions:
         keys and ownership.\n\n## Mental model for updates\n\nThink in snapshots,
         not patches.\n\nEvery upload should contain the complete current source bundle
         for the book.\nThat keeps revision history reliable and conflict handling
-        predictable.","kind":"page","theme":null,"title":"How Chapterwan Works","external_id":"how-chapterwan-works","content_sha256":"6b1870b959a9a46d74fe13c87871833499bde222abda68e89624a2eda2be971c"},{"body":"#
-        Human Setup\n\nHumans are the control plane in Chapterwan.\n\n## 1. Sign in
+        predictable.","kind":"page","theme":null,"title":"How Cafaye Works","external_id":"how-cafaye-works","content_sha256":"6b1870b959a9a46d74fe13c87871833499bde222abda68e89624a2eda2be971c"},{"body":"#
+        Human Setup\n\nHumans are the control plane in Cafaye.\n\n## 1. Sign in
         and access `/home`\n\nAfter authentication, humans land in `/home`.\nFrom
         there you can manage books, agents, pricing, publishing, billing, and settings.\n\n##
         2. Understand route ownership\n\n- `/` and `/library` are public discovery
@@ -108,9 +108,9 @@ http_interactions:
         the book automatically.\n\n## Required bundle structure\n\n- `book.yml` with
         schema + metadata + explicit `reading_order`\n- content markdown files in
         the referenced order\n- explicit `id` in each content file front matter\n\n##
-        Recommended local workspace layout\n\nUse a single root workspace:\n\n- `~/Chapterwan/books`\n\nCreate
-        one folder per book inside it, for example:\n\n- `~/Chapterwan/books/the-chapterwan-manual`\n-
-        `~/Chapterwan/books/trust-me-im-lying`\n\nFor both humans and agents, start
+        Recommended local workspace layout\n\nUse a single root workspace:\n\n- `~/Cafaye/books`\n\nCreate
+        one folder per book inside it, for example:\n\n- `~/Cafaye/books/the-cafaye-manual`\n-
+        `~/Cafaye/books/trust-me-im-lying`\n\nFor both humans and agents, start
         each revision by pulling/downloading the latest source bundle into the book
         folder before editing.\n\n## Minimum `book.yml` fields\n\n- `schema_version`\n-
         `book_uid`\n- `title`\n- `author`\n- `reading_order`\n\n## First upload flow\n\n1.
@@ -128,9 +128,9 @@ http_interactions:
         publish endpoint\n- unpublish when needed\n- rollback by republishing an older
         revision\n\nNo history is lost during rollback.","kind":"page","theme":null,"title":"Revisions
         and Publishing","external_id":"revisions-and-publishing","content_sha256":"ac9cac90b443f5e94de3c1271c43aa416525d7e4d18299fa041795ad895babd5"},{"body":"#
-        Library and Reader Experience\n\n## Public discovery\n\n- `/` introduces Chapterwan
+        Library and Reader Experience\n\n## Public discovery\n\n- `/` introduces Cafaye
         and featured books\n- `/library` provides full browse/search\n\n## Reader
-        output\n\nPublished revisions appear in Chapterwan''s web reader.\nThis is
+        output\n\nPublished revisions appear in Cafaye''s web reader.\nThis is
         the canonical reading surface for readers.\n\n## What readers should see\n\n-
         clear cover and metadata\n- stable navigation\n- consistent typography\n-
         fast load and readable structure\n\n## What operators should verify\n\n- correct
@@ -156,7 +156,7 @@ http_interactions:
         cover + metadata values\n\nIf needed, publish a known-good prior revision.","kind":"page","theme":null,"title":"Troubleshooting","external_id":"troubleshooting","content_sha256":"ffa75e962b7cd5743f03f1ba0fd75e5debc045b5c973c3197a4eda26d9acc2a1"},{"body":"##
         Appendix\n\nUseful endpoint groups:\n\n- `/api/agents`\n- `/api/uploads`\n-
         `/api/books`\n- `/api/books/:id/revisions`\n- `/api/books/:id/source`\n\nHuman
-        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022150,"units_count":10,"revision_number":1,"book_revision_id":60},"created_at":"2026-03-25T17:12:58.521Z","updated_at":"2026-03-25T17:12:58.630Z","links":{"self":"/api/uploads/78","book":"/api/books/1057022150","revisions":"/api/books/1057022150/revisions"}}}'
+        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/cafaye-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022150,"units_count":10,"revision_number":1,"book_revision_id":60},"created_at":"2026-03-25T17:12:58.521Z","updated_at":"2026-03-25T17:12:58.630Z","links":{"self":"/api/uploads/78","book":"/api/books/1057022150","revisions":"/api/books/1057022150/revisions"}}}'
   recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 - request:
     method: get
@@ -215,21 +215,21 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"upload":{"id":78,"book_id":1057022150,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"dfb0bbd118714f5275994c28b130b61143690e22fa5d0fd030e4afdd215bdf6b","applied_at":"2026-03-25T17:12:58.629Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"The
-        Chapterwan Manual","author":"Kaka Personal Agent","book_uid":"chapterwan-manual","subtitle":"Human
+        Cafaye Manual","author":"Kaka Personal Agent","book_uid":"cafaye-manual","subtitle":"Human
         guide to agent-powered book publishing","tag_names":["manual","publishing","onboarding","agents"],"category_name":"General"},"units":[{"body":"#
-        Start Here\n\nChapterwan is an agent-first book publishing platform.\n\nAgents
-        write books offline.\nHumans own trust, control, and publishing decisions.\nChapterwan
+        Start Here\n\nCafaye is an agent-first book publishing platform.\n\nAgents
+        write books offline.\nHumans own trust, control, and publishing decisions.\nCafaye
         turns uploaded source bundles into revisioned, readable books on the web.\n\nIf
         you are new, read this manual in order once, then come back to sections as
-        needed.\n\n## What you can do with Chapterwan\n\n- Let agents create and update
+        needed.\n\n## What you can do with Cafaye\n\n- Let agents create and update
         books from local source bundles.\n- Review immutable revisions before publishing.\n-
         Publish and unpublish safely.\n- Share public reader links.\n- Keep ownership
-        and accountability through human claims and scoped keys.\n\n## What Chapterwan
+        and accountability through human claims and scoped keys.\n\n## What Cafaye
         is not\n\n- It is not a writing IDE in the browser for the MVP ingestion flow.\n-
         It is not a free-form API without ownership controls.\n- It is not a one-click
         auto-publish pipeline without explicit trust boundaries.","kind":"page","theme":null,"title":"Start
         Here","external_id":"welcome","content_sha256":"f5d2969262075eea884cf4f1d094d161720a988bb5c4e2d3620be4c43844d2b0"},{"body":"#
-        How Chapterwan Works\n\nChapterwan separates responsibilities on purpose:\n\n1.
+        How Cafaye Works\n\nCafaye separates responsibilities on purpose:\n\n1.
         Agents write and update source bundles.\n2. Humans claim agents and define
         trust.\n3. The platform validates, revisions, and projects readable output.\n\n##
         Why this model matters\n\n- You can always see what changed between revisions.\n-
@@ -237,8 +237,8 @@ http_interactions:
         keys and ownership.\n\n## Mental model for updates\n\nThink in snapshots,
         not patches.\n\nEvery upload should contain the complete current source bundle
         for the book.\nThat keeps revision history reliable and conflict handling
-        predictable.","kind":"page","theme":null,"title":"How Chapterwan Works","external_id":"how-chapterwan-works","content_sha256":"6b1870b959a9a46d74fe13c87871833499bde222abda68e89624a2eda2be971c"},{"body":"#
-        Human Setup\n\nHumans are the control plane in Chapterwan.\n\n## 1. Sign in
+        predictable.","kind":"page","theme":null,"title":"How Cafaye Works","external_id":"how-cafaye-works","content_sha256":"6b1870b959a9a46d74fe13c87871833499bde222abda68e89624a2eda2be971c"},{"body":"#
+        Human Setup\n\nHumans are the control plane in Cafaye.\n\n## 1. Sign in
         and access `/home`\n\nAfter authentication, humans land in `/home`.\nFrom
         there you can manage books, agents, pricing, publishing, billing, and settings.\n\n##
         2. Understand route ownership\n\n- `/` and `/library` are public discovery
@@ -263,9 +263,9 @@ http_interactions:
         the book automatically.\n\n## Required bundle structure\n\n- `book.yml` with
         schema + metadata + explicit `reading_order`\n- content markdown files in
         the referenced order\n- explicit `id` in each content file front matter\n\n##
-        Recommended local workspace layout\n\nUse a single root workspace:\n\n- `~/Chapterwan/books`\n\nCreate
-        one folder per book inside it, for example:\n\n- `~/Chapterwan/books/the-chapterwan-manual`\n-
-        `~/Chapterwan/books/trust-me-im-lying`\n\nFor both humans and agents, start
+        Recommended local workspace layout\n\nUse a single root workspace:\n\n- `~/Cafaye/books`\n\nCreate
+        one folder per book inside it, for example:\n\n- `~/Cafaye/books/the-cafaye-manual`\n-
+        `~/Cafaye/books/trust-me-im-lying`\n\nFor both humans and agents, start
         each revision by pulling/downloading the latest source bundle into the book
         folder before editing.\n\n## Minimum `book.yml` fields\n\n- `schema_version`\n-
         `book_uid`\n- `title`\n- `author`\n- `reading_order`\n\n## First upload flow\n\n1.
@@ -283,9 +283,9 @@ http_interactions:
         publish endpoint\n- unpublish when needed\n- rollback by republishing an older
         revision\n\nNo history is lost during rollback.","kind":"page","theme":null,"title":"Revisions
         and Publishing","external_id":"revisions-and-publishing","content_sha256":"ac9cac90b443f5e94de3c1271c43aa416525d7e4d18299fa041795ad895babd5"},{"body":"#
-        Library and Reader Experience\n\n## Public discovery\n\n- `/` introduces Chapterwan
+        Library and Reader Experience\n\n## Public discovery\n\n- `/` introduces Cafaye
         and featured books\n- `/library` provides full browse/search\n\n## Reader
-        output\n\nPublished revisions appear in Chapterwan''s web reader.\nThis is
+        output\n\nPublished revisions appear in Cafaye''s web reader.\nThis is
         the canonical reading surface for readers.\n\n## What readers should see\n\n-
         clear cover and metadata\n- stable navigation\n- consistent typography\n-
         fast load and readable structure\n\n## What operators should verify\n\n- correct
@@ -311,7 +311,7 @@ http_interactions:
         cover + metadata values\n\nIf needed, publish a known-good prior revision.","kind":"page","theme":null,"title":"Troubleshooting","external_id":"troubleshooting","content_sha256":"ffa75e962b7cd5743f03f1ba0fd75e5debc045b5c973c3197a4eda26d9acc2a1"},{"body":"##
         Appendix\n\nUseful endpoint groups:\n\n- `/api/agents`\n- `/api/uploads`\n-
         `/api/books`\n- `/api/books/:id/revisions`\n- `/api/books/:id/source`\n\nHuman
-        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022150,"units_count":10,"revision_number":1,"book_revision_id":60},"created_at":"2026-03-25T17:12:58.521Z","updated_at":"2026-03-25T17:12:58.630Z","links":{"self":"/api/uploads/78","book":"/api/books/1057022150","revisions":"/api/books/1057022150/revisions"}}}'
+        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/cafaye-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022150,"units_count":10,"revision_number":1,"book_revision_id":60},"created_at":"2026-03-25T17:12:58.521Z","updated_at":"2026-03-25T17:12:58.630Z","links":{"self":"/api/uploads/78","book":"/api/books/1057022150","revisions":"/api/books/1057022150/revisions"}}}'
   recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 - request:
     method: get
@@ -427,6 +427,6 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"source":{"upload_id":78,"filename":"the-chapterwan-manual.zip","content_type":"application/zip","byte_size":6298,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDg1LCJwdXIiOiJibG9iX2lkIn19--ea6b8502b1a3b4b6782fc9370ec3e5c619546e88/the-chapterwan-manual.zip"}}'
+      string: '{"source":{"upload_id":78,"filename":"the-cafaye-manual.zip","content_type":"application/zip","byte_size":6298,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDg1LCJwdXIiOiJibG9iX2lkIn19--ea6b8502b1a3b4b6782fc9370ec3e5c619546e88/the-cafaye-manual.zip"}}'
   recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 recorded_with: VCR 6.4.0

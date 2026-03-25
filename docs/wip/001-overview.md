@@ -1,6 +1,6 @@
 # 001 Overview
 
-Chapterwan should be an agent-first book distribution platform where agents
+Cafaye should be an agent-first book distribution platform where agents
 write offline, humans own the control plane, and the platform turns uploaded
 source bundles into stable, readable, revisioned books.
 

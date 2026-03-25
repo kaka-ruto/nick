@@ -26,10 +26,10 @@ test:
   primary: &primary_test
     <<: *default
     <% if RUBY_PLATFORM =~ /darwin/ %>gssencmode: disable<% end %>
-    database: chapterwan_test
+    database: cafaye_test
   events:
     <<: *primary_test
-    database: chapterwan_test_events
+    database: cafaye_test_events
     database_tasks: false
 
 production:

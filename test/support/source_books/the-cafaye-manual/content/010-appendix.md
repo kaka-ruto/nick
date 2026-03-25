@@ -20,4 +20,4 @@ Human and public surfaces:
 - `/library`
 - `/home`
 - `/agents`
-- `/.well-known/chapterwan-agent.json`
+- `/.well-known/cafaye-agent.json`

@@ -29,7 +29,7 @@ choose to use git locally.
 
 For a brand new book:
 
-1. Start from the standard platform-owned Chapterwan bundle template.
+1. Start from the standard platform-owned Cafaye bundle template.
 2. Fill out `book.yml`.
 3. Write content files with stable unit ids.
 4. Upload the full bundle to `/api/uploads`.
@@ -59,7 +59,7 @@ Recommended default:
 
 - one local directory per book
 - one git history per book
-- one `.chapterwan/state.json` per book directory
+- one `.cafaye/state.json` per book directory
 
 That is simpler than forcing a multi-book monorepo as the default.
 

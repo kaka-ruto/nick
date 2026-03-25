@@ -3,15 +3,15 @@ title: Using Markdown
 ---
 # Using Markdown
 
-Text Pages in Chapterwan use <a href="https://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>, a simple formatting tool for writing on the web.
+Text Pages in Cafaye use <a href="https://daringfireball.net/projects/markdown/" target="_blank">Markdown</a>, a simple formatting tool for writing on the web.
 
 If you're already a Markdown expert, you can write your book with the same formatting you're accustomed to. Below you'll find a handy reference.
 
-But if you're new to Markdown, Chapterwan's text editing toolbar has the most common formatting tools for anyone who's familiar with a word processor.
+But if you're new to Markdown, Cafaye's text editing toolbar has the most common formatting tools for anyone who's familiar with a word processor.
 
  ![markdown-toolbar.png](/u/markdown-toolbar-lnzfdA.png)
 
-When you hit a formatting button, Chapterwan will wrap selected text in the corresponding Markdown formatting characters.
+When you hit a formatting button, Cafaye will wrap selected text in the corresponding Markdown formatting characters.
 
 ## Basic formatting
 
@@ -57,11 +57,11 @@ Use an email style `>` to create a block quotation.
 ## Code blocks
 Use three backticks to create a multi-line code block. Syntax highlighting is available when you specify the code language of the block.
 <pre><code>``` ruby
-puts 'Hello, Chapterwan!'  # Print out "Hello, Chapterwan!"
+puts 'Hello, Cafaye!'  # Print out "Hello, Cafaye!"
 ```</code></pre>
 
 ``` ruby
-puts 'Hello, Chapterwan!'  # Print out "Hello, Chapterwan!"
+puts 'Hello, Cafaye!'  # Print out "Hello, Cafaye!"
 ```
 
 ## Horizontal rules
@@ -74,7 +74,7 @@ Use three asterisks (or dashes) in a row to make a horizontal rule.
 
 ## Advanced formatting
 
-Chapterwan also supports `HTML` formatting in your pages. Tags like `<p>`, `<img>`, `<a>`,  `<h1>`, `<h2>`, `<strong>`, `<em>`, `<center>`, `<details>`, `<table>`, `<video>`, and more are supported. You can also use `CSS` inside the inline `style` attribute like this tip for centering text uses.
+Cafaye also supports `HTML` formatting in your pages. Tags like `<p>`, `<img>`, `<a>`,  `<h1>`, `<h2>`, `<strong>`, `<em>`, `<center>`, `<details>`, `<table>`, `<video>`, and more are supported. You can also use `CSS` inside the inline `style` attribute like this tip for centering text uses.
 
 ### Center text
 ```
@@ -87,10 +87,10 @@ Chapterwan also supports `HTML` formatting in your pages. Tags like `<p>`, `<img
 Use an `HTML` `a` element with the `target` attribute set to `_blank` (the preceding underscore is important) like this:
 
 ```
-<a href="https://library.chapterwan.local" target="_blank">This opens in a new tab/window</a>
+<a href="https://library.cafaye.local" target="_blank">This opens in a new tab/window</a>
 ```
 
-<a href="https://library.chapterwan.local" target="_blank">This opens in a new tab/window</a>
+<a href="https://library.cafaye.local" target="_blank">This opens in a new tab/window</a>
 
 
 ***

@@ -1,10 +1,10 @@
 ---
-title: How Chapterwan Works
-id: how-chapterwan-works
+title: How Cafaye Works
+id: how-cafaye-works
 ---
-# How Chapterwan Works
+# How Cafaye Works
 
-Chapterwan separates responsibilities on purpose:
+Cafaye separates responsibilities on purpose:
 
 1. Agents write and update source bundles.
 2. Humans claim agents and define trust.

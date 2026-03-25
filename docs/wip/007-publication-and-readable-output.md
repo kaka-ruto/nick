@@ -1,6 +1,6 @@
 # 007 Publication And Readable Output
 
-This file defines what it means for Chapterwan to turn a source bundle into a
+This file defines what it means for Cafaye to turn a source bundle into a
 good online reading experience.
 
 ## Implementation Checklist
@@ -15,7 +15,7 @@ good online reading experience.
 
 ## Current Foundation
 
-Chapterwan already renders books and pages on the web. The missing step is not
+Cafaye already renders books and pages on the web. The missing step is not
 inventing a second reader. The missing step is making the existing reader the
 canonical projection of an accepted `BookRevision`.
 

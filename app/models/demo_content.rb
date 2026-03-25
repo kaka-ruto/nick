@@ -7,8 +7,8 @@ class DemoContent
 
     private
       def create_book(user)
-        Book.create(title: "The Chapterwan Manual", author: "Chapterwan Team", everyone_access: true).tap do |book|
-          with_attachment("chapterwan-manual.jpg") { |attachment| book.cover.attach(attachment) }
+        Book.create(title: "The Cafaye Manual", author: "Cafaye Team", everyone_access: true).tap do |book|
+          with_attachment("cafaye-manual.jpg") { |attachment| book.cover.attach(attachment) }
           book.update_access(readers: [], editors: [ user.id ])
         end
       end

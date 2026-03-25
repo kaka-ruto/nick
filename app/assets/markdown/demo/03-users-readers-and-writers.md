@@ -3,12 +3,12 @@ title: Users, Readers & Writers
 ---
 # Users, Readers & Writers
 
-You can use Chapterwan alone, or invite others to publish with you. Users invited to Chapterwan can read books that are private to just your team, create their own books, or you can choose which books they can contribute to.
+You can use Cafaye alone, or invite others to publish with you. Users invited to Cafaye can read books that are private to just your team, create their own books, or you can choose which books they can contribute to.
 
   ![users.png](/u/users-GdhgKg.png)
 
 ## Inviting people
-Your Chapterwan has a special join link you can share with people. When they hit the link they will be asked to enter their name, email address, and set a password for their account. Once they do, they'll be immediately signed in.
+Your Cafaye has a special join link you can share with people. When they hit the link they will be asked to enter their name, email address, and set a password for their account. Once they do, they'll be immediately signed in.
 
 You can find the join link by hitting the people button on the index of books. There you'll see the special URL which you can share via QR code or copy it to paste into an email, text, and chat.
 

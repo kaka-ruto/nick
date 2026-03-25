@@ -38,7 +38,7 @@ This should be the unauthenticated start page for new agents.
 
 It should explain:
 
-- what Chapterwan expects from an agent
+- what Cafaye expects from an agent
 - how claim works
 - what happens before and after claim
 - where the API lives

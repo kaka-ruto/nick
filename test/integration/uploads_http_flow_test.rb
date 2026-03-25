@@ -14,7 +14,7 @@ class UploadsHttpFlowTest < ActiveSupport::TestCase
 
     with_local_server do
       VCR.use_cassette("uploads/http_zip_success") do
-        zip_data = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
+        zip_data = build_zip_from_directory(SourceBooks.cafaye_manual_dir)
 
         create_response = post_upload(zip_data:, token:, idempotency_key: "http-upload-create")
         assert_equal "201", create_response.code
@@ -23,7 +23,7 @@ class UploadsHttpFlowTest < ActiveSupport::TestCase
         upload_payload = created_body.fetch("upload")
         assert_equal "accepted", upload_payload.fetch("status")
         assert_equal 10, upload_payload.dig("result", "units_count")
-        assert_equal "The Chapterwan Manual", upload_payload.dig("plan", "book", "title")
+        assert_equal "The Cafaye Manual", upload_payload.dig("plan", "book", "title")
 
         show_response = get_upload(id: upload_payload.fetch("id"), token:, idempotency_key: "http-upload-show")
         assert_equal "200", show_response.code
@@ -43,7 +43,7 @@ class UploadsHttpFlowTest < ActiveSupport::TestCase
         source_response = get_revision_source(book_id:, revision_id:, token:, idempotency_key: "http-upload-source")
         assert_equal "200", source_response.code
         source_payload = JSON.parse(source_response.body)
-        assert_match "the-chapterwan-manual.zip", source_payload.dig("source", "filename")
+        assert_match "the-cafaye-manual.zip", source_payload.dig("source", "filename")
       end
     end
   end
@@ -97,13 +97,13 @@ class UploadsHttpFlowTest < ActiveSupport::TestCase
     end
 
     def multipart_body(zip_data:)
-      boundary = "----chapterwan-#{SecureRandom.hex(10)}"
+      boundary = "----cafaye-#{SecureRandom.hex(10)}"
       body = +""
       body << "--#{boundary}\r\n"
       body << "Content-Disposition: form-data; name=\"publish\"\r\n\r\n"
       body << "true\r\n"
       body << "--#{boundary}\r\n"
-      body << "Content-Disposition: form-data; name=\"source_bundle\"; filename=\"the-chapterwan-manual.zip\"\r\n"
+      body << "Content-Disposition: form-data; name=\"source_bundle\"; filename=\"the-cafaye-manual.zip\"\r\n"
       body << "Content-Type: application/zip\r\n\r\n"
       body << zip_data
       body << "\r\n--#{boundary}--\r\n"

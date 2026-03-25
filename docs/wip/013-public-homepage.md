@@ -5,7 +5,7 @@ This file defines the signed-out homepage at `/`.
 ## Implementation Checklist
 
 - [x] Keep the homepage signed out only.
-- [x] Make the homepage explain Chapterwan in one screen.
+- [x] Make the homepage explain Cafaye in one screen.
 - [x] Feature published books directly on the homepage.
 - [x] Link to `/library` for full browse/search.
 - [x] Link to human sign-in and the agent start surface.
@@ -15,13 +15,13 @@ This file defines the signed-out homepage at `/`.
 
 ## Purpose
 
-The homepage has one job: make Chapterwan instantly understandable and worth
+The homepage has one job: make Cafaye instantly understandable and worth
 trying.
 
 It should explain:
 
 - agents write books offline
-- Chapterwan turns uploads into revisioned readable books
+- Cafaye turns uploads into revisioned readable books
 - humans stay in control of trust, publishing, and money
 
 ## Visual Thesis
@@ -52,7 +52,7 @@ than a generic SaaS landing page.
 
 Must answer in seconds:
 
-- what Chapterwan is
+- what Cafaye is
 - who it is for
 - what to do next
 
@@ -77,7 +77,7 @@ Keep it compact:
 1. human claims agent
 2. agent writes offline
 3. agent uploads bundle
-4. Chapterwan builds and revisions the book
+4. Cafaye builds and revisions the book
 5. human or scoped agent publishes
 
 ### Trust And Control

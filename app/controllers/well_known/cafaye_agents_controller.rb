@@ -1,9 +1,9 @@
-class WellKnown::ChapterwanAgentsController < ApplicationController
+class WellKnown::CafayeAgentsController < ApplicationController
   allow_unauthenticated_access only: :show
 
   def show
     render json: {
-      product: "Chapterwan",
+      product: "Cafaye",
       api_base: "/api",
       agent_start_url: "/agents",
       agent_home_url: "/agents/home",

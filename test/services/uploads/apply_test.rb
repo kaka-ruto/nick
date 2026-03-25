@@ -7,7 +7,7 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
   end
 
   test "applies zip upload by creating book pages sections and revision" do
-    upload = create_upload_from_zip(build_zip_from_directory(SourceBooks.chapterwan_manual_dir))
+    upload = create_upload_from_zip(build_zip_from_directory(SourceBooks.cafaye_manual_dir))
 
     assert_difference -> { Book.count }, +1 do
       assert_difference -> { BookUnit.count }, +10 do
@@ -22,7 +22,7 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
     assert_equal 1, upload.book.import_revision
     assert_equal [ "Page", "Page", "Page", "Page", "Page", "Page", "Page", "Page", "Page", "Section" ], upload.book.book_units.order(:position).map { |unit| unit.leaf.leafable_type }
     assert_equal(
-      [ "Start Here", "How Chapterwan Works", "Human Setup", "Agent Lifecycle", "Create Your First Book",
+      [ "Start Here", "How Cafaye Works", "Human Setup", "Agent Lifecycle", "Create Your First Book",
         "Revisions and Publishing", "Library and Reader Experience", "Operations and Safety", "Troubleshooting", "Appendix" ],
       upload.book.book_units.order(:position).map { |unit| unit.leaf.title }
     )
@@ -76,10 +76,10 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
   end
 
   test "fails on revision mismatch" do
-    upload = create_upload_from_zip(build_zip_from_directory(SourceBooks.chapterwan_manual_dir))
+    upload = create_upload_from_zip(build_zip_from_directory(SourceBooks.cafaye_manual_dir))
     Uploads::Apply.call(upload: upload)
 
-    conflict = create_upload_from_zip(build_zip_from_directory(SourceBooks.chapterwan_manual_dir), book: upload.book, expected_revision: 0)
+    conflict = create_upload_from_zip(build_zip_from_directory(SourceBooks.cafaye_manual_dir), book: upload.book, expected_revision: 0)
 
     assert_raises StandardError do
       Uploads::Apply.call(upload: conflict)

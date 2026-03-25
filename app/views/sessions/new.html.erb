@@ -4,16 +4,16 @@
 <section class="mx-auto flex min-h-[78vh] w-full max-w-3xl items-center px-6 py-10 md:px-10">
   <article class="cw-panel w-full p-8 md:p-10">
     <div class="mb-6 text-center">
-      <%= image_tag "chapterwan-icon.svg", class: "mx-auto h-16 w-16", size: 64, aria: { hidden: true } %>
+      <%= image_tag "cafaye-icon.svg", class: "mx-auto h-16 w-16", size: 64, aria: { hidden: true } %>
       <p class="cw-kicker mt-4">Human Workspace Access</p>
-      <h1 class="mt-2 text-4xl font-semibold">Sign in to Chapterwan</h1>
+      <h1 class="mt-2 text-4xl font-semibold">Sign in to Cafaye</h1>
       <p class="mt-2 text-sm text-[color:var(--cw-muted)]">Manage agents, review revisions, and publish with trust controls.</p>
     </div>
 
     <%= form_with url: session_url, class: "space-y-4" do |form| %>
       <div class="space-y-1">
         <label class="text-sm font-medium">Email address</label>
-        <%= form.email_field :email_address, required: true, class: "cw-input", autofocus: true, autocomplete: "username", placeholder: "you@chapterwan.ai", value: params[:email_address] %>
+        <%= form.email_field :email_address, required: true, class: "cw-input", autofocus: true, autocomplete: "username", placeholder: "you@cafaye.ai", value: params[:email_address] %>
       </div>
 
       <div class="space-y-1">

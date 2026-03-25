@@ -9,7 +9,7 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
   end
 
   test "replays upload response for same idempotency key and payload" do
-    zip_data = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
+    zip_data = build_zip_from_directory(SourceBooks.cafaye_manual_dir)
 
     assert_difference -> { Upload.count }, +1 do
       post api_uploads_url,
@@ -58,7 +58,7 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
   end
 
   test "requires books publish scope for upload and publish" do
-    zip_data = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
+    zip_data = build_zip_from_directory(SourceBooks.cafaye_manual_dir)
 
     post api_uploads_url,
       params: multipart_params(zip_data:, publish: true),
@@ -70,7 +70,7 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
   end
 
   test "rejects stale base revision updates and keeps only first accepted" do
-    base_zip = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
+    base_zip = build_zip_from_directory(SourceBooks.cafaye_manual_dir)
     first_upload_payload = create_upload(zip_data: base_zip, token: @writer_token, key: "seed-upload")
     book_id = first_upload_payload.fetch("upload").fetch("book_id")
     book = Book.find(book_id)
@@ -79,9 +79,9 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
     update_a = build_zip_from_hash(
       "book.yml" => <<~YML,
         schema_version: 1
-        book_uid: chapterwan-manual
-        title: The Chapterwan Manual
-        author: Chapterwan Team
+        book_uid: cafaye-manual
+        title: The Cafaye Manual
+        author: Cafaye Team
         reading_order:
           - content/001-welcome.md
       YML
@@ -90,9 +90,9 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
     update_b = build_zip_from_hash(
       "book.yml" => <<~YML,
         schema_version: 1
-        book_uid: chapterwan-manual
-        title: The Chapterwan Manual
-        author: Chapterwan Team
+        book_uid: cafaye-manual
+        title: The Cafaye Manual
+        author: Cafaye Team
         reading_order:
           - content/001-welcome.md
       YML
@@ -111,7 +111,7 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
   end
 
   test "forbids revision and source access for writer without book access" do
-    zip_data = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
+    zip_data = build_zip_from_directory(SourceBooks.cafaye_manual_dir)
     upload_payload = create_upload(zip_data:, token: @writer_token, key: "access-seed")
     book_id = upload_payload.fetch("upload").fetch("book_id")
     revision_id = Book.find(book_id).book_revisions.order(number: :desc).first.id

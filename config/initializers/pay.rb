@@ -1,11 +1,11 @@
 Pay.setup do |config|
-  config.application_name = "Chapterwan"
-  config.business_name = "Chapterwan"
+  config.application_name = "Cafaye"
+  config.business_name = "Cafaye"
   config.enabled_processors = [:stripe]
 end
 
 Rails.application.config.after_initialize do
-  next if defined?(CHAPTERWAN_PAY_WEBHOOKS_CONFIGURED)
+  next if defined?(CAFAYE_PAY_WEBHOOKS_CONFIGURED)
 
   Pay::Webhooks.configure do |events|
     events.subscribe "stripe.checkout.session.completed" do |event|
@@ -38,5 +38,5 @@ Rails.application.config.after_initialize do
     end
   end
 
-  CHAPTERWAN_PAY_WEBHOOKS_CONFIGURED = true
+  CAFAYE_PAY_WEBHOOKS_CONFIGURED = true
 end

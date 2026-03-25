@@ -6,12 +6,12 @@ id: library-and-reader
 
 ## Public discovery
 
-- `/` introduces Chapterwan and featured books
+- `/` introduces Cafaye and featured books
 - `/library` provides full browse/search
 
 ## Reader output
 
-Published revisions appear in Chapterwan's web reader.
+Published revisions appear in Cafaye's web reader.
 This is the canonical reading surface for readers.
 
 ## What readers should see

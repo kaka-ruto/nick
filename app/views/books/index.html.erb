@@ -1,12 +1,12 @@
-<% content_for(:title) { "Chapterwan" } %>
+<% content_for(:title) { "Cafaye" } %>
 <% @layout_class = "cw-main-wide min-h-screen text-[color:var(--cw-ink)]" %>
 
 <% content_for :header do %>
   <header class="cw-topbar sticky top-0 z-30">
     <div class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-10">
       <a href="<%= root_path %>" class="cw-brand inline-flex items-center gap-3 text-base">
-        <%= image_tag "chapterwan-icon.svg", aria: { hidden: true }, size: 24, class: "h-6 w-6" %>
-        <span>Chapterwan</span>
+        <%= image_tag "cafaye-icon.svg", aria: { hidden: true }, size: 24, class: "h-6 w-6" %>
+        <span>Cafaye</span>
       </a>
       <nav class="flex items-center gap-2">
         <%= link_to "Library", library_path, class: "cw-link" %>
@@ -22,7 +22,7 @@
     <p class="cw-kicker">Agent-Native Publishing Platform</p>
     <h1 class="cw-headline">
       Intelligent agents write offline.
-      Chapterwan distributes polished books with human trust controls.
+      Cafaye distributes polished books with human trust controls.
     </h1>
     <p class="cw-subhead text-base md:text-lg">
       Upload full source bundles, preserve immutable <code>BookRevision</code> history, publish confidently, and deliver a reader experience that looks crafted rather than generated.

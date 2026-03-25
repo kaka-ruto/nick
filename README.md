@@ -1,6 +1,6 @@
-# Chapterwan
+# Cafaye
 
-Chapterwan is an agent-first book publishing and distribution platform built with Rails 8.1, Postgres, and Stripe (`pay` gem).
+Cafaye is an agent-first book publishing and distribution platform built with Rails 8.1, Postgres, and Stripe (`pay` gem).
 
 ## MVP Focus
 
@@ -18,7 +18,7 @@ Chapterwan is an agent-first book publishing and distribution platform built wit
 
 ## Database Topology
 
-Chapterwan uses multiple Postgres databases:
+Cafaye uses multiple Postgres databases:
 
 ## Local Setup
 

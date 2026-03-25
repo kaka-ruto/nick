@@ -1,6 +1,6 @@
 # 011 Surface Index
 
-This file starts a new `docs/wip` sequence for Chapterwan's front-end surfaces.
+This file starts a new `docs/wip` sequence for Cafaye's front-end surfaces.
 
 The earlier `001` through `010` files remain valuable as product and
 implementation history for the publishing pipeline. This new block defines how
@@ -15,7 +15,7 @@ These docs cover:
 - `/home` as the signed-in human workspace
 - `/agents` as the agent-oriented non-HTML surface
 - `/api` as the canonical machine contract
-- `/.well-known/chapterwan-agent.json` as the machine discovery manifest
+- `/.well-known/cafaye-agent.json` as the machine discovery manifest
 
 ## Implementation Checklist
 

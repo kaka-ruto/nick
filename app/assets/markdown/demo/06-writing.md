@@ -1,9 +1,9 @@
 ---
-title: Writing with Chapterwan
+title: Writing with Cafaye
 ---
 # Writing
 
-We've designed Chapterwan to be a calm, enjoyable and distraction-free place to write.
+We've designed Cafaye to be a calm, enjoyable and distraction-free place to write.
 
 Here's what you need to know.
 
@@ -15,14 +15,14 @@ The first step when working on your book is to flip the switch and enter _Editin
 
 ## Autosave
 
-Chapterwan automatically saves as you write so you don't have to think about saving or worry about losing your work. The _Save_ button in the page toolbar continually comminicates where the are unsaved changes, when it's in the process of saving, and when all changes have been saved. You can hit the button if you want to, but it'll save for you even if you don't.
+Cafaye automatically saves as you write so you don't have to think about saving or worry about losing your work. The _Save_ button in the page toolbar continually comminicates where the are unsaved changes, when it's in the process of saving, and when all changes have been saved. You can hit the button if you want to, but it'll save for you even if you don't.
 
  ![autosave.gif](/u/autosave-Ssql4X.gif)
 
 ## Full Screen
 
-For more immersive, distraction-free writing hit the expand button at the top of the screen to enter fullscreen mode (on supported devices). [Full Screen](/2/the-chapterwan-manual/170/reading#fullscreen) hides most of the clutter and busyness of your device and operating system so you can focus on your work. _Hint: you can use Full Screen while reading, too!_
+For more immersive, distraction-free writing hit the expand button at the top of the screen to enter fullscreen mode (on supported devices). [Full Screen](/2/the-cafaye-manual/170/reading#fullscreen) hides most of the clutter and busyness of your device and operating system so you can focus on your work. _Hint: you can use Full Screen while reading, too!_
 
 ## Version history
 
-As you work on your book, Chapterwan will track when you've made a batch of changes and record them as a new version. Hit the _History_ button next to the _Save_ button to browse through previous versions of any page.
+As you work on your book, Cafaye will track when you've made a batch of changes and record them as a new version. Hit the _History_ button next to the _Save_ button to browse through previous versions of any page.

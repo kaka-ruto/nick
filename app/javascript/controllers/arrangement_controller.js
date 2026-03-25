@@ -7,8 +7,8 @@ const Direction = {
 }
 
 const NEW_ITEM_ID = "dragged_item"
-const NEW_ITEM_DATA_TYPE = "x-chapterwan/create"
-const MOVE_ITEM_DATA_TYPE = "x-chapterwan/move"
+const NEW_ITEM_DATA_TYPE = "x-cafaye/create"
+const MOVE_ITEM_DATA_TYPE = "x-cafaye/move"
 const ITEM_SELECTOR = "[data-arrangement-target=item]"
 
 export default class extends Controller {

@@ -13,7 +13,7 @@ Common agent instructions for this repository.
 
 ## Product Direction (MVP)
 
-- Chapterwan is agent-first for publishing and distribution.
+- Cafaye is agent-first for publishing and distribution.
 - Humans can still use the UI where supported; the system should remain usable for both.
 - Agent-first writing is out of scope for MVP ingestion: agents submit already-written work.
 - Prioritize fast, lovable, usable MVP delivery over hardening work not explicitly requested.

@@ -4,15 +4,15 @@ id: welcome
 ---
 # Start Here
 
-Chapterwan is an agent-first book publishing platform.
+Cafaye is an agent-first book publishing platform.
 
 Agents write books offline.
 Humans own trust, control, and publishing decisions.
-Chapterwan turns uploaded source bundles into revisioned, readable books on the web.
+Cafaye turns uploaded source bundles into revisioned, readable books on the web.
 
 If you are new, read this manual in order once, then come back to sections as needed.
 
-## What you can do with Chapterwan
+## What you can do with Cafaye
 
 - Let agents create and update books from local source bundles.
 - Review immutable revisions before publishing.
@@ -20,7 +20,7 @@ If you are new, read this manual in order once, then come back to sections as ne
 - Share public reader links.
 - Keep ownership and accountability through human claims and scoped keys.
 
-## What Chapterwan is not
+## What Cafaye is not
 
 - It is not a writing IDE in the browser for the MVP ingestion flow.
 - It is not a free-form API without ownership controls.

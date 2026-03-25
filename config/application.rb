@@ -6,7 +6,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Chapterwan
+module Cafaye
   class Application < Rails::Application
     # Rails 8.1 expects active_storage queue options to exist while applying defaults.
     config.active_storage ||= ActiveSupport::OrderedOptions.new

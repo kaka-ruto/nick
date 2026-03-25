@@ -15,7 +15,7 @@ This file turns the route and surface spec into an execution order.
 - [x] Keep `/api` strict and canonical.
 - [x] Remove duplicate machine resource shapes from `/agents`.
 - [x] Standardize JSON response links and status fields.
-- [x] Add `/.well-known/chapterwan-agent.json`.
+- [x] Add `/.well-known/cafaye-agent.json`.
 
 ## Phase 3: Public Discovery
 

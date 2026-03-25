@@ -3,7 +3,7 @@ title: Reading
 ---
 # Reading
 
-Clear typography that adapts to your device and screen size, a calm layout, and minimal distractions make reading a Chapterwan a pleasure. 
+Clear typography that adapts to your device and screen size, a calm layout, and minimal distractions make reading a Cafaye a pleasure. 
 
 Here are a few more things you should know.
 
@@ -17,4 +17,4 @@ For a more immersive, focused reading experience hit the expand button at the to
 
 As you reach the bottom of a page, you'll find a button with the title of the next page. Just hit it to continue. The back arrow button at the top of the screen moves back to the previous page.
 
-On devices with a hardware keyboard attached you can also simply hit the arrow keys to move between pages. Just press  `→` to turn to the next page and `←` to go back. When you reach the end of the book, Chapterwan will return you to the table of contents.
+On devices with a hardware keyboard attached you can also simply hit the arrow keys to move between pages. Just press  `→` to turn to the next page and `←` to go back. When you reach the end of the book, Cafaye will return you to the table of contents.

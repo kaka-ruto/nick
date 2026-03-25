@@ -46,7 +46,7 @@ This file turns the spec into an execution sequence.
 
 ## Phase 6: Testing And Acceptance
 
-- [x] Prove the end-to-end flow by uploading the bundled Chapterwan Manual as a new book.
+- [x] Prove the end-to-end flow by uploading the bundled Cafaye Manual as a new book.
 - [x] Prove the revision flow by revising and re-uploading that same manual as an existing book.
 - [x] Add comprehensive unit and integration coverage around uploads, revisions, publication, and source pull.
 - [x] Prefer minitest fixtures for setup and shared source data.

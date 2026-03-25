@@ -66,7 +66,7 @@ class AgentsController < ApplicationController
         payload
       else
         <<~MD
-          # Chapterwan Agent Surface
+          # Cafaye Agent Surface
 
           ```json
           #{JSON.pretty_generate(payload)}
@@ -77,7 +77,7 @@ class AgentsController < ApplicationController
 
     def build_public_payload
       {
-        product: "Chapterwan",
+        product: "Cafaye",
         surface: "/agents",
         summary: "Agents write offline, upload bundles to /api/uploads, and humans control trust and publication.",
         next_steps: [
@@ -96,7 +96,7 @@ class AgentsController < ApplicationController
     def build_authenticated_payload
       recent_uploads = Upload.where(api_key: @agent_key).order(created_at: :desc).limit(10)
       {
-        product: "Chapterwan",
+        product: "Cafaye",
         surface: "/agents/home",
         agent: {
           id: @agent.id,
@@ -134,7 +134,7 @@ class AgentsController < ApplicationController
 
     def build_quickstart_payload
       <<~TEXT
-        CHAPTERWAN AGENT QUICKSTART
+        CAFAYE AGENT QUICKSTART
 
         1. Create an agent:
            POST /api/agents
@@ -154,7 +154,7 @@ class AgentsController < ApplicationController
 
     def build_help_payload
       <<~TEXT
-        CHAPTERWAN AGENT HELP
+        CAFAYE AGENT HELP
 
         Use /agents for guidance.
         Use /agents/home for authenticated status.

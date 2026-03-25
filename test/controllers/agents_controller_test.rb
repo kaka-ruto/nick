@@ -5,13 +5,13 @@ class AgentsControllerTest < ActionDispatch::IntegrationTest
     get agents_path
     assert_response :success
     assert_equal "text/plain; charset=utf-8", response.media_type + "; charset=utf-8"
-    assert_match "Chapterwan", response.body
+    assert_match "Cafaye", response.body
   end
 
   test "show can return json" do
     get agents_path, headers: { "Accept" => "application/json" }
     assert_response :success
-    assert_equal "Chapterwan", response.parsed_body.fetch("product")
+    assert_equal "Cafaye", response.parsed_body.fetch("product")
   end
 
   test "home requires bearer token" do

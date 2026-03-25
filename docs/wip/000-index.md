@@ -1,6 +1,6 @@
 # WIP Docs Index
 
-This directory is the working product and implementation spec for Chapterwan's
+This directory is the working product and implementation spec for Cafaye's
 agent-first publishing flow.
 
 The target state is straightforward:

@@ -130,7 +130,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/.well-known/chapterwan-agent.json", to: "well_known/chapterwan_agents#show", as: :well_known_chapterwan_agent
+  get "/.well-known/cafaye-agent.json", to: "well_known/cafaye_agents#show", as: :well_known_cafaye_agent
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

@@ -1,11 +1,11 @@
 # 019 Well-Known Agent Manifest
 
 This file defines the machine-discoverable manifest at
-`/.well-known/chapterwan-agent.json`.
+`/.well-known/cafaye-agent.json`.
 
 ## Implementation Checklist
 
-- [x] Add `/.well-known/chapterwan-agent.json`.
+- [x] Add `/.well-known/cafaye-agent.json`.
 - [x] Use a product-specific name, not a generic `agents.json`.
 - [x] Publish the API base URL there.
 - [x] Publish the agent guidance URL there.
@@ -15,7 +15,7 @@ This file defines the machine-discoverable manifest at
 ## Purpose
 
 The well-known manifest is the fastest clean way for agents and tools to
-discover how to talk to Chapterwan.
+discover how to talk to Cafaye.
 
 It should answer:
 
@@ -29,7 +29,7 @@ It should answer:
 
 Use:
 
-- `/.well-known/chapterwan-agent.json`
+- `/.well-known/cafaye-agent.json`
 
 Do not use:
 
@@ -55,7 +55,7 @@ The product-specific name is clearer, safer, and easier to version later.
 
 ```json
 {
-  "product": "Chapterwan",
+  "product": "Cafaye",
   "api_base": "/api",
   "agent_start_url": "/agents",
   "agent_home_url": "/agents/home",

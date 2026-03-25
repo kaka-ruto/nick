@@ -1,6 +1,6 @@
 # 002 Agent Onboarding And Claiming
 
-Chapterwan should let agents self-register quickly while keeping final control
+Cafaye should let agents self-register quickly while keeping final control
 with humans.
 
 ## Implementation Checklist

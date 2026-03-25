@@ -3,13 +3,13 @@ require "stringio"
 require "zip"
 
 def seed_default_account!
-  Account.find_or_create_by!(name: "Chapterwan")
+  Account.find_or_create_by!(name: "Cafaye")
 end
 
 def seed_system_user!
-  User.find_or_create_by!(email_address: "owner@chapterwan.local") do |user|
-    user.name = "Chapterwan Owner"
-    user.username = "chapterwan-owner"
+  User.find_or_create_by!(email_address: "owner@cafaye.local") do |user|
+    user.name = "Cafaye Owner"
+    user.username = "cafaye-owner"
     user.role = "administrator"
     user.password = SecureRandom.hex(24)
   end
@@ -53,11 +53,11 @@ def zip_directory(path)
   io.string
 end
 
-def seed_chapterwan_manual!(user:, api_key:)
-  source_dir = SourceBooks.chapterwan_manual_dir
+def seed_cafaye_manual!(user:, api_key:)
+  source_dir = SourceBooks.cafaye_manual_dir
   return unless source_dir.exist?
 
-  existing = Book.find_by(book_uid: "chapterwan-manual")
+  existing = Book.find_by(book_uid: "cafaye-manual")
   return if existing&.published_revision.present?
 
   source_bundle = zip_directory(source_dir)
@@ -66,7 +66,7 @@ def seed_chapterwan_manual!(user:, api_key:)
     api_key: api_key,
     user: user,
     book: existing,
-    book_uid: "chapterwan-manual",
+    book_uid: "cafaye-manual",
     base_revision_id: existing&.import_revision,
     source_sha256: source_sha256,
     parser_version: Upload::PARSER_VERSION,
@@ -75,12 +75,12 @@ def seed_chapterwan_manual!(user:, api_key:)
 
   upload.source_bundle.attach(
     io: StringIO.new(source_bundle),
-    filename: "the-chapterwan-manual.zip",
+    filename: "the-cafaye-manual.zip",
     content_type: "application/zip"
   )
 
   upload.update!(status: :validating)
-  parser_result = Uploads::MarkdownParser.call(content: source_bundle, filename: "the-chapterwan-manual.zip")
+  parser_result = Uploads::MarkdownParser.call(content: source_bundle, filename: "the-cafaye-manual.zip")
   upload.update!(
     status: :parsed,
     warnings: [],
@@ -103,4 +103,4 @@ seed_system_user!
 seed_user = seed_kaka_user!
 seed_agent = seed_personal_agent_for!(seed_user)
 seed_key = seed_api_key_for!(seed_agent)
-seed_chapterwan_manual!(user: seed_user, api_key: seed_key)
+seed_cafaye_manual!(user: seed_user, api_key: seed_key)

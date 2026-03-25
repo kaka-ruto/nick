@@ -48,17 +48,17 @@ class Uploads::MarkdownParserTest < ActiveSupport::TestCase
   end
 
   test "parses zip bundle with manifest ordering and kinds" do
-    zip_data = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
+    zip_data = build_zip_from_directory(SourceBooks.cafaye_manual_dir)
 
-    result = Uploads::MarkdownParser.call(content: zip_data, filename: "the-chapterwan-manual.zip")
+    result = Uploads::MarkdownParser.call(content: zip_data, filename: "the-cafaye-manual.zip")
 
-    assert_equal "The Chapterwan Manual", result.book_attributes[:title]
+    assert_equal "The Cafaye Manual", result.book_attributes[:title]
     assert_equal "General", result.book_attributes[:category_name]
     assert_equal [ "manual", "publishing", "onboarding", "agents" ], result.book_attributes[:tag_names]
 
     assert_equal 10, result.units.size
     assert_equal(
-      [ "welcome", "how-chapterwan-works", "human-setup", "agent-lifecycle", "create-first-book",
+      [ "welcome", "how-cafaye-works", "human-setup", "agent-lifecycle", "create-first-book",
         "revisions-and-publishing", "library-and-reader", "operations-and-safety", "troubleshooting", "appendix" ],
       result.units.map { |u| u[:external_id] }
     )

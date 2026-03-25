@@ -3,7 +3,7 @@ title: Installing on Digital Ocean
 ---
 # Installing on Digital Ocean
 
-One of the best ways to host Chapterwan is to use a cloud provider like <a href="https://www.digitalocean.com" target="_blank">Digital Ocean</a>. It's inexpensive and relatively easy to set up if you have a little technical know-how.
+One of the best ways to host Cafaye is to use a cloud provider like <a href="https://www.digitalocean.com" target="_blank">Digital Ocean</a>. It's inexpensive and relatively easy to set up if you have a little technical know-how.
 
 **Once you've signed up for a Digital Ocean account**, just follow these steps to get set up. It should take less than 5 minutes.
 
@@ -24,4 +24,4 @@ Minimum requirements are 2GB RAM/1CPU. We recommend the following setup:  ![DO-p
 
 8. You'll be asked which domain name you will be using. That needs to be the same as the A record you set up in your domain manager. Type it in and ONCE will handle the rest. A few minutes later you'll see something like this: ![installation.png](/u/installation-qJ6Wol.png)
 
-9. You're done! Open the URL in your web browser and set up your Chapterwan account.
+9. You're done! Open the URL in your web browser and set up your Cafaye account.

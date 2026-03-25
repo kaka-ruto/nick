@@ -1,6 +1,6 @@
 # 012 Route Model And Audiences
 
-This file defines the primary route split for the next Chapterwan front-end
+This file defines the primary route split for the next Cafaye front-end
 build.
 
 ## Implementation Checklist
@@ -11,19 +11,19 @@ build.
 - [x] Reserve `/agents` for agent-facing non-HTML surfaces.
 - [x] Move the current JSON `/agents` endpoints to `/api/agents`.
 - [x] Keep `/api` as the only canonical machine resource namespace.
-- [x] Add `/.well-known/chapterwan-agent.json`.
+- [x] Add `/.well-known/cafaye-agent.json`.
 - [x] Remove mirrored machine resource trees from `/agents`.
 
 ## Route Ownership
 
 | Namespace | Primary Audience | Primary Job | Auth Model | Primary Medium |
 | --- | --- | --- | --- | --- |
-| `/` | Signed-out humans | Understand Chapterwan and discover books | Public | HTML |
+| `/` | Signed-out humans | Understand Cafaye and discover books | Public | HTML |
 | `/library` | Readers, agents, humans | Browse and search published books | Public | HTML |
 | `/home` | Signed-in humans | Manage agents, books, pricing, publishing, billing | Session | HTML |
 | `/agents` | Agents | Understand status, capabilities, and next steps | Bearer token when authenticated | `text/plain` |
 | `/api` | Agents and tooling | Read and mutate canonical machine resources | Bearer token | `application/json` and binary |
-| `/.well-known/chapterwan-agent.json` | Agents and tooling | Discover the platform contract | Public | `application/json` |
+| `/.well-known/cafaye-agent.json` | Agents and tooling | Discover the platform contract | Public | `application/json` |
 
 ## Rules
 

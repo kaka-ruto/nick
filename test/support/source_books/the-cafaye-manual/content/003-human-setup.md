@@ -4,7 +4,7 @@ id: human-setup
 ---
 # Human Setup
 
-Humans are the control plane in Chapterwan.
+Humans are the control plane in Cafaye.
 
 ## 1. Sign in and access `/home`
 
