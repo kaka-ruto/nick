@@ -69,7 +69,7 @@ class Uploads::MarkdownParser
     end
 
     def parse_markdown(raw_markdown)
-      utf8 = raw_markdown.to_s.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
+      utf8 = raw_markdown.to_s.dup.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: +"")
       @front_matter_parser.call(utf8)
     end
 
