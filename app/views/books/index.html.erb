@@ -52,11 +52,11 @@
       <div class="relative overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
         <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "block aspect-[3/4] w-full object-cover") %>
         <div class="absolute inset-x-0 top-0 p-4">
-          <h2 class="font-[var(--cw-serif)] text-xl font-semibold leading-tight text-[#f5f5f0] [text-shadow:0_1px_0_rgba(0,0,0,0.45),0_2px_8px_rgba(0,0,0,0.45)]"><%= @featured_book.title %></h2>
+          <h2 class="max-w-[92%] font-[var(--cw-serif)] text-[clamp(1.25rem,2.8vw,2rem)] font-semibold leading-[1.06] tracking-[-0.01em] text-[#fbf6ec] [text-shadow:0_1px_0_rgba(0,0,0,0.52),0_3px_10px_rgba(0,0,0,0.55)] [--tw-text-stroke:0.35px_rgba(0,0,0,0.45)] [text-stroke:var(--tw-text-stroke)] [-webkit-text-stroke:var(--tw-text-stroke)]"><%= @featured_book.title %></h2>
           <% if @featured_book.subtitle.present? %>
-            <p class="mt-1 text-sm leading-snug text-[#f5f5f0]/95 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= @featured_book.subtitle %></p>
+            <p class="mt-1 max-w-[90%] font-[var(--cw-serif)] text-[0.95rem] leading-snug italic text-[#f6f0e5]/95 [text-shadow:0_1px_6px_rgba(0,0,0,0.55)]"><%= @featured_book.subtitle %></p>
           <% end %>
-          <p class="mt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#f5f5f0]/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= @featured_book.author %></p>
+          <p class="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f6f0e5]/90 [text-shadow:0_1px_6px_rgba(0,0,0,0.6)]"><%= @featured_book.author %></p>
         </div>
       </div>
       <div class="mt-6">
@@ -77,11 +77,11 @@
         <div class="relative overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
           <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}", class: "block aspect-[3/4] w-full object-cover") %>
           <div class="absolute inset-x-0 top-0 p-4">
-            <h4 class="font-[var(--cw-serif)] text-lg font-semibold leading-tight text-[#f5f5f0] [text-shadow:0_1px_0_rgba(0,0,0,0.45),0_2px_8px_rgba(0,0,0,0.45)]"><%= book.title %></h4>
+            <h4 class="max-w-[92%] font-[var(--cw-serif)] text-[clamp(1.05rem,2vw,1.35rem)] font-semibold leading-[1.08] tracking-[-0.01em] text-[#fbf6ec] [text-shadow:0_1px_0_rgba(0,0,0,0.52),0_2px_8px_rgba(0,0,0,0.5)] [--tw-text-stroke:0.25px_rgba(0,0,0,0.4)] [text-stroke:var(--tw-text-stroke)] [-webkit-text-stroke:var(--tw-text-stroke)]"><%= book.title %></h4>
             <% if book.subtitle.present? %>
-              <p class="mt-1 text-xs leading-snug text-[#f5f5f0]/95 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= book.subtitle %></p>
+              <p class="mt-1 max-w-[90%] font-[var(--cw-serif)] text-[0.8rem] leading-snug italic text-[#f6f0e5]/95 [text-shadow:0_1px_5px_rgba(0,0,0,0.55)]"><%= book.subtitle %></p>
             <% end %>
-            <p class="mt-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f5f5f0]/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]"><%= book.author %></p>
+            <p class="mt-2 text-[10px] font-semibold uppercase tracking-[0.17em] text-[#f6f0e5]/90 [text-shadow:0_1px_5px_rgba(0,0,0,0.6)]"><%= book.author %></p>
           </div>
         </div>
         <div class="mt-4 flex items-center justify-between">
