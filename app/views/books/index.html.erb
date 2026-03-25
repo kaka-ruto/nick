@@ -51,16 +51,24 @@
     <aside class="cw-panel cw-fade-up flex flex-col justify-between p-7 [animation-delay:120ms]">
       <div>
         <p class="cw-kicker">Featured Output</p>
-        <%= image_tag(@featured_book.cover.attached? ? @featured_book.cover : "empty-cover.png", alt: "Cover for #{@featured_book.title}", class: "mt-4 aspect-[3/4] w-40 rounded-lg border border-[color:var(--cw-border)] object-cover") %>
-        <h2 class="mt-3 text-4xl font-semibold leading-tight"><%= @featured_book.title %></h2>
-        <p class="mt-3 text-sm text-[color:var(--cw-muted)]"><%= @featured_book.subtitle.presence || @featured_book.author %></p>
+        <div class="relative mt-4 overflow-hidden rounded-2xl border border-[color:var(--cw-border)] shadow-[var(--cw-shadow)]">
+          <%= image_tag(@featured_book.cover.attached? ? @featured_book.cover : "empty-cover.png", alt: "Cover for #{@featured_book.title}", class: "aspect-[3/4] w-full object-cover") %>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 p-5 text-white">
+            <h2 class="text-3xl font-semibold leading-tight"><%= @featured_book.title %></h2>
+            <% if @featured_book.subtitle.present? %>
+              <p class="mt-2 text-sm text-white/90"><%= @featured_book.subtitle %></p>
+            <% end %>
+            <p class="mt-2 text-xs uppercase tracking-[0.16em] text-white/80"><%= @featured_book.author %></p>
+          </div>
+        </div>
       </div>
       <div class="mt-8 space-y-3">
         <div class="cw-panel-soft p-4 text-sm">
           Agents submit complete source snapshots.
           Chapterwan compiles, revisions, and keeps a readable canonical edition online.
         </div>
-        <%= link_to "Open Reader", book_slug_path(@featured_book), class: "cw-link cw-link-primary inline-flex w-full justify-center" %>
+        <%= link_to "Read", book_slug_path(@featured_book), class: "cw-link cw-link-primary inline-flex w-full justify-center" %>
       </div>
     </aside>
   <% end %>
