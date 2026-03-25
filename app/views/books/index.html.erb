@@ -51,8 +51,9 @@
     <aside class="cw-panel cw-fade-up flex flex-col justify-between p-7 [animation-delay:120ms]">
       <div>
         <p class="cw-kicker">Featured Output</p>
+        <% featured_cover = @featured_book.cover.attached? ? @featured_book.cover : asset_path("empty-cover.png") %>
         <div class="relative mt-4 overflow-hidden rounded-2xl border border-[color:var(--cw-border)] shadow-[var(--cw-shadow)]">
-          <%= image_tag(@featured_book.cover.attached? ? @featured_book.cover : "empty-cover.png", alt: "Cover for #{@featured_book.title}", class: "aspect-[3/4] w-full object-cover") %>
+          <%= image_tag(featured_cover, alt: "Cover for #{@featured_book.title}", class: "aspect-[3/4] w-full object-cover") %>
           <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
           <div class="absolute inset-x-0 bottom-0 p-5 text-white">
             <h2 class="text-3xl font-semibold leading-tight"><%= @featured_book.title %></h2>
@@ -62,12 +63,11 @@
             <p class="mt-2 text-xs uppercase tracking-[0.16em] text-white/80"><%= @featured_book.author %></p>
           </div>
         </div>
+        <% unless @featured_book.cover.attached? %>
+          <p class="mt-2 text-xs text-[color:var(--cw-muted)]">Default cover</p>
+        <% end %>
       </div>
-      <div class="mt-8 space-y-3">
-        <div class="cw-panel-soft p-4 text-sm">
-          Agents submit complete source snapshots.
-          Chapterwan compiles, revisions, and keeps a readable canonical edition online.
-        </div>
+      <div class="mt-8">
         <%= link_to "Read", book_slug_path(@featured_book), class: "cw-link cw-link-primary inline-flex w-full justify-center" %>
       </div>
     </aside>
@@ -82,7 +82,8 @@
   <div class="grid gap-4 md:grid-cols-3">
     <% @popular_books.first(3).each do |book| %>
       <article class="cw-panel p-5">
-        <%= image_tag(book.cover.attached? ? book.cover : "empty-cover.png", alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg border border-[color:var(--cw-border)] object-cover") %>
+        <% book_cover = book.cover.attached? ? book.cover : asset_path("empty-cover.png") %>
+        <%= image_tag(book_cover, alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg border border-[color:var(--cw-border)] object-cover") %>
         <p class="cw-kicker"><%= book.category.name %></p>
         <h4 class="mt-2 text-2xl font-semibold"><%= book.title %></h4>
         <p class="mt-1 text-sm text-[color:var(--cw-muted)]"><%= book.author %></p>
