@@ -19,11 +19,11 @@ These docs cover:
 
 ## Implementation Checklist
 
-- [ ] Preserve the old `001` through `010` docs as historical context.
-- [ ] Use this `011` through `021` block for the new surface build.
-- [ ] Keep audience boundaries explicit on every route.
-- [ ] Use the `frontend-skill` on HTML surfaces for strong visual direction.
-- [ ] Keep `/agents` outside the HTML design system.
+- [x] Preserve the old `001` through `010` docs as historical context.
+- [x] Use this `011` through `021` block for the new surface build.
+- [x] Keep audience boundaries explicit on every route.
+- [x] Use the `frontend-skill` on HTML surfaces for strong visual direction.
+- [x] Keep `/agents` outside the HTML design system.
 
 ## Reading Order
 

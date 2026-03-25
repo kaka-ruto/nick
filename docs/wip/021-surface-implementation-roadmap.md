@@ -4,53 +4,53 @@ This file turns the route and surface spec into an execution order.
 
 ## Phase 1: Route Ownership
 
-- [ ] Add `/home`.
-- [ ] Add `/library`.
-- [ ] Add `/agents` as the agent guidance namespace.
-- [ ] Move current JSON `/agents` endpoints to `/api/agents`.
-- [ ] Keep compatibility redirects or aliases only if needed for migration.
+- [x] Add `/home`.
+- [x] Add `/library`.
+- [x] Add `/agents` as the agent guidance namespace.
+- [x] Move current JSON `/agents` endpoints to `/api/agents`.
+- [x] Keep compatibility redirects or aliases only if needed for migration.
 
 ## Phase 2: Canonical Machine Surface
 
-- [ ] Keep `/api` strict and canonical.
-- [ ] Remove duplicate machine resource shapes from `/agents`.
-- [ ] Standardize JSON response links and status fields.
-- [ ] Add `/.well-known/chapterwan-agent.json`.
+- [x] Keep `/api` strict and canonical.
+- [x] Remove duplicate machine resource shapes from `/agents`.
+- [x] Standardize JSON response links and status fields.
+- [x] Add `/.well-known/chapterwan-agent.json`.
 
 ## Phase 3: Public Discovery
 
-- [ ] Redesign `/` as the signed-out public homepage.
-- [ ] Build `/library` as the full browse/search experience.
-- [ ] Keep the public reader routes clearly connected from both.
+- [x] Redesign `/` as the signed-out public homepage.
+- [x] Build `/library` as the full browse/search experience.
+- [x] Keep the public reader routes clearly connected from both.
 
 ## Phase 4: Human Workspace
 
-- [ ] Build `/home`.
-- [ ] Build `/home/books`.
-- [ ] Build `/home/books/:id`.
-- [ ] Build `/home/agents`.
-- [ ] Build `/home/agents/:id`.
-- [ ] Build `/home/billing`.
-- [ ] Build `/home/settings`.
+- [x] Build `/home`.
+- [x] Build `/home/books`.
+- [x] Build `/home/books/:id`.
+- [x] Build `/home/agents`.
+- [x] Build `/home/agents/:id`.
+- [x] Build `/home/billing`.
+- [x] Build `/home/settings`.
 
 ## Phase 5: Agent Surface
 
-- [ ] Build `/agents` as the unauthenticated agent start page.
-- [ ] Build `/agents/home` as the authenticated agent landing page.
-- [ ] Add `/agents/capabilities`.
-- [ ] Add `/agents/quickstart` or `/agents/help` if still needed after the start page is designed.
-- [ ] Keep agent responses text-first and low-token.
+- [x] Build `/agents` as the unauthenticated agent start page.
+- [x] Build `/agents/home` as the authenticated agent landing page.
+- [x] Add `/agents/capabilities`.
+- [x] Add `/agents/quickstart` or `/agents/help` if still needed after the start page is designed.
+- [x] Keep agent responses text-first and low-token.
 
 ## Phase 6: Testing And Acceptance
 
-- [ ] Add integration coverage for the new route ownership and redirects.
-- [ ] Add integration coverage for `/api/agents` after the move.
-- [ ] Add response-format tests for `/agents`.
-- [ ] Add acceptance coverage for `/home` and `/library`.
-- [ ] Prefer unit and integration tests over new controller or system tests.
+- [x] Add integration coverage for the new route ownership and redirects.
+- [x] Add integration coverage for `/api/agents` after the move.
+- [x] Add response-format tests for `/agents`.
+- [x] Add acceptance coverage for `/home` and `/library`.
+- [x] Prefer unit and integration tests over new controller or system tests.
 
 ## Phase 7: Cleanup
 
-- [ ] Remove legacy `/agents` JSON behavior once `/api/agents` is in place.
-- [ ] Update docs, examples, and onboarding to the new route model.
-- [ ] Ensure no page violates the audience contract defined in `012`.
+- [x] Remove legacy `/agents` JSON behavior once `/api/agents` is in place.
+- [x] Update docs, examples, and onboarding to the new route model.
+- [x] Ensure no page violates the audience contract defined in `012`.

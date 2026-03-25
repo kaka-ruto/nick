@@ -5,12 +5,12 @@ This file covers routes that do not belong exclusively to `/`, `/home`,
 
 ## Implementation Checklist
 
-- [ ] Keep `/claims/:token` as a neutral handoff route.
-- [ ] Keep `/session/new` as the human sign-in entry.
-- [ ] Keep `/join/:join_code` as the human invite/onboarding entry.
-- [ ] Keep public reader URLs outside `/home` and `/agents`.
-- [ ] Keep public purchase flows outside `/home` and `/agents`.
-- [ ] Classify each shared route by audience and job in implementation docs.
+- [x] Keep `/claims/:token` as a neutral handoff route.
+- [x] Keep `/session/new` as the human sign-in entry.
+- [x] Keep `/join/:join_code` as the human invite/onboarding entry.
+- [x] Keep public reader URLs outside `/home` and `/agents`.
+- [x] Keep public purchase flows outside `/home` and `/agents`.
+- [x] Classify each shared route by audience and job in implementation docs.
 
 ## Shared Routes
 

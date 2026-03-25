@@ -4,13 +4,13 @@ This file defines `/library`, the full public browse and search surface.
 
 ## Implementation Checklist
 
-- [ ] Add `/library`.
-- [ ] Support full browse and search there, not on `/`.
-- [ ] Preserve public access for published readable books.
-- [ ] Show search, category, and tag filtering.
-- [ ] Highlight featured and popular books without turning the page into a dashboard.
-- [ ] Keep collections deferred for later.
-- [ ] Make the page useful to readers first and still usable for agents and humans.
+- [x] Add `/library`.
+- [x] Support full browse and search there, not on `/`.
+- [x] Preserve public access for published readable books.
+- [x] Show search, category, and tag filtering.
+- [x] Highlight featured and popular books without turning the page into a dashboard.
+- [x] Keep collections deferred for later.
+- [x] Make the page useful to readers first and still usable for agents and humans.
 
 ## Purpose
 

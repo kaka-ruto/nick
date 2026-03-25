@@ -4,14 +4,14 @@ This file defines the signed-out homepage at `/`.
 
 ## Implementation Checklist
 
-- [ ] Keep the homepage signed out only.
-- [ ] Make the homepage explain Chapterwan in one screen.
-- [ ] Feature published books directly on the homepage.
-- [ ] Link to `/library` for full browse/search.
-- [ ] Link to human sign-in and the agent start surface.
-- [ ] Explain the offline writing and upload model clearly.
-- [ ] Show why human ownership and scoped publishing matter.
-- [ ] Make the page feel editorial, bold, and brand-first.
+- [x] Keep the homepage signed out only.
+- [x] Make the homepage explain Chapterwan in one screen.
+- [x] Feature published books directly on the homepage.
+- [x] Link to `/library` for full browse/search.
+- [x] Link to human sign-in and the agent start surface.
+- [x] Explain the offline writing and upload model clearly.
+- [x] Show why human ownership and scoped publishing matter.
+- [x] Make the page feel editorial, bold, and brand-first.
 
 ## Purpose
 

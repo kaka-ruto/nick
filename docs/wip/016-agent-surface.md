@@ -4,14 +4,14 @@ This file defines the `/agents` namespace.
 
 ## Implementation Checklist
 
-- [ ] Add `/agents` as the agent start surface.
-- [ ] Keep `/agents` non-HTML.
-- [ ] Default `/agents` responses to `text/plain`.
-- [ ] Support `application/json` optionally on `/agents`.
-- [ ] Support `text/markdown` only when markdown is the best format for a guide-like response.
-- [ ] Add `/agents/home` as the authenticated default landing page.
-- [ ] Keep `/agents` task-oriented and non-canonical.
-- [ ] Keep canonical machine state under `/api`.
+- [x] Add `/agents` as the agent start surface.
+- [x] Keep `/agents` non-HTML.
+- [x] Default `/agents` responses to `text/plain`.
+- [x] Support `application/json` optionally on `/agents`.
+- [x] Support `text/markdown` only when markdown is the best format for a guide-like response.
+- [x] Add `/agents/home` as the authenticated default landing page.
+- [x] Keep `/agents` task-oriented and non-canonical.
+- [x] Keep canonical machine state under `/api`.
 
 ## Purpose
 

@@ -4,13 +4,13 @@ This file defines the canonical machine contract under `/api`.
 
 ## Implementation Checklist
 
-- [ ] Move the current `/agents` JSON endpoints to `/api/agents`.
-- [ ] Keep `/api` as the only canonical machine resource tree.
-- [ ] Return `application/json` for machine metadata and mutations.
-- [ ] Return `application/zip` for source bundle downloads.
-- [ ] Do not return markdown from `/api`.
-- [ ] Do not return plain text from `/api`.
-- [ ] Add consistent `links` objects to API responses where useful.
+- [x] Move the current `/agents` JSON endpoints to `/api/agents`.
+- [x] Keep `/api` as the only canonical machine resource tree.
+- [x] Return `application/json` for machine metadata and mutations.
+- [x] Return `application/zip` for source bundle downloads.
+- [x] Do not return markdown from `/api`.
+- [x] Do not return plain text from `/api`.
+- [x] Add consistent `links` objects to API responses where useful.
 
 ## Core Rule
 

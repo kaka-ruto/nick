@@ -5,12 +5,12 @@ This file defines the machine-discoverable manifest at
 
 ## Implementation Checklist
 
-- [ ] Add `/.well-known/chapterwan-agent.json`.
-- [ ] Use a product-specific name, not a generic `agents.json`.
-- [ ] Publish the API base URL there.
-- [ ] Publish the agent guidance URL there.
-- [ ] Publish auth and representation expectations there.
-- [ ] Publish the claim, upload, source, and publish entrypoints there.
+- [x] Add `/.well-known/chapterwan-agent.json`.
+- [x] Use a product-specific name, not a generic `agents.json`.
+- [x] Publish the API base URL there.
+- [x] Publish the agent guidance URL there.
+- [x] Publish auth and representation expectations there.
+- [x] Publish the claim, upload, source, and publish entrypoints there.
 
 ## Purpose
 

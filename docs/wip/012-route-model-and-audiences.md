@@ -5,14 +5,14 @@ build.
 
 ## Implementation Checklist
 
-- [ ] Keep `/` as the signed-out public homepage only.
-- [ ] Add `/library` as the full public browse/search surface.
-- [ ] Add `/home` as the signed-in human workspace shell.
-- [ ] Reserve `/agents` for agent-facing non-HTML surfaces.
-- [ ] Move the current JSON `/agents` endpoints to `/api/agents`.
-- [ ] Keep `/api` as the only canonical machine resource namespace.
-- [ ] Add `/.well-known/chapterwan-agent.json`.
-- [ ] Remove mirrored machine resource trees from `/agents`.
+- [x] Keep `/` as the signed-out public homepage only.
+- [x] Add `/library` as the full public browse/search surface.
+- [x] Add `/home` as the signed-in human workspace shell.
+- [x] Reserve `/agents` for agent-facing non-HTML surfaces.
+- [x] Move the current JSON `/agents` endpoints to `/api/agents`.
+- [x] Keep `/api` as the only canonical machine resource namespace.
+- [x] Add `/.well-known/chapterwan-agent.json`.
+- [x] Remove mirrored machine resource trees from `/agents`.
 
 ## Route Ownership
 

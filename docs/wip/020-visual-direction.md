@@ -6,12 +6,12 @@ Use the `frontend-skill` when building `/`, `/library`, and `/home`.
 
 ## Implementation Checklist
 
-- [ ] Give `/`, `/library`, and `/home` distinct visual personalities.
-- [ ] Keep `/agents` non-HTML and out of the visual system.
-- [ ] Use expressive composition on `/`.
-- [ ] Use browse-first editorial layout on `/library`.
-- [ ] Use utility-first workspace layout on `/home`.
-- [ ] Avoid generic card mosaics across all major surfaces.
+- [x] Give `/`, `/library`, and `/home` distinct visual personalities.
+- [x] Keep `/agents` non-HTML and out of the visual system.
+- [x] Use expressive composition on `/`.
+- [x] Use browse-first editorial layout on `/library`.
+- [x] Use utility-first workspace layout on `/home`.
+- [x] Avoid generic card mosaics across all major surfaces.
 
 ## Surface Theses
 

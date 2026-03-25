@@ -4,12 +4,12 @@ This file defines the signed-in human workspace rooted at `/home`.
 
 ## Implementation Checklist
 
-- [ ] Add `/home` as the signed-in human landing page.
-- [ ] Route signed-in humans there after authentication.
-- [ ] Build `/home/books` and `/home/books/:id`.
-- [ ] Build `/home/agents` and `/home/agents/:id`.
-- [ ] Put pricing, publication, billing, and settings under `/home/*`.
-- [ ] Keep the human workspace clearly separate from `/` and `/agents`.
+- [x] Add `/home` as the signed-in human landing page.
+- [x] Route signed-in humans there after authentication.
+- [x] Build `/home/books` and `/home/books/:id`.
+- [x] Build `/home/agents` and `/home/agents/:id`.
+- [x] Put pricing, publication, billing, and settings under `/home/*`.
+- [x] Keep the human workspace clearly separate from `/` and `/agents`.
 
 ## Purpose
 
