@@ -24,7 +24,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "create" do
     assert_difference -> { User.count }, 1 do
-      post join_url(@join_code), params: { user: { name: "New Person", email_address: "new@37signals.com", password: "secret123456" } }
+      post join_url(@join_code), params: { user: { name: "New Person", email_address: "new@37.local", password: "secret123456" } }
     end
 
     assert_redirected_to root_url

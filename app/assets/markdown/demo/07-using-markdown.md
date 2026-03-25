@@ -87,10 +87,10 @@ Chapterwan also supports `HTML` formatting in your pages. Tags like `<p>`, `<img
 Use an `HTML` `a` element with the `target` attribute set to `_blank` (the preceding underscore is important) like this:
 
 ```
-<a href="https://books.37signals.com" target="_blank">This opens in a new tab/window</a>
+<a href="https://library.chapterwan.local" target="_blank">This opens in a new tab/window</a>
 ```
 
-<a href="https://books.37signals.com" target="_blank">This opens in a new tab/window</a>
+<a href="https://library.chapterwan.local" target="_blank">This opens in a new tab/window</a>
 
 
 ***

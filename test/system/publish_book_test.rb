@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class PublishTest < ApplicationSystemTestCase
   setup do
-    sign_in "kevin@37signals.com"
+    sign_in "kevin@37.local"
   end
 
   test "create and publish a book" do

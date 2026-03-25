@@ -28,14 +28,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create with valid credentials" do
-    post session_url, params: { email_address: "david@37signals.com", password: "secret123456" }
+    post session_url, params: { email_address: "david@37.local", password: "secret123456" }
 
     assert_redirected_to home_url
     assert parsed_cookies.signed[:session_token]
   end
 
   test "create with invalid credentials" do
-    post session_url, params: { email_address: "david@37signals.com", password: "wrong" }
+    post session_url, params: { email_address: "david@37.local", password: "wrong" }
 
     assert_response :unauthorized
     assert_nil parsed_cookies.signed[:session_token]

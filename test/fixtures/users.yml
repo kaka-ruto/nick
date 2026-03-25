@@ -2,7 +2,7 @@
 
 david:
   name: David
-  email_address: david@37signals.com
+  email_address: david@37.local
   username: david
   slug: david
   password_digest: <%= password_digest %>
@@ -10,7 +10,7 @@ david:
 
 jason:
   name: Jason
-  email_address: jason@37signals.com
+  email_address: jason@37.local
   username: jason
   slug: jason
   password_digest: <%= password_digest %>
@@ -18,7 +18,7 @@ jason:
 
 jz:
   name: JZ
-  email_address: jz@37signals.com
+  email_address: jz@37.local
   username: jz
   slug: jz
   password_digest: <%= password_digest %>
@@ -26,7 +26,7 @@ jz:
 
 kevin:
   name: Kevin
-  email_address: kevin@37signals.com
+  email_address: kevin@37.local
   username: kevin
   slug: kevin
   password_digest: <%= password_digest %>

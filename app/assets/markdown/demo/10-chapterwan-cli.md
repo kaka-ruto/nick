@@ -1,15 +1,14 @@
+title: The Chapterwan command-line tool
 ---
-title: The ONCE command
----
-# ONCE command reference
+# Chapterwan CLI reference
 
-Install and manage ONCE products.
+Install and manage Chapterwan.
 
-To run the `once` command in a terminal connect to your server using with either `SSH` or a web-based cloud console.
+To run the `chapterwan` command in a terminal, connect to your server using either `SSH` or a web-based cloud console.
 
 ## Usage:
 
-`once` - [command]
+`chapterwan` - [command]
 
 ## Manage passwords
 
@@ -34,6 +33,6 @@ To run the `once` command in a terminal connect to your server using with either
 
 ## Flags:
 
-`-h`, `--help`  - help for once
+`-h`, `--help`  - help for chapterwan
 
-Use `once [command] --help` for more information about a command.
+Use `chapterwan [command] --help` for more information about a command.

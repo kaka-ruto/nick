@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class EditPageTest < ApplicationSystemTestCase
   setup do
-    sign_in "kevin@37signals.com"
+    sign_in "kevin@37.local"
   end
 
   test "edit page" do
