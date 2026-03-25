@@ -1,4 +1,5 @@
 ENV["RAILS_ENV"] ||= "test"
+ENV["CHAPTERWAN_BOOKS_DIR"] ||= File.expand_path("support/source_books", __dir__)
 require_relative "../config/environment"
 require "rails/test_help"
 require_relative "support/vcr"

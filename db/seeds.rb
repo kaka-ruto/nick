@@ -75,12 +75,12 @@ def seed_chapterwan_manual!(user:, api_key:)
 
   upload.source_bundle.attach(
     io: StringIO.new(source_bundle),
-    filename: "chapterwan-manual.zip",
+    filename: "the-chapterwan-manual.zip",
     content_type: "application/zip"
   )
 
   upload.update!(status: :validating)
-  parser_result = Uploads::MarkdownParser.call(content: source_bundle, filename: "chapterwan-manual.zip")
+  parser_result = Uploads::MarkdownParser.call(content: source_bundle, filename: "the-chapterwan-manual.zip")
   upload.update!(
     status: :parsed,
     warnings: [],

@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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//8WABQAAAAAAAEAAACkgXkBAABjb250ZW50LzAwMS13ZWxjb21lLm1kAQAQAG8DAAAAAAAA1AEAAAAAAABQSwECNAMtAAAACACnmHlcWqKpCP//////////IwAUAAAAAAABAAAApIGVAwAAY29udGVudC8wMDItaG93LWNoYXB0ZXJ3YW4td29ya3MubWQBABAApwIAAAAAAACTAQAAAAAAAFBLAQI0Ay0AAAAIAKeYeVw5Soqv//////////8aABQAAAAAAAEAAACkgX0FAABjb250ZW50LzAwMy1odW1hbi1zZXR1cC5tZAEAEAAdAwAAAAAAAMMBAAAAAAAAUEsBAjQDLQAAAAgAp5h5XJINnjz//////////x4AFAAAAAAAAQAAAKSBjAcAAGNvbnRlbnQvMDA0LWFnZW50LWxpZmVjeWNsZS5tZAEAEAD2AgAAAAAAAK8BAAAAAAAAUEsBAjQDLQAAAAgAp5h5XBZCGk///////////yUAFAAAAAAAAQAAAKSBiwkAAGNvbnRlbnQvMDA1LWNyZWF0ZS15b3VyLWZpcnN0LWJvb2subWQBABAAzgIAAAAAAACTAQAAAAAAAFBLAQI0Ay0AAAAIAKeYeVzg3H1j//////////8nABQAAAAAAAEAAACkgXULAABjb250ZW50LzAwNi1yZXZpc2lvbnMtYW5kLXB1Ymxpc2hpbmcubWQBABAAwwIAAAAAAAB/AQAAAAAAAFBLAQI0Ay0AAAAIAKeYeVxLuSJA//////////8sABQAAAAAAAEAAACkgU0NAABjb250ZW50LzAwNy1saWJyYXJ5LWFuZC1yZWFkZXItZXhwZXJpZW5jZS5tZAEAEACFAgAAAAAAAGkBAAAAAAAAUEsBAjQDLQAAAAgAp5h5XMIIAKn//////////yQAFAAAAAAAAQAAAKSBFA8AAGNvbnRlbnQvMDA4LW9wZXJhdGlvbnMtYW5kLXNhZmV0eS5tZAEAEABNAgAAAAAAAFYBAAAAAAAAUEsBAjQDLQAAAAgAp5h5XOKYpZf//////////x4AFAAAAAAAAQAAAKSBwBAAAGNvbnRlbnQvMDA5LXRyb3VibGVzaG9vdGluZy5tZAEAEADWAgAAAAAAAKQBAAAAAAAAUEsBAjQDLQAAAAgAp5h5XJIXN4D//////////xcAFAAA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456TYnw5jKrzf3Seoyt05brZvQ2r9hJoADj0BcWgRJP7mDiY2ssZAz0c7uPEY8HyfYdJF/r9+SK3XyklO4uu4sKEuVFZUeytsv+sKgP8AFBLAQI0Ay0AAAAIAJ2heVxsJpS5//////////8IABQAAAAAAAEAAACkgQAAAABib29rLnltbAEAEACGAgAAAAAAAEMBAAAAAAAAUEsBAjQDLQAAAAgAnaF5XJkSC7///////////xYAFAAAAAAAAQAAAKSBfQEAAGNvbnRlbnQvMDAxLXdlbGNvbWUubWQBABAAbwMAAAAAAADUAQAAAAAAAFBLAQI0Ay0AAAAIAJ2heVxaoqkI//////////8jABQAAAAAAAEAAACkgZkDAABjb250ZW50LzAwMi1ob3ctY2hhcHRlcndhbi13b3Jrcy5tZAEAEACnAgAAAAAAAJMBAAAAAAAAUEsBAjQDLQAAAAgAnaF5XDlKiq///////////xoAFAAAAAAAAQAAAKSBgQUAAGNvbnRlbnQvMDAzLWh1bWFuLXNldHVwLm1kAQAQAB0DAAAAAAAAwwEAAAAAAABQSwECNAMtAAAACACdoXlckg2ePP//////////HgAUAAAAAAABAAAApIGQBwAAY29udGVudC8wMDQtYWdlbnQtbGlmZWN5Y2xlLm1kAQAQAPYCAAAAAAAArwEAAAAAAABQSwECNAMtAAAACACdoXlc3vvyWP//////////JQAUAAAAAAABAAAApIGPCQAAY29udGVudC8wMDUtY3JlYXRlLXlvdXItZmlyc3QtYm9vay5tZAEAEAA8BAAAAAAAAD4CAAAAAAAAUEsBAjQDLQAAAAgAnaF5XODcfWP//////////ycAFAAAAAAAAQAAAKSBJAwAAGNvbnRlbnQvMDA2LXJldmlzaW9ucy1hbmQtcHVibGlzaGluZy5tZAEAEADDAgAAAAAAAH8BAAAAAAAAUEsBAjQDLQAAAAgAnaF5XEu5IkD//////////ywAFAAAAAAAAQAAAKSB/A0AAGNvbnRlbnQvMDA3LWxpYnJhcnktYW5kLXJlYWRlci1leHBlcmllbmNlLm1kAQAQAIUCAAAAAAAAaQEAAAAAAABQSwECNAMtAAAACACdoXlcwggAqf//////////JAAUAAAAAAABAAAApIHDDwAAY29udGVudC8wMDgtb3BlcmF0aW9ucy1hbmQtc2FmZXR5Lm1kAQAQAE0CAAAAAAAAVgEAAAAAAABQSwECNAMtAAAACACdoXlc4pill///////////HgAUAAAAAAABAAAApIFvEQAAY29udGVudC8wMDktdHJvdWJsZXNob290aW5nLm1kAQAQANYCAAAAAAAApAEAAAAAAABQSwECNAMtAAAACACdoXlckhc3gP//////////FwAUAAAAAAABAAAApIFjEwAAY29udGVudC8wMTAtYXBwZW5kaXgubWQBABAAOgEAAAAAAAC4AAAAAAAAAFBLBQYAAAAACwALACAEAABkFAAAAAANCi0tLS0tLWNoYXB0ZXJ3YW4tMjc4ZjIwMGFlNWVhNDM1MTgwMWItLQ0K
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -17,11 +17,11 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
+      - Bearer cwk_9ce8d7f91345a5dbf332254979afa875ed02ebab0b3dbc17
       Idempotency-Key:
       - http-upload-create
       Content-Type:
-      - multipart/form-data; boundary=----chapterwan-2444f34bc04b8d475d92
+      - multipart/form-data; boundary=----chapterwan-278f200ae5ea4351801b
   response:
     status:
       code: 201
@@ -42,25 +42,25 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"1286907f829492c64fcc84762083ac6c"
+      - W/"5a20b8e51108c0dc3dcfabf009a14b33"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 3d458ed9-d58f-4fa7-ac9b-dad6c7f7dbf3
+      - 903abffc-7264-4507-820e-bfd5fb94632c
       X-Runtime:
-      - '0.292658'
+      - '0.151181'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Wed, 25 Mar 2026 16:05:15 GMT
+      - Wed, 25 Mar 2026 17:12:58 GMT
       Content-Length:
-      - '9290'
+      - '9663'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"upload":{"id":55,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"637321dd380a915d1631563e688518e1d1b3aad35e209285d4956d682692f89a","applied_at":"2026-03-25T16:05:15.006Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
-        Manual","author":"Chapterwan Documentation Team","book_uid":"chapterwan-manual","subtitle":"Human
+      string: '{"upload":{"id":78,"book_id":1057022150,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"dfb0bbd118714f5275994c28b130b61143690e22fa5d0fd030e4afdd215bdf6b","applied_at":"2026-03-25T17:12:58.629Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"The
+        Chapterwan Manual","author":"Kaka Personal Agent","book_uid":"chapterwan-manual","subtitle":"Human
         guide to agent-powered book publishing","tag_names":["manual","publishing","onboarding","agents"],"category_name":"General"},"units":[{"body":"#
         Start Here\n\nChapterwan is an agent-first book publishing platform.\n\nAgents
         write books offline.\nHumans own trust, control, and publishing decisions.\nChapterwan
@@ -108,12 +108,16 @@ http_interactions:
         the book automatically.\n\n## Required bundle structure\n\n- `book.yml` with
         schema + metadata + explicit `reading_order`\n- content markdown files in
         the referenced order\n- explicit `id` in each content file front matter\n\n##
-        Minimum `book.yml` fields\n\n- `schema_version`\n- `book_uid`\n- `title`\n-
-        `author`\n- `reading_order`\n\n## First upload flow\n\n1. build zip bundle
-        from local source\n2. `POST /api/uploads` with `source_bundle`\n3. inspect
-        `GET /api/uploads/:id`\n4. confirm accepted status and created revision\n\nIf
+        Recommended local workspace layout\n\nUse a single root workspace:\n\n- `~/Chapterwan/books`\n\nCreate
+        one folder per book inside it, for example:\n\n- `~/Chapterwan/books/the-chapterwan-manual`\n-
+        `~/Chapterwan/books/trust-me-im-lying`\n\nFor both humans and agents, start
+        each revision by pulling/downloading the latest source bundle into the book
+        folder before editing.\n\n## Minimum `book.yml` fields\n\n- `schema_version`\n-
+        `book_uid`\n- `title`\n- `author`\n- `reading_order`\n\n## First upload flow\n\n1.
+        build zip bundle from local source\n2. `POST /api/uploads` with `source_bundle`\n3.
+        inspect `GET /api/uploads/:id`\n4. confirm accepted status and created revision\n\nIf
         key has publish scope and policy allows, upload can publish immediately.","kind":"page","theme":null,"title":"Create
-        Your First Book","external_id":"create-first-book","content_sha256":"9b7b5d33918cd5a966cee40338316110c086ffee00027fe0e441731c3c467a28"},{"body":"#
+        Your First Book","external_id":"create-first-book","content_sha256":"aa6c07a929e4650560e49ec72d7699ccf237226c766dbd6cf526ef337f6f428d"},{"body":"#
         Revisions and Publishing\n\nEvery successful upload creates a new immutable
         `BookRevision`.\n\n## Update workflow\n\n1. start from latest known revision\n2.
         edit local source\n3. upload full bundle with `base_revision_id`\n4. handle
@@ -152,11 +156,11 @@ http_interactions:
         cover + metadata values\n\nIf needed, publish a known-good prior revision.","kind":"page","theme":null,"title":"Troubleshooting","external_id":"troubleshooting","content_sha256":"ffa75e962b7cd5743f03f1ba0fd75e5debc045b5c973c3197a4eda26d9acc2a1"},{"body":"##
         Appendix\n\nUseful endpoint groups:\n\n- `/api/agents`\n- `/api/uploads`\n-
         `/api/books`\n- `/api/books/:id/revisions`\n- `/api/books/:id/source`\n\nHuman
-        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022144,"units_count":10,"revision_number":1,"book_revision_id":43},"created_at":"2026-03-25T16:05:14.844Z","updated_at":"2026-03-25T16:05:15.006Z","links":{"self":"/api/uploads/55","book":"/api/books/1057022144","revisions":"/api/books/1057022144/revisions"}}}'
-  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
+        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022150,"units_count":10,"revision_number":1,"book_revision_id":60},"created_at":"2026-03-25T17:12:58.521Z","updated_at":"2026-03-25T17:12:58.630Z","links":{"self":"/api/uploads/78","book":"/api/books/1057022150","revisions":"/api/books/1057022150/revisions"}}}'
+  recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:9887/api/uploads/55
+    uri: http://127.0.0.1:9887/api/uploads/78
     body:
       encoding: US-ASCII
       string: ''
@@ -170,7 +174,7 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
+      - Bearer cwk_9ce8d7f91345a5dbf332254979afa875ed02ebab0b3dbc17
       Idempotency-Key:
       - http-upload-show
   response:
@@ -193,25 +197,25 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"1286907f829492c64fcc84762083ac6c"
+      - W/"5a20b8e51108c0dc3dcfabf009a14b33"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a524caa8-a362-46d4-a74e-94cecf5577e8
+      - 254d8e1b-36eb-486a-8dea-9eaf4b1961ef
       X-Runtime:
-      - '0.012267'
+      - '0.005213'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Wed, 25 Mar 2026 16:05:15 GMT
+      - Wed, 25 Mar 2026 17:12:58 GMT
       Content-Length:
-      - '9290'
+      - '9663'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"upload":{"id":55,"book_id":1057022144,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"637321dd380a915d1631563e688518e1d1b3aad35e209285d4956d682692f89a","applied_at":"2026-03-25T16:05:15.006Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"Chapterwan
-        Manual","author":"Chapterwan Documentation Team","book_uid":"chapterwan-manual","subtitle":"Human
+      string: '{"upload":{"id":78,"book_id":1057022150,"status":"accepted","parser_version":"markdown-v2","expected_revision":null,"base_revision_id":null,"source_commit":null,"agent_run_id":null,"source_sha256":"dfb0bbd118714f5275994c28b130b61143690e22fa5d0fd030e4afdd215bdf6b","applied_at":"2026-03-25T17:12:58.629Z","error_message":null,"validation_errors":[],"warnings":[],"build_log":null,"plan":{"book":{"theme":"blue","title":"The
+        Chapterwan Manual","author":"Kaka Personal Agent","book_uid":"chapterwan-manual","subtitle":"Human
         guide to agent-powered book publishing","tag_names":["manual","publishing","onboarding","agents"],"category_name":"General"},"units":[{"body":"#
         Start Here\n\nChapterwan is an agent-first book publishing platform.\n\nAgents
         write books offline.\nHumans own trust, control, and publishing decisions.\nChapterwan
@@ -259,12 +263,16 @@ http_interactions:
         the book automatically.\n\n## Required bundle structure\n\n- `book.yml` with
         schema + metadata + explicit `reading_order`\n- content markdown files in
         the referenced order\n- explicit `id` in each content file front matter\n\n##
-        Minimum `book.yml` fields\n\n- `schema_version`\n- `book_uid`\n- `title`\n-
-        `author`\n- `reading_order`\n\n## First upload flow\n\n1. build zip bundle
-        from local source\n2. `POST /api/uploads` with `source_bundle`\n3. inspect
-        `GET /api/uploads/:id`\n4. confirm accepted status and created revision\n\nIf
+        Recommended local workspace layout\n\nUse a single root workspace:\n\n- `~/Chapterwan/books`\n\nCreate
+        one folder per book inside it, for example:\n\n- `~/Chapterwan/books/the-chapterwan-manual`\n-
+        `~/Chapterwan/books/trust-me-im-lying`\n\nFor both humans and agents, start
+        each revision by pulling/downloading the latest source bundle into the book
+        folder before editing.\n\n## Minimum `book.yml` fields\n\n- `schema_version`\n-
+        `book_uid`\n- `title`\n- `author`\n- `reading_order`\n\n## First upload flow\n\n1.
+        build zip bundle from local source\n2. `POST /api/uploads` with `source_bundle`\n3.
+        inspect `GET /api/uploads/:id`\n4. confirm accepted status and created revision\n\nIf
         key has publish scope and policy allows, upload can publish immediately.","kind":"page","theme":null,"title":"Create
-        Your First Book","external_id":"create-first-book","content_sha256":"9b7b5d33918cd5a966cee40338316110c086ffee00027fe0e441731c3c467a28"},{"body":"#
+        Your First Book","external_id":"create-first-book","content_sha256":"aa6c07a929e4650560e49ec72d7699ccf237226c766dbd6cf526ef337f6f428d"},{"body":"#
         Revisions and Publishing\n\nEvery successful upload creates a new immutable
         `BookRevision`.\n\n## Update workflow\n\n1. start from latest known revision\n2.
         edit local source\n3. upload full bundle with `base_revision_id`\n4. handle
@@ -303,11 +311,11 @@ http_interactions:
         cover + metadata values\n\nIf needed, publish a known-good prior revision.","kind":"page","theme":null,"title":"Troubleshooting","external_id":"troubleshooting","content_sha256":"ffa75e962b7cd5743f03f1ba0fd75e5debc045b5c973c3197a4eda26d9acc2a1"},{"body":"##
         Appendix\n\nUseful endpoint groups:\n\n- `/api/agents`\n- `/api/uploads`\n-
         `/api/books`\n- `/api/books/:id/revisions`\n- `/api/books/:id/source`\n\nHuman
-        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022144,"units_count":10,"revision_number":1,"book_revision_id":43},"created_at":"2026-03-25T16:05:14.844Z","updated_at":"2026-03-25T16:05:15.006Z","links":{"self":"/api/uploads/55","book":"/api/books/1057022144","revisions":"/api/books/1057022144/revisions"}}}'
-  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
+        and public surfaces:\n\n- `/`\n- `/library`\n- `/home`\n- `/agents`\n- `/.well-known/chapterwan-agent.json`","kind":"section","theme":"dark","title":"Appendix","external_id":"appendix","content_sha256":"07337675348f56c244e753f309f7c81b38c28a738868634cdf73398654a6c723"}]},"result":{"book_id":1057022150,"units_count":10,"revision_number":1,"book_revision_id":60},"created_at":"2026-03-25T17:12:58.521Z","updated_at":"2026-03-25T17:12:58.630Z","links":{"self":"/api/uploads/78","book":"/api/books/1057022150","revisions":"/api/books/1057022150/revisions"}}}'
+  recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:9887/api/books/1057022144/revisions
+    uri: http://127.0.0.1:9887/api/books/1057022150/revisions
     body:
       encoding: US-ASCII
       string: ''
@@ -321,7 +329,7 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
+      - Bearer cwk_9ce8d7f91345a5dbf332254979afa875ed02ebab0b3dbc17
       Idempotency-Key:
       - http-upload-revisions
   response:
@@ -344,28 +352,28 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"3d365121cf09d1b27af20e941641ff15"
+      - W/"b1cf51ec6f8b3cad6997aa20934c9820"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - c67c72f9-5bd6-4a2d-ae70-ab9d7fff37b5
+      - 1859a4f4-83ad-483c-8dc9-2b3122b91223
       X-Runtime:
-      - '0.010103'
+      - '0.006239'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Wed, 25 Mar 2026 16:05:15 GMT
+      - Wed, 25 Mar 2026 17:12:58 GMT
       Content-Length:
       - '339'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"revisions":[{"id":43,"number":1,"source_sha256":"637321dd380a915d1631563e688518e1d1b3aad35e209285d4956d682692f89a","upload_id":55,"created_at":"2026-03-25T16:05:15.001Z","links":{"self":"/api/books/1057022144/revisions/43","source":"/api/books/1057022144/revisions/43/source"}}],"current_draft_revision_id":43,"published_revision_id":43}'
-  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
+      string: '{"revisions":[{"id":60,"number":1,"source_sha256":"dfb0bbd118714f5275994c28b130b61143690e22fa5d0fd030e4afdd215bdf6b","upload_id":78,"created_at":"2026-03-25T17:12:58.626Z","links":{"self":"/api/books/1057022150/revisions/60","source":"/api/books/1057022150/revisions/60/source"}}],"current_draft_revision_id":60,"published_revision_id":60}'
+  recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 - request:
     method: get
-    uri: http://127.0.0.1:9887/api/books/1057022144/revisions/43/source
+    uri: http://127.0.0.1:9887/api/books/1057022150/revisions/60/source
     body:
       encoding: US-ASCII
       string: ''
@@ -379,7 +387,7 @@ http_interactions:
       Host:
       - 127.0.0.1:9887
       Authorization:
-      - Bearer cwk_c6d040ffe023a145d7657e2652553a1605c8c9087ac478d6
+      - Bearer cwk_9ce8d7f91345a5dbf332254979afa875ed02ebab0b3dbc17
       Idempotency-Key:
       - http-upload-source
   response:
@@ -402,23 +410,23 @@ http_interactions:
       Vary:
       - Accept
       Etag:
-      - W/"f04e39805e3a48097ffb5c105689717b"
+      - W/"4bcf39086680f2cc3d90b5040ad23bb8"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 2d01d8ef-3cf4-427e-9bcd-7364805dbbc9
+      - ab1d6fb7-2c99-444c-be42-ed78c8f2700f
       X-Runtime:
-      - '0.008280'
+      - '0.008780'
       Server:
       - WEBrick/1.9.2 (Ruby/4.0.1/2026-01-13)
       Date:
-      - Wed, 25 Mar 2026 16:05:15 GMT
+      - Wed, 25 Mar 2026 17:12:58 GMT
       Content-Length:
-      - '282'
+      - '290'
       Connection:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '{"source":{"upload_id":55,"filename":"chapterwan-manual.zip","content_type":"application/zip","byte_size":6123,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDc4LCJwdXIiOiJibG9iX2lkIn19--91d792fa786fc82f7815801c1e780dd75627875b/chapterwan-manual.zip"}}'
-  recorded_at: Wed, 25 Mar 2026 16:05:15 GMT
+      string: '{"source":{"upload_id":78,"filename":"the-chapterwan-manual.zip","content_type":"application/zip","byte_size":6298,"url":"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NDA4MTEzMDg1LCJwdXIiOiJibG9iX2lkIn19--ea6b8502b1a3b4b6782fc9370ec3e5c619546e88/the-chapterwan-manual.zip"}}'
+  recorded_at: Wed, 25 Mar 2026 17:12:58 GMT
 recorded_with: VCR 6.4.0

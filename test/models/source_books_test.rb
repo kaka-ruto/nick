@@ -4,15 +4,15 @@ class SourceBooksTest < ActiveSupport::TestCase
   test "chapterwan manual falls back to repository fixture" do
     Dir.mktmpdir do |dir|
       with_books_dir(dir) do
-      path = SourceBooks.chapterwan_manual_dir
-      assert_equal Rails.root.join("books/chapterwan-manual"), path
+        path = SourceBooks.chapterwan_manual_dir
+        assert_equal Pathname(dir).join("the-chapterwan-manual"), path
       end
     end
   end
 
   test "configured books dir is preferred" do
     Dir.mktmpdir do |dir|
-      manual_dir = Pathname(dir).join("chapterwan-manual")
+      manual_dir = Pathname(dir).join("the-chapterwan-manual")
       FileUtils.mkdir_p(manual_dir)
 
       with_books_dir(dir) do

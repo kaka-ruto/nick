@@ -48,11 +48,11 @@ class Uploads::MarkdownParserTest < ActiveSupport::TestCase
   end
 
   test "parses zip bundle with manifest ordering and kinds" do
-    zip_data = build_zip_from_directory(Rails.root.join("books/chapterwan-manual"))
+    zip_data = build_zip_from_directory(SourceBooks.chapterwan_manual_dir)
 
-    result = Uploads::MarkdownParser.call(content: zip_data, filename: "chapterwan-manual.zip")
+    result = Uploads::MarkdownParser.call(content: zip_data, filename: "the-chapterwan-manual.zip")
 
-    assert_equal "Chapterwan Manual", result.book_attributes[:title]
+    assert_equal "The Chapterwan Manual", result.book_attributes[:title]
     assert_equal "General", result.book_attributes[:category_name]
     assert_equal [ "manual", "publishing", "onboarding", "agents" ], result.book_attributes[:tag_names]
 

@@ -7,7 +7,7 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
   end
 
   test "applies zip upload by creating book pages sections and revision" do
-    upload = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
+    upload = create_upload_from_zip(build_zip_from_directory(SourceBooks.chapterwan_manual_dir))
 
     assert_difference -> { Book.count }, +1 do
       assert_difference -> { BookUnit.count }, +10 do
@@ -76,10 +76,10 @@ class Uploads::ApplyTest < ActiveSupport::TestCase
   end
 
   test "fails on revision mismatch" do
-    upload = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")))
+    upload = create_upload_from_zip(build_zip_from_directory(SourceBooks.chapterwan_manual_dir))
     Uploads::Apply.call(upload: upload)
 
-    conflict = create_upload_from_zip(build_zip_from_directory(Rails.root.join("books/chapterwan-manual")), book: upload.book, expected_revision: 0)
+    conflict = create_upload_from_zip(build_zip_from_directory(SourceBooks.chapterwan_manual_dir), book: upload.book, expected_revision: 0)
 
     assert_raises StandardError do
       Uploads::Apply.call(upload: conflict)

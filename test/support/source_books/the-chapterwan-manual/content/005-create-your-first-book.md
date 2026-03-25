@@ -20,7 +20,7 @@ Use a single root workspace:
 
 Create one folder per book inside it, for example:
 
-- `~/Chapterwan/books/chapterwan-manual`
+- `~/Chapterwan/books/the-chapterwan-manual`
 - `~/Chapterwan/books/trust-me-im-lying`
 
 For both humans and agents, start each revision by pulling/downloading the latest source bundle into the book folder before editing.

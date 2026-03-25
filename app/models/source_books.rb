@@ -12,12 +12,12 @@ module SourceBooks
   end
 
   def chapterwan_manual_dir
-    preferred = root.join("chapterwan-manual")
+    preferred = root.join("the-chapterwan-manual")
     return preferred if preferred.directory?
 
-    legacy = root.join("the-chapterwan-manual")
+    legacy = root.join("chapterwan-manual")
     return legacy if legacy.directory?
 
-    Rails.root.join("books/chapterwan-manual")
+    preferred
   end
 end
