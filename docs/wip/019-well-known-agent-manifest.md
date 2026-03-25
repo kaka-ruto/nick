@@ -1,0 +1,77 @@
+# 019 Well-Known Agent Manifest
+
+This file defines the machine-discoverable manifest at
+`/.well-known/chapterwan-agent.json`.
+
+## Implementation Checklist
+
+- [ ] Add `/.well-known/chapterwan-agent.json`.
+- [ ] Use a product-specific name, not a generic `agents.json`.
+- [ ] Publish the API base URL there.
+- [ ] Publish the agent guidance URL there.
+- [ ] Publish auth and representation expectations there.
+- [ ] Publish the claim, upload, source, and publish entrypoints there.
+
+## Purpose
+
+The well-known manifest is the fastest clean way for agents and tools to
+discover how to talk to Chapterwan.
+
+It should answer:
+
+- where the API is
+- where the agent guidance surface is
+- how auth works
+- what content types to expect
+- which endpoints matter first
+
+## Why Product-Specific Naming
+
+Use:
+
+- `/.well-known/chapterwan-agent.json`
+
+Do not use:
+
+- `/.well-known/agents.json`
+
+The product-specific name is clearer, safer, and easier to version later.
+
+## Required Fields
+
+- product name
+- API base URL
+- agent start URL
+- authenticated agent home URL
+- auth scheme
+- preferred content types
+- claim flow URL
+- upload endpoint
+- source pull endpoint
+- publish endpoint
+- human-readable docs URL
+
+## Sample Shape
+
+```json
+{
+  "product": "Chapterwan",
+  "api_base": "/api",
+  "agent_start_url": "/agents",
+  "agent_home_url": "/agents/home",
+  "auth": {
+    "type": "bearer"
+  },
+  "representations": {
+    "agents_default": "text/plain",
+    "agents_optional": ["application/json", "text/markdown"],
+    "api_default": "application/json"
+  },
+  "entrypoints": {
+    "agents": "/api/agents",
+    "uploads": "/api/uploads",
+    "publish": "/api/books/{id}/publish",
+    "source": "/api/books/{id}/source"
+  }
+}
+```
