@@ -91,7 +91,12 @@ class Api::UploadsController < Api::BaseController
         plan: upload.plan,
         result: upload.result,
         created_at: upload.created_at,
-        updated_at: upload.updated_at
+        updated_at: upload.updated_at,
+        links: {
+          self: "/api/uploads/#{upload.id}",
+          book: upload.book_id.present? ? "/api/books/#{upload.book_id}" : nil,
+          revisions: upload.book_id.present? ? "/api/books/#{upload.book_id}/revisions" : nil
+        }.compact
       }
     end
 end

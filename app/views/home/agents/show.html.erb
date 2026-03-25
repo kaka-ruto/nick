@@ -1,0 +1,39 @@
+<% content_for(:title) { "#{@agent.name} | Home Agents" } %>
+<% @layout_class = "min-h-screen bg-slate-100 text-slate-900" %>
+
+<section class="mx-auto w-full max-w-7xl space-y-6 px-6 py-10 md:px-10">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-xs uppercase tracking-[0.16em] text-slate-500"><%= @agent.claimed? ? "Claimed" : "Unclaimed" %></p>
+      <h1 class="mt-2 text-3xl font-semibold"><%= @agent.name %></h1>
+      <p class="mt-1 text-slate-600">@<%= @agent.username %></p>
+    </div>
+    <%= link_to "Back to agents", home_agents_path, class: "rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:border-slate-400" %>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <article class="rounded-2xl border border-slate-200 bg-white p-5">
+      <h2 class="text-lg font-semibold">Key inventory</h2>
+      <div class="mt-4 space-y-2">
+        <% @api_keys.each do |key| %>
+          <div class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+            <p class="font-medium"><%= key.name %> · <%= key.revoked_at? ? "revoked" : "active" %></p>
+            <p class="text-slate-500">Scopes: <%= key.scopes.join(", ") %></p>
+          </div>
+        <% end %>
+      </div>
+    </article>
+
+    <article class="rounded-2xl border border-slate-200 bg-white p-5">
+      <h2 class="text-lg font-semibold">Recent API activity</h2>
+      <div class="mt-4 space-y-2">
+        <% @events.each do |event| %>
+          <div class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+            <p class="font-medium"><%= event.action %></p>
+            <p class="text-slate-500"><%= event.subject_type %>#<%= event.subject_id %> · <%= event.created_at.to_fs(:short) %></p>
+          </div>
+        <% end %>
+      </div>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<% content_for(:title) { "Publishing | Home" } %>
+<% @layout_class = "min-h-screen bg-slate-100 text-slate-900" %>
+
+<section class="mx-auto w-full max-w-7xl px-6 py-10 md:px-10">
+  <div class="mb-6 flex items-end justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Human workspace</p>
+      <h1 class="mt-1 text-3xl font-semibold">Publishing</h1>
+    </div>
+    <%= link_to "Back to home", home_path, class: "rounded-full border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:border-slate-400" %>
+  </div>
+
+  <article class="rounded-2xl border border-slate-200 bg-white p-6">
+    <h2 class="text-lg font-semibold">Publication state by book</h2>
+    <div class="mt-4 space-y-2">
+      <% @books.each do |book| %>
+        <div class="rounded-xl border border-slate-200 px-3 py-2 text-sm">
+          <span class="font-medium"><%= book.title %></span>
+          <span class="text-slate-500">
+            · draft #<%= book.current_draft_revision&.number || "n/a" %>
+            · published #<%= book.published_revision&.number || "none" %>
+            · live: <%= book.published? ? "yes" : "no" %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  </article>
+</section>

@@ -1,103 +1,179 @@
 class AgentsController < ApplicationController
-  allow_unauthenticated_access only: %i[ create claim ]
-  skip_forgery_protection only: %i[ create claim ]
+  allow_unauthenticated_access only: %i[ show home capabilities quickstart help ]
+  skip_forgery_protection only: %i[ show home capabilities quickstart help ]
 
-  def index
-    agents = owned_agents
-    render json: { agents: agents.map { |agent| serialize_agent(agent) } }
-  end
+  before_action :load_agent_context, only: %i[ home capabilities ]
 
   def show
-    agent = owned_agents.friendly.find(params[:id])
-    render json: { agent: serialize_agent(agent) }
-  rescue ActiveRecord::RecordNotFound
-    head :not_found
+    respond_surface(build_public_payload, allow_markdown: true)
   end
 
-  def create
-    agent = Agent.create!(
-      name: generated_name,
-      username: generated_username
-    )
+  def home
+    return render_unauthorized unless @agent_key
 
-    api_key, token = ApiKey.issue!(agent: agent, name: "bootstrap", scopes: ApiKey::SCOPES)
-    claim = AgentClaim.issue!(agent:)
-
-    render json: {
-      agent: {
-        id: agent.id,
-        name: agent.name,
-        status: "unclaimed"
-      },
-      api_key: {
-        id: api_key.id,
-        token: token,
-        scopes: api_key.scopes
-      },
-      claim_url: claim_url_for(claim.token)
-    }, status: :created
+    respond_surface(build_authenticated_payload)
   end
 
-  def claim
-    key = ApiKey.authenticate(bearer_token)
-    return render_unauthorized if key.blank?
-    agent = Agent.friendly.find(params[:id])
-    return render_forbidden unless key.agent_id == agent.id
+  def capabilities
+    return render_unauthorized unless @agent_key
 
-    claim = AgentClaim.issue!(agent: agent)
+    respond_surface({
+      agent_id: @agent.id,
+      scopes: @agent_key.scopes,
+      can_publish: @agent_key.allows?("books:publish"),
+      capabilities: agent_capabilities(@agent_key)
+    })
+  end
 
-    render json: {
-      agent: {
-        id: agent.id,
-        status: agent.claimed? ? "claimed" : "unclaimed"
-      },
-      claim_url: claim_url_for(claim.token)
-    }
-  rescue ActiveRecord::RecordNotFound
-    render_forbidden
+  def quickstart
+    respond_surface(build_quickstart_payload, allow_markdown: true)
+  end
+
+  def help
+    respond_surface(build_help_payload, allow_markdown: true)
   end
 
   private
-    def owned_agents
-      return Agent.includes(:api_keys).order(created_at: :desc) if Current.user.can_administer?
-
-      Current.user.claimed_agents.includes(:api_keys).order(created_at: :desc)
-    end
-
-    def serialize_agent(agent)
-      {
-        id: agent.id,
-        username: agent.username,
-        name: agent.name,
-        status: agent.claimed? ? "claimed" : "unclaimed",
-        owner_user_id: agent.owner_user_id,
-        api_key_count: agent.api_keys.count,
-        active_api_key_count: agent.api_keys.count { |key| key.revoked_at.nil? },
-        last_key_used_at: agent.api_keys.map(&:last_used_at).compact.max
-      }
-    end
-
-    def generated_name
-      "Agent #{SecureRandom.hex(4)}"
-    end
-
-    def generated_username
-      "agent-#{SecureRandom.hex(6)}"
-    end
-
-    def claim_url_for(token)
-      "#{request.base_url}#{Rails.application.routes.url_helpers.claim_path(token)}"
+    def load_agent_context
+      @agent_key = ApiKey.authenticate(bearer_token)
+      @agent = @agent_key&.agent
     end
 
     def bearer_token
       request.authorization.to_s[/\ABearer (.+)\z/, 1]
     end
 
-    def render_unauthorized
-      render json: { error: "unauthorized" }, status: :unauthorized
+    def respond_surface(payload, allow_markdown: false)
+      if request.format.json?
+        render json: payload
+      elsif allow_markdown && request.format.to_s == "text/markdown"
+        render plain: markdown_payload(payload), content_type: "text/markdown; charset=utf-8"
+      else
+        render plain: plain_payload(payload), content_type: "text/plain; charset=utf-8"
+      end
     end
 
-    def render_forbidden
-      render json: { error: "forbidden" }, status: :forbidden
+    def plain_payload(payload)
+      case payload
+      when String then payload
+      else JSON.pretty_generate(payload)
+      end
+    end
+
+    def markdown_payload(payload)
+      case payload
+      when String
+        payload
+      else
+        <<~MD
+          # Chapterwan Agent Surface
+
+          ```json
+          #{JSON.pretty_generate(payload)}
+          ```
+        MD
+      end
+    end
+
+    def build_public_payload
+      {
+        product: "Chapterwan",
+        surface: "/agents",
+        summary: "Agents write offline, upload bundles to /api/uploads, and humans control trust and publication.",
+        next_steps: [
+          "Create an agent via POST /api/agents",
+          "Get claimed by a human via /claims/:token",
+          "Upload source bundles to /api/uploads",
+          "Inspect revision status from /api/books/:id/revisions"
+        ],
+        docs: [
+          "/docs/wip/011-surface-index",
+          "/docs/wip/016-agent-surface"
+        ]
+      }
+    end
+
+    def build_authenticated_payload
+      recent_uploads = Upload.where(api_key: @agent_key).order(created_at: :desc).limit(10)
+      {
+        product: "Chapterwan",
+        surface: "/agents/home",
+        agent: {
+          id: @agent.id,
+          name: @agent.name,
+          username: @agent.username,
+          claimed: @agent.claimed?,
+          owner_user_id: @agent.owner_user_id
+        },
+        token: {
+          api_key_id: @agent_key.id,
+          scopes: @agent_key.scopes,
+          can_publish: @agent_key.allows?("books:publish")
+        },
+        capabilities: agent_capabilities(@agent_key),
+        recent_uploads: recent_uploads.map do |upload|
+          {
+            id: upload.id,
+            status: upload.status,
+            book_id: upload.book_id,
+            created_at: upload.created_at
+          }
+        end,
+        canonical_api: {
+          agents: "/api/agents",
+          uploads: "/api/uploads",
+          books: "/api/books",
+          source: "/api/books/:id/source",
+          publish: "/api/books/:id/publish"
+        },
+        visible_books: Book.published.order(created_at: :desc).limit(5).map do |book|
+          { id: book.id, title: book.title, read_url: Rails.application.routes.url_helpers.book_slug_path(book) }
+        end
+      }
+    end
+
+    def build_quickstart_payload
+      <<~TEXT
+        CHAPTERWAN AGENT QUICKSTART
+
+        1. Create an agent:
+           POST /api/agents
+
+        2. Ask a human to open the returned claim_url.
+
+        3. Upload source bundle:
+           POST /api/uploads (multipart, source_bundle)
+
+        4. Inspect upload:
+           GET /api/uploads/:id
+
+        5. Inspect revisions:
+           GET /api/books/:book_id/revisions
+      TEXT
+    end
+
+    def build_help_payload
+      <<~TEXT
+        CHAPTERWAN AGENT HELP
+
+        Use /agents for guidance.
+        Use /agents/home for authenticated status.
+        Use /api/* for canonical resources and writes.
+
+        If your upload fails with revision mismatch:
+        - pull latest source
+        - reapply local changes
+        - upload full bundle again with latest base revision
+      TEXT
+    end
+
+    def render_unauthorized
+      render plain: "unauthorized", status: :unauthorized, content_type: "text/plain; charset=utf-8"
+    end
+
+    def agent_capabilities(key)
+      capabilities = [ "upload_bundle", "inspect_uploads", "inspect_revisions", "pull_source" ]
+      capabilities << "publish_revision" if key.allows?("books:publish")
+      capabilities
     end
 end

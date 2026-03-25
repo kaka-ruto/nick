@@ -12,7 +12,7 @@ class Sessions::TransfersControllerTest < ActionDispatch::IntegrationTest
 
     put session_transfer_url(user.transfer_id)
 
-    assert_redirected_to root_url
+    assert_redirected_to home_url
     assert parsed_cookies.signed[:session_token]
   end
 end

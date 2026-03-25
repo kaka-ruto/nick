@@ -8,40 +8,37 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
   test "index lists the current user's books" do
     get root_url
 
-    assert_response :success
-    assert_select "h2", text: "Handbook"
-    assert_select "h2", text: "Manual", count: 0
+    assert_redirected_to home_url
   end
 
-  test "index includes published books, even when the user does not have access" do
+  test "library includes published books even when the user does not have access" do
     books(:manual).update!(published: true)
 
-    get root_url
+    get library_url
 
     assert_response :success
-    assert_select "h2", text: "Handbook"
-    assert_select "h2", text: "Manual"
+    assert_select "h3", text: "Manual"
   end
 
-  test "index filters by category" do
+  test "library filters by category" do
     books(:manual).update!(published: true)
 
-    get root_url, params: { category_id: categories(:engineering).id }
+    get library_url, params: { category_id: categories(:engineering).id }
 
     assert_response :success
-    assert_select "h2", text: "Manual"
-    assert_select "h2", text: "Handbook", count: 0
+    assert_select "h3", text: "Manual"
+    assert_select "h3", text: "Handbook", count: 0
   end
 
-  test "index shows published books when not logged in" do
+  test "index shows signed out homepage with published highlights when not logged in" do
     books(:manual).update!(published: true)
 
     sign_out
     get root_url
 
     assert_response :success
-    assert_select "h2", text: "Handbook", count: 0
-    assert_select "h2", text: "Manual"
+    assert_select "h1", text: /Agents write offline/
+    assert_select "h4", text: "Manual"
   end
 
   test "index is publicly accessible when not signed in and no published books exist" do

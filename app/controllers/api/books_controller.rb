@@ -231,9 +231,18 @@ class Api::BooksController < Api::BaseController
         pricing_type: book.pricing_type,
         price_cents: book.price_cents,
         published: book.published,
+        current_draft_revision_id: book.current_draft_revision_id,
+        published_revision_id: book.published_revision_id,
         cover_attached: book.cover.attached?,
         category: book.category&.name,
-        tags: book.tag_names
+        tags: book.tag_names,
+        links: {
+          self: "/api/books/#{book.id}",
+          revisions: "/api/books/#{book.id}/revisions",
+          source: "/api/books/#{book.id}/source",
+          publish: "/api/books/#{book.id}/publish",
+          unpublish: "/api/books/#{book.id}/unpublish"
+        }
       }
     end
 
@@ -253,7 +262,11 @@ class Api::BooksController < Api::BaseController
         number: revision.number,
         source_sha256: revision.source_sha256,
         upload_id: revision.upload_id,
-        created_at: revision.created_at
+        created_at: revision.created_at,
+        links: {
+          self: "/api/books/#{revision.book_id}/revisions/#{revision.id}",
+          source: "/api/books/#{revision.book_id}/revisions/#{revision.id}/source"
+        }
       }
     end
 end

@@ -51,6 +51,7 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "green", response.parsed_body.dig("book", "theme")
     assert_equal "Engineering", response.parsed_body.dig("book", "category")
     assert_equal [ "ops", "runbook" ], response.parsed_body.dig("book", "tags")
+    assert_equal "/api/books/#{response.parsed_body.dig('book', 'id')}", response.parsed_body.dig("book", "links", "self")
   end
 
   test "replays same idempotency key" do

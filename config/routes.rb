@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root "books#index"
+  get "/library", to: "books#library", as: :library
 
   resource :session, only: %i[ new create destroy ] do
     scope module: "sessions" do
@@ -9,8 +10,21 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "sessions/oauth#callback"
   get "/auth/failure", to: "sessions/oauth#failure"
 
-  resources :agents, only: %i[ index show create ] do
-    post :claim, on: :member
+  get "/home", to: "home#index", as: :home
+  namespace :home do
+    resources :books, only: %i[index show]
+    resources :agents, only: %i[index show]
+    resource :pricing, only: :show
+    resource :publishing, only: :show
+    resource :billing, only: :show
+    resource :settings, only: :show
+  end
+
+  resource :agents, only: :show, path: "/agents", controller: :agents do
+    get :home, as: :surface_home
+    get :capabilities, as: :surface_capabilities
+    get :quickstart, as: :surface_quickstart
+    get :help, as: :surface_help
   end
 
   resources :claims, only: :show, param: :token do
@@ -92,6 +106,10 @@ Rails.application.routes.draw do
 
 
   namespace :api do
+    resources :agents, only: %i[ index show create ] do
+      post :claim, on: :member
+    end
+
     resources :uploads, only: %i[ create show ]
 
     resources :books, only: %i[ create update ] do
@@ -111,6 +129,8 @@ Rails.application.routes.draw do
       get "revisions/:revision_id/source", action: :source_for_revision
     end
   end
+
+  get "/.well-known/chapterwan-agent.json", to: "well_known/chapterwan_agents#show", as: :well_known_chapterwan_agent
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker

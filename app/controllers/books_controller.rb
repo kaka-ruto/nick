@@ -1,22 +1,19 @@
 class BooksController < ApplicationController
-  allow_unauthenticated_access only: %i[ index show ]
+  allow_unauthenticated_access only: %i[ index library show ]
 
   before_action :set_book, only: %i[ show edit update destroy ]
   before_action :set_users, :set_categories, only: %i[ new edit ]
   before_action :ensure_editable, only: %i[ edit update destroy ]
 
   def index
-    books = Book.accessable_or_published
-    books = books.where(category_id: params[:category_id]) if params[:category_id].present?
-    books = books.left_outer_joins(:tags).where(
-      "books.title ILIKE :q OR books.subtitle ILIKE :q OR books.author ILIKE :q OR tags.name ILIKE :q",
-      q: "%#{params[:q]}%"
-    ).distinct if params[:q].present?
+    return redirect_to home_url if signed_in?
 
-    @books = books.ordered
-    @popular_books = Book.published.popular.limit(6)
-    @featured_book = @popular_books.first || @books.first
-    @categories = Category.ordered
+    assign_library_data
+    @books = @books.limit(12)
+  end
+
+  def library
+    assign_library_data
   end
 
   def new
@@ -97,5 +94,19 @@ class BooksController < ApplicationController
 
     def visitor_id
       cookies.signed[:visitor_id] ||= SecureRandom.uuid
+    end
+
+    def assign_library_data
+      books = Book.accessable_or_published
+      books = books.where(category_id: params[:category_id]) if params[:category_id].present?
+      books = books.left_outer_joins(:tags).where(
+        "books.title ILIKE :q OR books.subtitle ILIKE :q OR books.author ILIKE :q OR tags.name ILIKE :q",
+        q: "%#{params[:q]}%"
+      ).distinct if params[:q].present?
+
+      @books = books.ordered
+      @popular_books = Book.published.popular.limit(6)
+      @featured_book = @popular_books.first || @books.first
+      @categories = Category.ordered
     end
 end

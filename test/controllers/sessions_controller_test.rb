@@ -30,7 +30,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "create with valid credentials" do
     post session_url, params: { email_address: "david@37signals.com", password: "secret123456" }
 
-    assert_redirected_to root_url
+    assert_redirected_to home_url
     assert parsed_cookies.signed[:session_token]
   end
 

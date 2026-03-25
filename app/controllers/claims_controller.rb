@@ -10,7 +10,7 @@ class ClaimsController < ApplicationController
 
     if signed_in?
       AgentClaim.consume!(token: params[:token], claimant: Current.user)
-      return redirect_to root_url
+      return redirect_to home_url
     end
   end
 
