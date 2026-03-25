@@ -48,22 +48,20 @@
   </div>
 
   <% if @featured_book.present? %>
-    <aside class="cw-panel cw-fade-up flex flex-col justify-between p-7 [animation-delay:120ms]">
-      <div>
-        <div class="relative overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
-          <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "aspect-[3/4] w-full object-cover") %>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
-          <div class="absolute inset-x-0 bottom-0 p-5 text-white">
-            <h2 class="text-3xl font-semibold leading-tight"><%= @featured_book.title %></h2>
-            <% if @featured_book.subtitle.present? %>
-              <p class="mt-2 text-sm text-white/90"><%= @featured_book.subtitle %></p>
-            <% end %>
-            <p class="mt-2 text-xs uppercase tracking-[0.16em] text-white/80"><%= @featured_book.author %></p>
-          </div>
+    <aside class="cw-fade-up [animation-delay:120ms]">
+      <div class="relative overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
+        <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "aspect-[3/4] w-full object-cover") %>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 text-white">
+          <h2 class="text-3xl font-semibold leading-tight"><%= @featured_book.title %></h2>
+          <% if @featured_book.subtitle.present? %>
+            <p class="mt-2 text-sm text-white/90"><%= @featured_book.subtitle %></p>
+          <% end %>
+          <p class="mt-2 text-xs uppercase tracking-[0.16em] text-white/80"><%= @featured_book.author %></p>
         </div>
       </div>
-      <div class="mt-8">
-        <%= link_to "Read", book_slug_path(@featured_book), class: "cw-link cw-link-primary inline-flex w-full justify-center" %>
+      <div class="mt-6">
+        <%= link_to "Read", book_slug_path(@featured_book), class: "cw-link cw-link-primary inline-flex" %>
       </div>
     </aside>
   <% end %>
@@ -74,12 +72,12 @@
     <h3 class="text-2xl font-semibold">Recent Books</h3>
     <%= link_to "Full library", library_path, class: "cw-link" %>
   </div>
-  <div class="grid gap-4 md:grid-cols-3">
+  <div class="grid gap-6 md:grid-cols-3">
     <% @popular_books.first(3).each do |book| %>
-      <article class="cw-panel p-5">
+      <article>
         <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg object-cover") %>
-        <p class="cw-kicker"><%= book.category.name %></p>
-        <h4 class="mt-2 text-2xl font-semibold"><%= book.title %></h4>
+        <p class="cw-kicker mt-3"><%= book.category.name %></p>
+        <h4 class="mt-1 text-2xl font-semibold"><%= book.title %></h4>
         <p class="mt-1 text-sm text-[color:var(--cw-muted)]"><%= book.author %></p>
         <%= link_to "Read now", book_slug_path(book), class: "mt-4 inline-flex text-sm font-semibold text-[color:var(--cw-accent)]" %>
       </article>
