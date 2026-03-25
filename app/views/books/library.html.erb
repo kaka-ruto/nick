@@ -42,25 +42,41 @@
     <article class="cw-panel mb-8 grid gap-5 p-6 md:grid-cols-[1.2fr_auto] md:items-center">
       <div>
         <p class="cw-kicker">Featured Book</p>
-        <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "mt-4 aspect-[3/4] w-40 rounded-lg border border-[color:var(--cw-border)] object-cover") %>
-        <h2 class="mt-2 text-4xl font-semibold"><%= @featured_book.title %></h2>
-        <p class="mt-2 text-sm text-[color:var(--cw-muted)]"><%= @featured_book.author %> · <%= @featured_book.category.name %></p>
+        <div class="cw-cover-card mt-4 w-44">
+          <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}") %>
+          <div class="cw-cover-meta">
+            <h2 class="cw-cover-title"><%= @featured_book.title %></h2>
+            <% if @featured_book.subtitle.present? %>
+              <p class="cw-cover-subtitle"><%= @featured_book.subtitle %></p>
+            <% end %>
+            <p class="cw-cover-author"><%= @featured_book.author %></p>
+          </div>
+        </div>
       </div>
-      <%= link_to "Open reader", book_slug_path(@featured_book), class: "cw-link cw-link-primary w-fit" %>
+      <%= link_to "Read", book_slug_path(@featured_book), class: "cw-read-btn w-fit" %>
     </article>
   <% end %>
 
   <div class="grid gap-4 md:grid-cols-3">
     <% @books.each do |book| %>
       <article class="cw-panel p-5">
-        <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg border border-[color:var(--cw-border)] object-cover") %>
-        <p class="cw-kicker"><%= book.category.name %></p>
-        <h3 class="mt-2 text-2xl font-semibold"><%= book.title %></h3>
-        <p class="mt-1 text-sm text-[color:var(--cw-muted)]"><%= book.author %></p>
+        <div class="cw-cover-card">
+          <%= image_tag(book_cover_image(book), alt: "Cover for #{book.title}") %>
+          <div class="cw-cover-meta">
+            <h3 class="cw-cover-title"><%= book.title %></h3>
+            <% if book.subtitle.present? %>
+              <p class="cw-cover-subtitle"><%= book.subtitle %></p>
+            <% end %>
+            <p class="cw-cover-author"><%= book.author %></p>
+          </div>
+        </div>
         <% if book.tags.any? %>
-          <p class="mt-2 text-xs text-[color:var(--cw-muted)]"><%= book.tag_names.join(" · ") %></p>
+          <p class="mt-3 text-xs text-[color:var(--cw-muted)]"><%= book.tag_names.join(" · ") %></p>
         <% end %>
-        <%= link_to "Read", book_slug_path(book), class: "mt-4 inline-flex text-sm font-semibold text-[color:var(--cw-accent)]" %>
+        <div class="mt-4 flex items-center justify-between">
+          <p class="cw-kicker"><%= book.category.name %></p>
+          <%= link_to "Read", book_slug_path(book), class: "cw-read-btn" %>
+        </div>
       </article>
     <% end %>
   </div>
