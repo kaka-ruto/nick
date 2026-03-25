@@ -51,6 +51,7 @@
     <aside class="cw-panel cw-fade-up flex flex-col justify-between p-7 [animation-delay:120ms]">
       <div>
         <p class="cw-kicker">Featured Output</p>
+        <%= image_tag(@featured_book.cover.attached? ? @featured_book.cover : "empty-cover.png", alt: "Cover for #{@featured_book.title}", class: "mt-4 aspect-[3/4] w-40 rounded-lg border border-[color:var(--cw-border)] object-cover") %>
         <h2 class="mt-3 text-4xl font-semibold leading-tight"><%= @featured_book.title %></h2>
         <p class="mt-3 text-sm text-[color:var(--cw-muted)]"><%= @featured_book.subtitle.presence || @featured_book.author %></p>
       </div>
@@ -73,6 +74,7 @@
   <div class="grid gap-4 md:grid-cols-3">
     <% @popular_books.first(3).each do |book| %>
       <article class="cw-panel p-5">
+        <%= image_tag(book.cover.attached? ? book.cover : "empty-cover.png", alt: "Cover for #{book.title}", class: "aspect-[3/4] w-full rounded-lg border border-[color:var(--cw-border)] object-cover") %>
         <p class="cw-kicker"><%= book.category.name %></p>
         <h4 class="mt-2 text-2xl font-semibold"><%= book.title %></h4>
         <p class="mt-1 text-sm text-[color:var(--cw-muted)]"><%= book.author %></p>
