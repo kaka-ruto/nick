@@ -10,15 +10,72 @@
     <h1 class="mt-1 text-4xl font-semibold">Billing</h1>
   </div>
 
+  <article class="cw-panel mb-6 p-6">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div>
+        <h2 class="text-2xl font-semibold">Seller payouts (Stripe Connect)</h2>
+        <% if Current.user.stripe_connect_ready? %>
+          <p class="mt-1 text-sm text-[color:var(--cw-muted)]">Connected and payout-ready</p>
+        <% else %>
+          <p class="mt-1 text-sm text-[color:var(--cw-muted)]">Not ready yet. Complete onboarding to receive payouts.</p>
+        <% end %>
+      </div>
+      <div class="flex gap-2">
+        <%= button_to "Connect Stripe", home_stripe_connect_account_path, method: :post, class: "btn btn-primary" %>
+        <%= button_to "Refresh status", sync_home_stripe_connect_account_path, method: :post, class: "btn" %>
+      </div>
+    </div>
+    <p class="mt-3 text-xs text-[color:var(--cw-muted)]">
+      Stripe Connect availability depends on seller country and Stripe policy.
+      Free books are always allowed. Paid pricing requires successful Stripe Connect onboarding.
+    </p>
+      <div class="mt-4 grid gap-3 md:grid-cols-4">
+      <div class="cw-panel-soft p-3 text-sm">Details submitted: <strong><%= @merchant_account&.details_submitted ? "yes" : "no" %></strong></div>
+      <div class="cw-panel-soft p-3 text-sm">Charges enabled: <strong><%= @merchant_account&.charges_enabled ? "yes" : "no" %></strong></div>
+      <div class="cw-panel-soft p-3 text-sm">Payouts enabled: <strong><%= @merchant_account&.payouts_enabled ? "yes" : "no" %></strong></div>
+      <div class="cw-panel-soft p-3 text-sm">Pending payout: <strong><%= number_to_currency(@pending_payout_cents / 100.0) %></strong></div>
+    </div>
+  </article>
+
+  <article class="cw-panel mb-6 p-6">
+    <h2 class="text-2xl font-semibold">Revenue split (85/15 on net receipts)</h2>
+    <div class="mt-4 grid gap-3 md:grid-cols-5 text-sm">
+      <div class="cw-panel-soft p-3">Gross: <strong><%= number_to_currency(@gross_cents / 100.0) %></strong></div>
+      <div class="cw-panel-soft p-3">Stripe fees: <strong><%= number_to_currency(@fees_cents / 100.0) %></strong></div>
+      <div class="cw-panel-soft p-3">Net receipts: <strong><%= number_to_currency(@net_cents / 100.0) %></strong></div>
+      <div class="cw-panel-soft p-3">Seller (85%): <strong><%= number_to_currency(@seller_cents / 100.0) %></strong></div>
+      <div class="cw-panel-soft p-3">Platform (15%): <strong><%= number_to_currency(@platform_cents / 100.0) %></strong></div>
+    </div>
+  </article>
+
   <article class="cw-panel p-6">
     <h2 class="text-2xl font-semibold">Paid books in your scope</h2>
     <div class="mt-4 space-y-2">
       <% @books.each do |book| %>
         <div class="cw-panel-soft px-3 py-2 text-sm">
           <span class="font-medium"><%= book.title %></span>
-          <span class="text-[color:var(--cw-muted)]">· <%= book.price_cents || 0 %> cents · published: <%= book.published? ? "yes" : "no" %></span>
+          <span class="text-[color:var(--cw-muted)]">· <%= Money.from_cents(book.price_cents || 0, book.price_currency || "USD").format %> · published: <%= book.published? ? "yes" : "no" %></span>
         </div>
       <% end %>
     </div>
+  </article>
+
+  <article class="cw-panel mt-6 p-6">
+    <h2 class="text-2xl font-semibold">Recent sales</h2>
+    <% if @sales.any? %>
+      <div class="mt-4 space-y-2 text-sm">
+        <% @sales.each do |sale| %>
+          <div class="cw-panel-soft px-3 py-2">
+            <span class="font-medium"><%= sale.book.title %></span>
+            <span class="text-[color:var(--cw-muted)]">· buyer: <%= sale.buyer_user.name %></span>
+            <span class="text-[color:var(--cw-muted)]">· net: <%= number_to_currency(sale.net_cents / 100.0) %></span>
+            <span class="text-[color:var(--cw-muted)]">· seller: <%= number_to_currency(sale.seller_amount_cents / 100.0) %></span>
+            <span class="text-[color:var(--cw-muted)]">· paid out: <%= sale.transferred_at.present? ? "yes" : "pending" %></span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="mt-4 text-sm text-[color:var(--cw-muted)]">No sales yet.</p>
+    <% end %>
   </article>
 </section>

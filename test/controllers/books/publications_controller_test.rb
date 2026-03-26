@@ -17,8 +17,8 @@ class Books::PublicationsTest < ActionDispatch::IntegrationTest
     assert_equal "manual", @book.slug
   end
 
-  test "edit book slug" do
-    @book.update! published: true
+  test "publication update ignores direct slug changes" do
+    @book.update!(published: true, title: "Manual")
 
     get edit_book_publication_url(@book)
     assert_response :success
@@ -27,6 +27,6 @@ class Books::PublicationsTest < ActionDispatch::IntegrationTest
 
     @book.reload
     assert_redirected_to book_slug_url(@book)
-    assert_equal "new-slug", @book.slug
+    assert_equal "manual", @book.slug
   end
 end

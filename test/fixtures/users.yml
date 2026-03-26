@@ -7,6 +7,7 @@ david:
   slug: david
   password_digest: <%= password_digest %>
   role: administrator
+  sell_paid_books: false
 
 jason:
   name: Jason
@@ -15,6 +16,7 @@ jason:
   slug: jason
   password_digest: <%= password_digest %>
   role: administrator
+  sell_paid_books: false
 
 jz:
   name: JZ
@@ -23,6 +25,7 @@ jz:
   slug: jz
   password_digest: <%= password_digest %>
   role: member
+  sell_paid_books: false
 
 kevin:
   name: Kevin
@@ -31,3 +34,4 @@ kevin:
   slug: kevin
   password_digest: <%= password_digest %>
   role: member
+  sell_paid_books: false

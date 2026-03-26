@@ -117,13 +117,13 @@ class UploadsApiResilienceTest < ActionDispatch::IntegrationTest
     revision_id = Book.find(book_id).book_revisions.order(number: :desc).first.id
 
     get api_book_revisions_url(book_id), headers: auth_headers(@other_writer_token, "other-revisions")
-    assert_response :forbidden
+    assert_response :not_found
 
     get source_api_book_url(book_id), headers: auth_headers(@other_writer_token, "other-source")
-    assert_response :forbidden
+    assert_response :not_found
 
     get "/api/books/#{book_id}/revisions/#{revision_id}/source", headers: auth_headers(@other_writer_token, "other-revision-source")
-    assert_response :forbidden
+    assert_response :not_found
   end
 
   private

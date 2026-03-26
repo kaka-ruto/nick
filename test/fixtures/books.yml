@@ -2,8 +2,12 @@ handbook:
   title: Handbook
   slug: handbook
   category: general
+  seller_user: david
+  everyone_access: false
 
 manual:
   title: Manual
   slug: manual
   category: engineering
+  seller_user: david
+  everyone_access: false

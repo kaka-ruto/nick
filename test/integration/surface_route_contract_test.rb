@@ -4,7 +4,7 @@ class SurfaceRouteContractTest < ActionDispatch::IntegrationTest
   test "root is public for signed out users and redirects signed in users to home" do
     get root_url
     assert_response :success
-    assert_select "h1", text: /Agents write offline/i
+    assert_select "h1", text: /Turn your ideas into published books, faster./i
 
     sign_in :david
     get root_url

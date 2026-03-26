@@ -2,7 +2,11 @@ class Api::BooksController < Api::BaseController
   def create
     return unless authenticate_request!(required_scope: "books:write")
 
-    book = Book.create!(book_params)
+    book = Book.new(book_params.merge(seller_user: Current.user))
+    unless book.save
+      flag_human_action_if_needed(book)
+      return render json: { error: "validation_failed", details: book.errors.to_hash(true) }, status: :unprocessable_entity
+    end
     book.assign_tags!(tag_names)
     book.update_access(editors: [ Current.user.id ], readers: [ Current.user.id ])
     record_agent_action!(action: "book.create", subject: book)
@@ -14,7 +18,10 @@ class Api::BooksController < Api::BaseController
     return unless authenticate_request!(required_scope: "books:write")
     return unless load_editable_book
 
-    @book.update!(book_params)
+    unless @book.update(book_params)
+      flag_human_action_if_needed(@book)
+      return render json: { error: "validation_failed", details: @book.errors.to_hash(true) }, status: :unprocessable_entity
+    end
     @book.assign_tags!(tag_names) if params.dig(:book, :tag_names).present?
     record_agent_action!(action: "book.update", subject: @book)
     render json: { book: serialize_book(@book) }
@@ -24,7 +31,13 @@ class Api::BooksController < Api::BaseController
     return unless authenticate_request!(required_scope: "books:write")
     return unless load_editable_book
 
-    @book.update!(pricing_params)
+    @book.assign_attributes(pricing_params)
+    @book.seller_user ||= Current.user
+    unless @book.save
+      flag_human_action_if_needed(@book)
+      return render json: { error: "validation_failed", details: @book.errors.to_hash(true) }, status: :unprocessable_entity
+    end
+    clear_human_action_if_resolved(@book)
     record_agent_action!(action: "book.pricing.set", subject: @book, metadata: pricing_params.to_h)
     render json: { book: serialize_book(@book) }
   end
@@ -33,7 +46,10 @@ class Api::BooksController < Api::BaseController
     return unless authenticate_request!(required_scope: "books:publish")
     return unless load_editable_book
 
-    @book.update!(publication_params)
+    unless @book.update(publication_params)
+      flag_human_action_if_needed(@book)
+      return render json: { error: "validation_failed", details: @book.errors.to_hash(true) }, status: :unprocessable_entity
+    end
     record_agent_action!(action: "book.publication.set", subject: @book, metadata: publication_params.to_h)
     render json: { book: serialize_book(@book) }
   end
@@ -96,6 +112,7 @@ class Api::BooksController < Api::BaseController
     render json: {
       source: {
         upload_id: upload.id,
+        revision_created_at: revision.created_at,
         filename: upload.source_bundle.filename.to_s,
         content_type: upload.source_bundle.content_type,
         byte_size: upload.source_bundle.byte_size,
@@ -121,6 +138,7 @@ class Api::BooksController < Api::BaseController
         upload_id: upload.id,
         book_revision_id: revision.id,
         revision_number: revision.number,
+        revision_created_at: revision.created_at,
         filename: upload.source_bundle.filename.to_s,
         content_type: upload.source_bundle.content_type,
         byte_size: upload.source_bundle.byte_size,
@@ -174,7 +192,7 @@ class Api::BooksController < Api::BaseController
     end
 
     def book_params
-      params.require(:book).permit(:title, :subtitle, :author, :everyone_access, :theme, :category_id)
+      params.require(:book).permit(:title, :subtitle, :author, :everyone_access, :theme, :category_id, :pricing_type, :price_cents, :price_currency)
     end
 
     def tag_names
@@ -182,7 +200,7 @@ class Api::BooksController < Api::BaseController
     end
 
     def pricing_params
-      params.require(:book).permit(:pricing_type, :price_cents)
+      params.require(:book).permit(:pricing_type, :price_cents, :price_currency)
     end
 
     def publication_params
@@ -230,6 +248,7 @@ class Api::BooksController < Api::BaseController
         everyone_access: book.everyone_access,
         pricing_type: book.pricing_type,
         price_cents: book.price_cents,
+        price_currency: book.price_currency,
         published: book.published,
         current_draft_revision_id: book.current_draft_revision_id,
         published_revision_id: book.published_revision_id,
@@ -268,5 +287,25 @@ class Api::BooksController < Api::BaseController
           source: "/api/books/#{revision.book_id}/revisions/#{revision.id}/source"
         }
       }
+    end
+
+    def flag_human_action_if_needed(book)
+      return unless Current.api_key&.agent.present?
+
+      HumanActions::SellerAttentionService.flag_if_needed!(book:, errors: book.errors.full_messages)
+    end
+
+    def clear_human_action_if_resolved(book)
+      user = book.seller_user
+      return if user.blank?
+      return unless user.seller_attention_required?
+      return unless user.seller_attention_book_id == book.id
+      return unless user.can_sell_paid_books?
+
+      user.update!(
+        seller_attention_required: false,
+        seller_attention_reason: nil,
+        seller_attention_book_id: nil
+      )
     end
 end

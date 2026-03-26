@@ -32,7 +32,7 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
     post start_claim_url(@claim_token, provider: "github")
     get "/auth/github/callback"
 
-    assert_response :redirect
+    assert_redirected_to home_seller_onboarding_url
 
     @agent.reload
     assert_predicate @agent, :claimed?
@@ -56,6 +56,7 @@ class ClaimsControllerTest < ActionDispatch::IntegrationTest
     post start_claim_url(@second_claim_token, provider: "github")
     get "/auth/github/callback"
 
+    assert_redirected_to home_seller_onboarding_url
     owner = User.find_by!(email_address: "multi-owner@example.com")
     assert_equal owner.id, @agent.reload.owner_user_id
     assert_equal owner.id, @second_agent.reload.owner_user_id

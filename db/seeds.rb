@@ -16,18 +16,19 @@ def seed_system_user!
 end
 
 def seed_kaka_user!
-  User.find_or_create_by!(email_address: "kaka@kaka.com") do |user|
-    user.name = "Kaka"
-    user.username = "kaka"
-    user.role = "member"
-    user.password = "kakakaka"
-  end
+  user = User.find_or_initialize_by(email_address: "kaka@kaka.com")
+  user.name = "Kaka"
+  user.username = "kaka"
+  user.role = "member"
+  user.password = "kakakaka"
+  user.save!
+  user
 end
 
 def seed_personal_agent_for!(user)
-  agent = Agent.find_or_initialize_by(slug: "kaka-personal-agent")
-  agent.name = "Kaka Personal Agent"
-  agent.username = "kaka-personal-agent"
+  agent = Agent.find_or_initialize_by(username: "noel")
+  agent.name = "Noel"
+  agent.username = "noel"
   agent.owner_user = user
   agent.claimed_at ||= Time.current
   agent.save!
@@ -53,11 +54,10 @@ def zip_directory(path)
   io.string
 end
 
-def seed_cafaye_manual!(user:, api_key:)
-  source_dir = SourceBooks.cafaye_manual_dir
+def seed_source_book!(user:, api_key:, source_dir:, book_uid:, archive_name:)
   return unless source_dir.exist?
 
-  existing = Book.find_by(book_uid: "cafaye-manual")
+  existing = Book.find_by(book_uid: book_uid)
   return if existing&.published_revision.present?
 
   source_bundle = zip_directory(source_dir)
@@ -66,7 +66,7 @@ def seed_cafaye_manual!(user:, api_key:)
     api_key: api_key,
     user: user,
     book: existing,
-    book_uid: "cafaye-manual",
+    book_uid: book_uid,
     base_revision_id: existing&.import_revision,
     source_sha256: source_sha256,
     parser_version: Upload::PARSER_VERSION,
@@ -75,12 +75,12 @@ def seed_cafaye_manual!(user:, api_key:)
 
   upload.source_bundle.attach(
     io: StringIO.new(source_bundle),
-    filename: "the-cafaye-manual.zip",
+    filename: archive_name,
     content_type: "application/zip"
   )
 
   upload.update!(status: :validating)
-  parser_result = Uploads::MarkdownParser.call(content: source_bundle, filename: "the-cafaye-manual.zip")
+  parser_result = Uploads::MarkdownParser.call(content: source_bundle, filename: archive_name)
   upload.update!(
     status: :parsed,
     warnings: [],
@@ -103,4 +103,17 @@ seed_system_user!
 seed_user = seed_kaka_user!
 seed_agent = seed_personal_agent_for!(seed_user)
 seed_key = seed_api_key_for!(seed_agent)
-seed_cafaye_manual!(user: seed_user, api_key: seed_key)
+seed_source_book!(
+  user: seed_user,
+  api_key: seed_key,
+  source_dir: SourceBooks.cafaye_manual_dir,
+  book_uid: "cafaye-manual",
+  archive_name: "the-cafaye-manual.zip"
+)
+seed_source_book!(
+  user: seed_user,
+  api_key: seed_key,
+  source_dir: SourceBooks.cafaye_agent_manual_dir,
+  book_uid: "cafaye-manual-for-agents",
+  archive_name: "the-cafaye-manual-for-agents.zip"
+)

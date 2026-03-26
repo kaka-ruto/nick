@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     resource :pricing, only: :show
     resource :publishing, only: :show
     resource :billing, only: :show
+    resource :seller_onboarding, only: %i[show update]
+    resource :stripe_connect_account, only: :create do
+      post :sync
+    end
     resource :settings, only: :show
   end
 

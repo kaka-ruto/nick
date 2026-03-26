@@ -10,6 +10,8 @@ class BooksController < ApplicationController
 
     assign_library_data
     @books = @books.limit(12)
+    @human_manual = @books.find { |book| book.book_uid == "cafaye-manual" } || Book.published.find_by(book_uid: "cafaye-manual")
+    @agent_manual = @books.find { |book| book.book_uid == "cafaye-manual-for-agents" } || Book.published.find_by(book_uid: "cafaye-manual-for-agents")
   end
 
   def library
@@ -21,11 +23,17 @@ class BooksController < ApplicationController
   end
 
   def create
-    book = Book.create! book_params
+    book = Book.new(book_params.merge(seller_user: Current.user))
     book.assign_tags!(tag_names)
-    update_accesses(book)
-
-    redirect_to book_slug_url(book)
+    if book.save
+      update_accesses(book)
+      redirect_to book_slug_url(book)
+    else
+      @book = book
+      set_users
+      set_categories
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -38,12 +46,18 @@ class BooksController < ApplicationController
   end
 
   def update
-    @book.update(book_params)
+    @book.seller_user ||= Current.user
+    updated = @book.update(book_params)
     @book.assign_tags!(tag_names)
-    update_accesses(@book)
-    remove_cover if params[:remove_cover] == "true"
-
-    redirect_to book_slug_url(@book)
+    if updated
+      update_accesses(@book)
+      remove_cover if params[:remove_cover] == "true"
+      redirect_to book_slug_url(@book)
+    else
+      set_users
+      set_categories
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -66,7 +80,7 @@ class BooksController < ApplicationController
     end
 
     def book_params
-      params.require(:book).permit(:title, :subtitle, :author, :cover, :remove_cover, :everyone_access, :theme, :pricing_type, :price_cents, :category_id)
+      params.require(:book).permit(:title, :subtitle, :author, :cover, :remove_cover, :everyone_access, :theme, :pricing_type, :price_cents, :price_currency, :category_id)
     end
 
     def tag_names

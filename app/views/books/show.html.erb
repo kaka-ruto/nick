@@ -104,7 +104,7 @@
         <% if @book.paid_pricing_type? %>
           <p>This book is paid. Purchase once to unlock reading in your library.</p>
           <% if signed_in? %>
-            <%= button_to "Buy for $#{format('%.2f', @book.price_cents.to_i / 100.0)}", book_purchase_path(@book), class: "btn btn--positive" %>
+            <%= button_to "Buy for #{Money.from_cents(@book.price_cents.to_i, @book.price_currency).format}", book_purchase_path(@book), class: "btn btn--positive" %>
           <% else %>
             <%= link_to "Sign in to buy", new_session_path, class: "btn btn--positive" %>
           <% end %>
@@ -142,13 +142,4 @@
       <div data-arrangement-target="dragImage" class="arrangement-drag-image"></div>
     </div>
   <% end %>
-<% end %>
-
-<% content_for :footer do %>
-  <nav class="book__nav flex align-center justify-center">
-    <a href="<%= root_path %>" class="product__wordmark btn btn--plain txt-medium">
-      <%= image_tag "cafaye-icon.svg", aria: { hidden: true }, size: 24 %>
-      <span>Made with Cafaye</span>
-    </a>
-  </nav>
 <% end %>

@@ -1,4 +1,5 @@
 class Book < ApplicationRecord
+  include MoneyRails::ActiveRecord::Monetizable
   include Accessable, Sluggable
 
   has_many :leaves, dependent: :destroy
@@ -11,7 +12,9 @@ class Book < ApplicationRecord
   has_many :book_tags, dependent: :destroy
   has_many :tags, through: :book_tags
   has_many :book_views, dependent: :delete_all
+  has_many :book_sales, dependent: :delete_all
   has_one_attached :cover, dependent: :purge_later
+  belongs_to :seller_user, class_name: "User", optional: true
 
   scope :ordered, -> { order(:title) }
   scope :published, -> { where(published: true) }
@@ -25,6 +28,7 @@ class Book < ApplicationRecord
 
   enum :theme, %w[ black blue green magenta orange violet white ].index_by(&:itself), suffix: true, default: :blue
   enum :pricing_type, { free: "free", paid: "paid" }, default: :free
+  monetize :price_cents, with_currency: :price_currency, allow_nil: true
 
   before_validation :normalize_pricing
   before_validation :assign_default_category
@@ -34,6 +38,10 @@ class Book < ApplicationRecord
   validates :category, presence: true
   validate :max_five_tags
   validate :paid_books_need_product_to_publish
+  validate :paid_books_need_seller
+  validate :published_paid_books_require_seller_preference
+  validate :published_paid_books_require_seller_ready_to_sell
+  validate :price_currency_must_be_supported
 
   def press(leafable, leaf_params)
     leaves.create! leaf_params.merge(leafable: leafable)
@@ -67,7 +75,10 @@ class Book < ApplicationRecord
 
   private
     def normalize_pricing
-      self.price_cents = nil if free?
+      if free?
+        self.price_cents = nil
+        self.price_currency = "USD"
+      end
     end
 
     def paid_books_need_product_to_publish
@@ -76,8 +87,36 @@ class Book < ApplicationRecord
       errors.add(:published, "cannot be true for paid books without a Stripe product")
     end
 
+    def paid_books_need_seller
+      return unless paid?
+      return if seller_user_id.present?
+
+      errors.add(:seller_user, "must be present for paid books")
+    end
+
+    def published_paid_books_require_seller_ready_to_sell
+      return unless paid? && published?
+      return if seller_user&.can_sell_paid_books?
+
+      errors.add(:published, "cannot be true for paid books until seller completes Stripe Connect onboarding")
+    end
+
+    def published_paid_books_require_seller_preference
+      return unless paid? && published?
+      return if seller_user&.sell_paid_books?
+
+      errors.add(:published, "cannot be true for paid books until seller enables paid book sales")
+    end
+
     def max_five_tags
       errors.add(:tags, "can have at most 5 tags") if tags.size > 5
+    end
+
+    def price_currency_must_be_supported
+      return if price_currency.blank?
+      return if Money::Currency.find(price_currency)
+
+      errors.add(:price_currency, "is not supported")
     end
 
     def assign_default_category

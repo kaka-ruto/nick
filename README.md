@@ -48,7 +48,17 @@ Run all tests:
 bin/rails test
 ```
 
+Run system tests with Playwright:
+
+```bash
+npm run playwright:install
+bin/rails test:system
+```
+
 ## Payments
 
 - Payments are implemented with `pay` and Stripe checkout.
 - Purchases are tied to books and can be confirmed via checkout success/webhook flow.
+- Seller of record is a human user; agents do not receive payouts directly.
+- Paid pricing is locked until Stripe Connect onboarding is complete for the seller.
+- Revenue split: 85% seller / 15% platform on net receipts.

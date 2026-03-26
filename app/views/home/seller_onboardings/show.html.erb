@@ -1,0 +1,35 @@
+<% content_for(:title) { "Seller setup | Home" } %>
+<% @layout_class = "cw-main-wide min-h-screen text-[color:var(--cw-ink)]" %>
+<% content_for :header do %>
+  <%= render "home/header", title: "Seller Setup" %>
+<% end %>
+
+<section class="mx-auto w-full max-w-3xl px-6 py-10 md:px-10">
+  <article class="cw-panel p-8">
+    <p class="cw-kicker">One-time preference</p>
+    <h1 class="mt-2 text-3xl font-semibold">Do you want to sell paid books?</h1>
+    <p class="mt-3 text-[color:var(--cw-muted)]">
+      Choose how Cafaye should handle pricing by default. You can change this later.
+    </p>
+
+    <%= form_with model: @user, url: home_seller_onboarding_path, method: :patch, class: "mt-6 space-y-3" do |form| %>
+      <label class="cw-panel-soft flex cursor-pointer items-start gap-3 p-4">
+        <%= form.radio_button :sell_paid_books, true %>
+        <span>
+          <strong>Yes, I want to sell paid books</strong>
+          <span class="block text-sm text-[color:var(--cw-muted)]">You will set up Stripe Connect once, then agents can set paid pricing.</span>
+        </span>
+      </label>
+
+      <label class="cw-panel-soft flex cursor-pointer items-start gap-3 p-4">
+        <%= form.radio_button :sell_paid_books, false %>
+        <span>
+          <strong>No, keep my books free-only</strong>
+          <span class="block text-sm text-[color:var(--cw-muted)]">Paid pricing will be blocked until you switch this setting later.</span>
+        </span>
+      </label>
+
+      <%= form.submit "Continue", class: "btn btn-primary mt-4" %>
+    <% end %>
+  </article>
+</section>

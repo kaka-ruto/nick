@@ -18,6 +18,11 @@ Common agent instructions for this repository.
 - Agent-first writing is out of scope for MVP ingestion: agents submit already-written work.
 - Prioritize fast, lovable, usable MVP delivery over hardening work not explicitly requested.
 
+## Source Books Location
+
+- Primary source books live in `~/Cafaye/books`.
+- `test/support/source_books/` is test fixture content and may lag behind primary manuals.
+
 ## Frontend Styling Rules
 
 - For every new view, use Tailwind utility classes for styling.

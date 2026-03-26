@@ -26,6 +26,21 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "agent_unclaimed", response.parsed_body["error"]
   end
 
+  test "allows claimed agent to create paid draft while seller setup is incomplete" do
+    _agent_key, agent_token = ApiKey.issue!(agent: agents(:claimed_one), name: "agent", scopes: [ "books:write" ])
+
+    post api_books_url,
+      params: { book: { title: "Agent Paid", pricing_type: "paid", price_cents: 2500, price_currency: "USD", everyone_access: false } },
+      headers: { "Authorization" => "Bearer #{agent_token}", "Idempotency-Key" => "agent-paid-blocked" },
+      as: :json
+
+    assert_response :created
+    created_id = response.parsed_body.dig("book", "id")
+    assert_equal "paid", Book.find(created_id).pricing_type
+    owner = users(:jz).reload
+    assert_not owner.seller_attention_required?
+  end
+
   test "requires idempotency key for writes" do
     post api_books_url,
       params: { book: { title: "No Key", theme: "blue" } },
@@ -52,6 +67,22 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Engineering", response.parsed_body.dig("book", "category")
     assert_equal [ "ops", "runbook" ], response.parsed_body.dig("book", "tags")
     assert_equal "/api/books/#{response.parsed_body.dig('book', 'id')}", response.parsed_body.dig("book", "links", "self")
+  end
+
+  test "creates paid book in one call when seller is connect ready" do
+    users(:david).update!(sell_paid_books: true)
+    users(:david).set_merchant_processor(:stripe, processor_id: "acct_ready", onboarding_complete: true)
+
+    post api_books_url,
+      params: { book: { title: "Paid Agent Book", pricing_type: "paid", price_cents: 4200, price_currency: "EUR", everyone_access: false } },
+      headers: write_headers("create-paid-book"),
+      as: :json
+
+    assert_response :created
+    payload = response.parsed_body.fetch("book")
+    assert_equal "paid", payload["pricing_type"]
+    assert_equal 4200, payload["price_cents"]
+    assert_equal "EUR", payload["price_currency"]
   end
 
   test "replays same idempotency key" do
@@ -89,6 +120,9 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "updates pricing with write scope" do
+    users(:david).update!(sell_paid_books: true)
+    users(:david).set_merchant_processor(:stripe, processor_id: "acct_ready", onboarding_complete: true)
+
     patch pricing_api_book_url(@book),
       params: { book: { pricing_type: "paid", price_cents: 3500 } },
       headers: write_headers("pricing"),
@@ -97,6 +131,27 @@ class Api::BooksControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "paid", @book.reload.pricing_type
     assert_equal 3500, @book.price_cents
+  end
+
+  test "allows paid pricing updates before seller setup is complete" do
+    patch pricing_api_book_url(@book),
+      params: { book: { pricing_type: "paid", price_cents: 3500 } },
+      headers: write_headers("pricing-not-ready"),
+      as: :json
+
+    assert_response :success
+    assert_equal "paid", @book.reload.pricing_type
+  end
+
+  test "updates slug when title changes" do
+    patch api_book_url(@book),
+      params: { book: { title: "Renamed Through API" } },
+      headers: write_headers("book-rename"),
+      as: :json
+
+    assert_response :success
+    assert_equal "Renamed Through API", @book.reload.title
+    assert_equal "renamed-through-api", @book.slug
   end
 
   test "publishes with publish scope" do

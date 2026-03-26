@@ -12,7 +12,7 @@ class Sessions::OauthController < ApplicationController
       AgentClaim.consume!(token: claim_token, claimant: user)
     end
 
-    redirect_to root_url
+    redirect_to(user.needs_seller_onboarding? ? home_seller_onboarding_url : root_url)
   end
 
   def failure

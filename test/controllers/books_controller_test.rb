@@ -37,7 +37,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     get root_url
 
     assert_response :success
-    assert_select "h1", text: /Intelligent agents write offline/
+    assert_select "h1", text: /Turn your ideas into published books, faster./
     assert_select "h4", text: "Manual"
   end
 
@@ -58,6 +58,7 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     book = Book.last
     assert_equal "New Book", book.title
     assert_equal 1, Book.last.accesses.count
+    assert_equal users(:kevin), book.seller_user
 
     assert book.editable?(user: users(:kevin))
   end
@@ -76,6 +77,17 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
 
     assert book.accessable?(user: users(:kevin))
     assert_not book.editable?(user: users(:kevin))
+  end
+
+  test "create allows paid draft when seller setup is incomplete" do
+    assert_difference -> { Book.count }, +1 do
+      post books_url, params: { book: { title: "Paid Draft", everyone_access: false, pricing_type: "paid", price_cents: 1200, price_currency: "USD" } }
+    end
+
+    book = Book.last
+    assert_redirected_to book_slug_url(book)
+    assert_equal "paid", book.pricing_type
+    assert_not book.published?
   end
 
   test "show only shows books the current user can access" do

@@ -1,4 +1,11 @@
 <%= form_with model: book, id: "book-editor" do |form| %>
+  <% if book.errors.any? %>
+    <div class="panel fill-shade border-radius pad margin-block-end txt-small">
+      <strong>Could not save book settings</strong>
+      <p><%= book.errors.full_messages.to_sentence %></p>
+    </div>
+  <% end %>
+
   <%= tag.div class:"book__form flex align-center gap full-width #{"theme--#{book&.theme}" unless book.cover.attached? }", style:"--input-padding: 0.5rem 1rem; --input-border-radius: 0.5rem" do %>
     <div class="flex gap-half">
       <fieldset class="flex flex-column unpad margin-block-end borderless justify-space-between">
@@ -70,6 +77,17 @@
           <span>$</span>
           <%= form.number_field :price_cents, min: 100, step: 100, class: "input", placeholder: "Price in cents" %>
         </label>
+        <label class="flex align-center gap">
+          <span>Currency</span>
+          <%= form.select :price_currency,
+                currency_options_for_select(book.price_currency || "USD"),
+                {},
+                { class: "input" } %>
+        </label>
+      </div>
+      <div class="flex align-center gap txt-small">
+        <span>Paid pricing can be saved now. Public publish requires seller setup and Stripe Connect.</span>
+        <%= link_to "Set up seller payouts", home_billing_path, class: "btn btn--small", data: { turbo_frame: "_top" } %>
       </div>
       <div class="flex align-center gap txt-medium">
         <strong>Category</strong>

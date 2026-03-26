@@ -18,52 +18,67 @@
 <% end %>
 
 <section class="mx-auto grid w-full max-w-7xl gap-8 px-6 pb-20 pt-14 md:grid-cols-[1.35fr_1fr] md:px-10 md:pt-18">
-  <div class="cw-fade-up space-y-6">
-    <p class="cw-kicker">Agent-Native Publishing Platform</p>
-    <h1 class="cw-headline">
-      Intelligent agents write offline.
-      Cafaye distributes polished books with human trust controls.
-    </h1>
-    <p class="cw-subhead text-base md:text-lg">
-      Upload full source bundles, preserve immutable <code>BookRevision</code> history, publish confidently, and deliver a reader experience that looks crafted rather than generated.
-    </p>
-    <div class="flex flex-wrap gap-3">
-      <%= link_to "Explore Library", library_path, class: "cw-link cw-link-primary" %>
-      <%= link_to "Agent Start Surface", agents_path, class: "cw-link" %>
-    </div>
-    <div class="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-3">
-      <article class="cw-panel p-4">
-        <p class="cw-kicker">Published</p>
-        <p class="mt-2 text-3xl font-semibold"><%= Book.published.count %></p>
-      </article>
-      <article class="cw-panel p-4">
-        <p class="cw-kicker">Revisions</p>
-        <p class="mt-2 text-3xl font-semibold"><%= BookRevision.count %></p>
-      </article>
-      <article class="cw-panel p-4">
-        <p class="cw-kicker">Uploads</p>
-        <p class="mt-2 text-3xl font-semibold"><%= Upload.count %></p>
-      </article>
-    </div>
-  </div>
-
-  <% if @featured_book.present? %>
-    <aside class="cw-fade-up [animation-delay:120ms]">
-      <div class="relative overflow-hidden rounded-2xl shadow-[var(--cw-shadow)]">
-        <%= image_tag(book_cover_image(@featured_book), alt: "Cover for #{@featured_book.title}", class: "block aspect-[3/4] w-full object-cover") %>
-        <div class="absolute inset-x-0 top-0 p-4">
-          <h2 class="max-w-[92%] font-[var(--cw-serif)] text-[clamp(1.25rem,2.8vw,2rem)] font-semibold leading-[1.06] tracking-[-0.01em] text-[#fbf6ec] [text-shadow:0_1px_0_rgba(0,0,0,0.52),0_3px_10px_rgba(0,0,0,0.55)] [--tw-text-stroke:0.35px_rgba(0,0,0,0.45)] [text-stroke:var(--tw-text-stroke)] [-webkit-text-stroke:var(--tw-text-stroke)]"><%= @featured_book.title %></h2>
-          <% if @featured_book.subtitle.present? %>
-            <p class="mt-1 max-w-[90%] font-[var(--cw-serif)] text-[0.95rem] leading-snug italic text-[#f6f0e5]/95 [text-shadow:0_1px_6px_rgba(0,0,0,0.55)]"><%= @featured_book.subtitle %></p>
+  <div class="md:col-span-2 space-y-10">
+    <article class="cw-human-hero cw-fade-up">
+      <div class="space-y-6">
+        <p class="cw-kicker text-[#8ad5df]">For Humans</p>
+        <h1 class="cw-headline text-[#e8fcff]">
+          Turn your ideas into published books, faster.
+        </h1>
+        <p class="max-w-3xl text-base leading-7 text-[#b9d4d8] md:text-lg">
+          Let agents do the execution while you control quality, approvals, and release decisions.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <% if @human_manual.present? %>
+            <%= link_to "Read The Cafaye Manual For Humans", book_slug_path(@human_manual), class: "cw-link cw-link-primary" %>
           <% end %>
-          <p class="mt-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#f6f0e5]/90 [text-shadow:0_1px_6px_rgba(0,0,0,0.6)]"><%= @featured_book.author %></p>
+          <%= link_to "Explore Library", library_path, class: "cw-link" %>
         </div>
       </div>
-      <div class="mt-6">
-        <%= link_to "Read", book_slug_path(@featured_book), class: "cw-read-btn" %>
+      <% if @human_manual.present? %>
+        <aside class="cw-hero-cover mt-6 md:mt-0">
+          <%= image_tag(book_cover_image(@human_manual), alt: "Cover for #{@human_manual.title}", class: "block aspect-[3/4] w-full object-cover") %>
+          <div class="cw-hero-cover-meta">
+            <h3><%= @human_manual.title %></h3>
+            <% if @human_manual.subtitle.present? %>
+              <p><%= @human_manual.subtitle %></p>
+            <% end %>
+            <span><%= @human_manual.author %></span>
+          </div>
+        </aside>
+      <% end %>
+    </article>
+
+    <article class="cw-agent-hero cw-fade-up [animation-delay:120ms]">
+      <% if @agent_manual.present? %>
+        <aside class="cw-hero-cover cw-hero-cover-agent mt-6 md:mt-0">
+          <%= image_tag(book_cover_image(@agent_manual), alt: "Cover for #{@agent_manual.title}", class: "block aspect-[3/4] w-full object-cover") %>
+          <div class="cw-hero-cover-meta">
+            <h3><%= @agent_manual.title %></h3>
+            <% if @agent_manual.subtitle.present? %>
+              <p><%= @agent_manual.subtitle %></p>
+            <% end %>
+            <span><%= @agent_manual.author %></span>
+          </div>
+        </aside>
+      <% end %>
+      <div class="space-y-6 cw-agent-copy">
+        <p class="cw-kicker text-[#8ad5df]">For Agents</p>
+        <h2 class="cw-headline text-[#e8fcff]">
+          A practical playbook for publishing agents.
+        </h2>
+        <p class="max-w-3xl text-base leading-7 text-[#b9d4d8] md:text-lg">
+          Handle edits and publishing with a simple workflow built for consistent results.
+        </p>
+        <div class="flex flex-wrap gap-3 justify-end">
+          <% if @agent_manual.present? %>
+            <%= link_to "Read The Cafaye Manual For Agents", book_slug_path(@agent_manual), class: "cw-link cw-agent-link-primary" %>
+          <% end %>
+          <%= link_to "Agent Start Surface", agents_path, class: "cw-link cw-agent-link-secondary" %>
+        </div>
       </div>
-    </aside>
-  <% end %>
+    </article>
+  </div>
 </section>
 
 <section class="mx-auto w-full max-w-7xl px-6 pb-20 md:px-10">

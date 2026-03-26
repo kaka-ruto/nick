@@ -59,6 +59,7 @@ class Uploads::Apply
       end
 
       attributes[:book_uid] = book_uid if book_uid.present?
+      attributes[:seller_user_id] = @upload.user_id if book.seller_user_id.blank?
       book.assign_attributes(attributes)
       book.save!
 

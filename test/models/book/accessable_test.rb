@@ -2,7 +2,7 @@ require "test_helper"
 
 class Book::AccessableTest < ActiveSupport::TestCase
   test "update_access always grants read access to everyone when everyone_access is set" do
-    book = Book.create!(title: "My new book")
+    book = Book.create!(title: "My new book", everyone_access: true)
     book.update_access(editors: [], readers: [])
 
     assert book.everyone_access?

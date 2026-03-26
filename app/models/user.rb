@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   include Role, Transferable
   pay_customer default_payment_processor: :stripe
+  pay_merchant
 
   has_many :sessions, dependent: :destroy
   has_many :api_keys, dependent: :destroy
@@ -13,6 +14,10 @@ class User < ApplicationRecord
 
   has_many :accesses, dependent: :destroy
   has_many :books, through: :accesses
+  has_many :seller_books, class_name: "Book", foreign_key: :seller_user_id, dependent: :nullify
+  has_many :book_sales_as_buyer, class_name: "BookSale", foreign_key: :buyer_user_id, dependent: :nullify
+  has_many :book_sales_as_seller, class_name: "BookSale", foreign_key: :seller_user_id, dependent: :nullify
+  belongs_to :seller_attention_book, class_name: "Book", optional: true
   has_many :leaves, through: :books
 
   after_create :grant_access_to_everyone_books
@@ -42,6 +47,19 @@ class User < ApplicationRecord
       sessions.delete_all
       update! active: false, email_address: deactived_email_address
     end
+  end
+
+  def stripe_connect_ready?
+    merchant = merchant_processor
+    merchant.present? && merchant.onboarding_complete?
+  end
+
+  def needs_seller_onboarding?
+    sell_paid_books.nil?
+  end
+
+  def can_sell_paid_books?
+    sell_paid_books? && stripe_connect_ready?
   end
 
   private

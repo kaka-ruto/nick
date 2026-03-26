@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.save!
     start_new_session_for @user
-    redirect_to root_url
+    redirect_to home_seller_onboarding_url
   rescue ActiveRecord::RecordNotUnique
     redirect_to new_session_url(email_address: user_params[:email_address])
   rescue ActiveRecord::RecordInvalid => error

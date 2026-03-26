@@ -1,4 +1,14 @@
 module BooksHelper
+  def currency_options_for_select(selected = "USD")
+    options_for_select(
+      Money::Currency.table.keys.sort.map do |iso_code|
+        currency = Money::Currency.new(iso_code)
+        [ "#{currency.iso_code} - #{currency.name}", currency.iso_code ]
+      end,
+      selected.to_s.upcase
+    )
+  end
+
   def book_cover_image(book)
     return book.cover if book.cover.attached?
 

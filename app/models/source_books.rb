@@ -20,4 +20,8 @@ module SourceBooks
 
     preferred
   end
+
+  def cafaye_agent_manual_dir
+    root.join("the-cafaye-manual-for-agents")
+  end
 end

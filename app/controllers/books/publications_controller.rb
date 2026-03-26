@@ -10,12 +10,15 @@ class Books::PublicationsController < ApplicationController
   end
 
   def update
-    @book.update! book_params
-    redirect_to book_slug_url(@book)
+    if @book.update(book_params)
+      redirect_to book_slug_url(@book)
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
     def book_params
-      params.require(:book).permit(:published, :slug)
+      params.require(:book).permit(:published)
     end
 end

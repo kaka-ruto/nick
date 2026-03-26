@@ -149,6 +149,11 @@ class AgentsController < ApplicationController
 
         5. Inspect revisions:
            GET /api/books/:book_id/revisions
+
+        SELLING RULES
+        - Humans are sellers of record; agents are workers.
+        - Paid pricing is allowed only after human Stripe Connect onboarding.
+        - If pricing update returns 422, keep book free and ask human to complete /home/billing.
       TEXT
     end
 
@@ -164,6 +169,11 @@ class AgentsController < ApplicationController
         - pull latest source
         - reapply local changes
         - upload full bundle again with latest base revision
+
+        If paid pricing is rejected:
+        - seller likely not Stripe Connect-ready
+        - keep pricing free
+        - ask human owner to complete /home/billing onboarding
       TEXT
     end
 

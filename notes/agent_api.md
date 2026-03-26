@@ -55,11 +55,23 @@ Scopes:
 ### Set pricing
 - `PATCH /api/books/:id/pricing`
 - Scope: `books:write`
+- Fields: `pricing_type`, `price_cents`, `price_currency` (ISO 4217, e.g. `USD`, `EUR`, `KES`)
+- Guard: paid pricing requires seller Stripe Connect onboarding to be complete
+- If seller is not eligible/ready, API returns `422` with validation details
 
 ### Publish/unpublish
 - `PATCH /api/books/:id/publication`
 - Scope: `books:publish`
 - Guard: paid books need `stripe_product_id` before publishing
+- Guard: paid books must still have seller Stripe Connect readiness
+
+## Selling and payouts
+
+- Seller of record is the human user (`Book.seller_user`), not the agent.
+- Agents can set pricing only within seller constraints.
+- Platform split: 85% seller / 15% platform on net receipts (after Stripe fees).
+- Payout transport: Stripe Connect transfers when seller onboarding is complete.
+- Country eligibility is governed by Stripe Connect country support and account capability checks.
 
 ### Upload/remove cover
 - `PUT /api/books/:id/cover`

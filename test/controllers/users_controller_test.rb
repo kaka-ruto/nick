@@ -27,10 +27,11 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       post join_url(@join_code), params: { user: { name: "New Person", email_address: "new@37.local", password: "secret123456" } }
     end
 
-    assert_redirected_to root_url
+    assert_redirected_to home_seller_onboarding_url
 
     user = User.last
     assert_equal user.id, Session.find_by(token: parsed_cookies.signed[:session_token]).user.id
+    assert_nil user.sell_paid_books
   end
 
   test "creating a new user with an existing email address redirects to login screen" do

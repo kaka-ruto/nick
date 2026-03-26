@@ -10,7 +10,7 @@ class ClaimsController < ApplicationController
 
     if signed_in?
       AgentClaim.consume!(token: params[:token], claimant: Current.user)
-      return redirect_to home_url
+      return redirect_to(Current.user.needs_seller_onboarding? ? home_seller_onboarding_url : home_url)
     end
   end
 

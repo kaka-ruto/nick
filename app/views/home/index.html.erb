@@ -5,6 +5,20 @@
 <% end %>
 
 <section class="mx-auto w-full max-w-7xl space-y-10 px-6 py-10 md:px-10 md:py-14">
+  <% if @seller_attention_required %>
+    <article class="cw-panel p-6 border border-amber-300">
+      <p class="cw-kicker">Action required</p>
+      <h2 class="mt-1 text-2xl font-semibold">Agent work needs a human unblock</h2>
+      <p class="mt-2 text-sm text-[color:var(--cw-muted)]"><%= @seller_attention_reason %></p>
+      <div class="mt-4 flex gap-2">
+        <%= link_to "Open Billing setup", home_billing_path, class: "btn btn-primary" %>
+        <% if @seller_attention_book.present? %>
+          <%= link_to "Open book settings", edit_book_path(@seller_attention_book), class: "btn" %>
+        <% end %>
+      </div>
+    </article>
+  <% end %>
+
   <div class="grid gap-4 md:grid-cols-4">
     <article class="cw-panel p-5">
       <p class="cw-kicker">Books in scope</p>

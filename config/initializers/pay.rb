@@ -36,6 +36,12 @@ Rails.application.config.after_initialize do
 
       book.grant_reader_access(user)
     end
+
+    events.subscribe "stripe.charge.succeeded" do |event|
+      charge = event.data.object
+      sale = Payments::BookSaleRecorder.call(charge_id: charge.id)
+      Payments::SellerPayoutService.call(book_sale: sale) if sale.present?
+    end
   end
 
   CAFAYE_PAY_WEBHOOKS_CONFIGURED = true

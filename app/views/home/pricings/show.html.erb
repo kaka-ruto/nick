@@ -16,7 +16,7 @@
       <% @books.each do |book| %>
         <div class="cw-panel-soft px-3 py-2 text-sm">
           <span class="font-medium"><%= book.title %></span>
-          <span class="text-[color:var(--cw-muted)]">· <%= book.pricing_type %> · <%= book.price_cents || 0 %> cents</span>
+          <span class="text-[color:var(--cw-muted)]">· <%= book.pricing_type %> · <%= Money.from_cents(book.price_cents || 0, book.price_currency || "USD").format %></span>
         </div>
       <% end %>
     </div>

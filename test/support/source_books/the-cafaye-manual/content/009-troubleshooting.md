@@ -34,6 +34,21 @@ Common causes:
 
 Verify claim status and key scopes.
 
+## Book cannot be set to paid
+
+Common causes:
+
+- seller has not completed Stripe Connect onboarding
+- seller country is not supported for your Stripe Connect setup
+- `price_cents` missing/invalid for paid mode
+
+Fix:
+
+1. open `/home/billing`
+2. connect Stripe with seller country
+3. refresh status and confirm payout readiness
+4. retry setting paid pricing
+
 ## Book looks wrong in reader
 
 Check:

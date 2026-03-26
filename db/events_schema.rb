@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -145,6 +145,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
     t.index ["upload_id"], name: "index_book_revisions_on_upload_id"
   end
 
+  create_table "book_sales", force: :cascade do |t|
+    t.bigint "book_id", null: false
+    t.bigint "buyer_user_id", null: false
+    t.datetime "created_at", null: false
+    t.string "currency", null: false
+    t.integer "gross_cents", null: false
+    t.integer "net_cents", null: false
+    t.bigint "pay_charge_id", null: false
+    t.integer "platform_amount_cents", null: false
+    t.integer "seller_amount_cents", null: false
+    t.bigint "seller_user_id", null: false
+    t.integer "stripe_fee_cents", null: false
+    t.string "stripe_transfer_id"
+    t.datetime "transferred_at"
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_book_sales_on_book_id"
+    t.index ["buyer_user_id"], name: "index_book_sales_on_buyer_user_id"
+    t.index ["pay_charge_id"], name: "index_book_sales_on_pay_charge_id", unique: true
+    t.index ["seller_user_id"], name: "index_book_sales_on_seller_user_id"
+    t.index ["stripe_transfer_id"], name: "index_book_sales_on_stripe_transfer_id", unique: true
+  end
+
   create_table "book_tags", force: :cascade do |t|
     t.bigint "book_id", null: false
     t.datetime "created_at", null: false
@@ -187,12 +209,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.bigint "current_draft_revision_id"
-    t.boolean "everyone_access", default: true, null: false
+    t.boolean "everyone_access", default: false, null: false
     t.integer "import_revision", default: 0, null: false
     t.integer "price_cents"
+    t.string "price_currency", default: "USD", null: false
     t.string "pricing_type", default: "free", null: false
     t.boolean "published", default: false, null: false
     t.bigint "published_revision_id"
+    t.bigint "seller_user_id"
     t.string "slug", null: false
     t.string "stripe_product_id"
     t.string "subtitle"
@@ -202,9 +226,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
     t.index ["book_uid"], name: "index_books_on_book_uid", unique: true
     t.index ["category_id"], name: "index_books_on_category_id"
     t.index ["current_draft_revision_id"], name: "index_books_on_current_draft_revision_id"
+    t.index ["price_currency"], name: "index_books_on_price_currency"
     t.index ["pricing_type"], name: "index_books_on_pricing_type"
     t.index ["published"], name: "index_books_on_published"
     t.index ["published_revision_id"], name: "index_books_on_published_revision_id"
+    t.index ["seller_user_id"], name: "index_books_on_seller_user_id"
     t.index ["stripe_product_id"], name: "index_books_on_stripe_product_id"
   end
 
@@ -652,12 +678,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
     t.string "name", null: false
     t.string "password_digest", null: false
     t.integer "role", null: false
+    t.boolean "sell_paid_books"
+    t.bigint "seller_attention_book_id"
+    t.string "seller_attention_reason"
+    t.boolean "seller_attention_required", default: false, null: false
+    t.string "seller_country_code"
     t.string "slug"
+    t.string "stripe_connect_account_id"
+    t.boolean "stripe_connect_charges_enabled", default: false, null: false
+    t.boolean "stripe_connect_details_submitted", default: false, null: false
+    t.boolean "stripe_connect_payouts_enabled", default: false, null: false
     t.datetime "updated_at", null: false
     t.string "username"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
+    t.index ["sell_paid_books"], name: "index_users_on_sell_paid_books"
+    t.index ["seller_attention_book_id"], name: "index_users_on_seller_attention_book_id"
+    t.index ["seller_country_code"], name: "index_users_on_seller_country_code"
     t.index ["slug"], name: "index_users_on_slug", unique: true
+    t.index ["stripe_connect_account_id"], name: "index_users_on_stripe_connect_account_id", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
@@ -674,6 +713,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
   add_foreign_key "api_keys", "users"
   add_foreign_key "book_revisions", "books"
   add_foreign_key "book_revisions", "uploads"
+  add_foreign_key "book_sales", "books"
+  add_foreign_key "book_sales", "pay_charges"
+  add_foreign_key "book_sales", "users", column: "buyer_user_id"
+  add_foreign_key "book_sales", "users", column: "seller_user_id"
   add_foreign_key "book_tags", "books"
   add_foreign_key "book_tags", "tags"
   add_foreign_key "book_units", "books"
@@ -683,6 +726,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
   add_foreign_key "books", "book_revisions", column: "current_draft_revision_id"
   add_foreign_key "books", "book_revisions", column: "published_revision_id"
   add_foreign_key "books", "categories"
+  add_foreign_key "books", "users", column: "seller_user_id"
   add_foreign_key "edits", "leaves"
   add_foreign_key "idempotency_keys", "api_keys"
   add_foreign_key "identities", "users"
@@ -700,4 +744,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_113000) do
   add_foreign_key "uploads", "api_keys"
   add_foreign_key "uploads", "books"
   add_foreign_key "uploads", "users"
+  add_foreign_key "users", "books", column: "seller_attention_book_id"
 end
