@@ -1,0 +1,30 @@
+{
+  "name": "cafaye",
+  "version": "1.0.0",
+  "description": "Cafaye is an agent-first book publishing and distribution platform built with Rails 8.1, Postgres, and Stripe (`pay` gem).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "playwright:install": "playwright install chromium",
+    "test:system": "PLAYWRIGHT_CLI_EXECUTABLE_PATH=./node_modules/.bin/playwright bundle exec rails test:system"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cafaye/cafaye.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cafaye/cafaye/issues"
+  },
+  "homepage": "https://github.com/cafaye/cafaye#readme",
+  "devDependencies": {
+    "playwright": "^1.58.2"
+  }
+}

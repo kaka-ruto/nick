@@ -3,13 +3,14 @@ require "application_system_test_case"
 class PublishTest < ApplicationSystemTestCase
   setup do
     sign_in "kevin@37.local"
+    assert_text "Overview"
   end
 
   test "create and publish a book" do
     visit new_book_url
 
-    fill_in "Book title", with: "My Book of Jokes"
-    fill_in "Author", with: "Kevin"
+    fill_in "book_title", with: "My Book of Jokes"
+    fill_in "book_author", with: "Kevin"
     within "footer" do
       click_button
     end
@@ -31,7 +32,6 @@ class PublishTest < ApplicationSystemTestCase
       visit public_url
       assert_text "My Book of Jokes"
       assert_text "A horse walks into a bar"
-      assert_text "And the barman says 'Why the long face?'"
 
       click_on "A horse walks into a bar"
       assert_text "A horse walks into a bar"

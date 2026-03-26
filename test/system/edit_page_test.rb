@@ -3,11 +3,12 @@ require "application_system_test_case"
 class EditPageTest < ApplicationSystemTestCase
   setup do
     sign_in "kevin@37.local"
+    assert_text "Overview"
   end
 
   test "edit page" do
     visit edit_book_page_url(books(:handbook), leaves(:welcome_page))
-    assert_selector "house-md"
+    assert_selector ".page__editor"
 
     fill_house_editor "page[body]", with: "Welcome to the handbook! This is the **first** page."
 

@@ -8,7 +8,6 @@ module SystemTestHelper
     fill_in "password", with: password
 
     click_on "log_in"
-    assert_selector "h2", text: "Handbook"
   end
 
   def fill_house_editor(name, content)

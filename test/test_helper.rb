@@ -1,7 +1,10 @@
 ENV["RAILS_ENV"] ||= "test"
 ENV["CAFAYE_BOOKS_DIR"] ||= File.expand_path("support/source_books", __dir__)
 require_relative "../config/environment"
+ENV["PLAYWRIGHT_CLI_EXECUTABLE_PATH"] ||= Rails.root.join("node_modules/.bin/playwright").to_s
 require "rails/test_help"
+require "stripe"
+require "mocha/minitest"
 require_relative "support/vcr"
 
 ActiveStorage::FixtureSet.file_fixture_path = Rails.root.join("test/fixtures/files")

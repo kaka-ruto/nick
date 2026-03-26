@@ -114,9 +114,15 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    capybara-playwright-driver (0.5.9)
+      addressable
+      capybara
+      playwright-ruby-client (>= 1.16.0)
     chunky_png (1.4.0)
     concurrent-ruby (1.3.6)
     connection_pool (3.0.2)
+    countries (8.1.0)
+      unaccent (~> 0.3)
     crack (1.0.1)
       bigdecimal
       rexml
@@ -185,12 +191,28 @@ GEM
       net-smtp
     marcel (1.1.0)
     matrix (0.4.2)
+    mime-types (3.7.0)
+      logger
+      mime-types-data (~> 3.2025, >= 3.2025.0507)
+    mime-types-data (3.2026.0317)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (6.0.2)
       drb (~> 2.0)
       prism (~> 1.5)
+    mocha (3.1.0)
+      ruby2_keywords (>= 0.0.5)
+    monetize (2.0.0)
+      money (~> 7.0)
+    money (7.0.2)
+      bigdecimal
+      i18n (~> 1.9)
+    money-rails (3.0.0)
+      activesupport (>= 7.0)
+      monetize (~> 2.0)
+      money (~> 7.0)
+      railties (>= 7.0)
     mono_logger (1.1.2)
     multi_json (1.15.0)
     multi_xml (0.8.1)
@@ -260,6 +282,10 @@ GEM
     pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
+    playwright-ruby-client (1.58.1)
+      base64
+      concurrent-ruby (>= 1.1.6)
+      mime-types (>= 3.0)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -385,12 +411,6 @@ GEM
     ruby2_keywords (0.0.5)
     rubyzip (3.2.2)
     securerandom (0.4.1)
-    selenium-webdriver (4.41.0)
-      base64 (~> 0.2)
-      logger (~> 1.4)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 4.0)
-      websocket (~> 1.0)
     sinatra (4.0.0)
       mustermann (~> 3.0)
       rack (>= 3.0.0, < 4)
@@ -409,6 +429,7 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.2.0)
+    stripe (18.4.2)
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
@@ -431,6 +452,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unaccent (0.4.0)
     unicode-display_width (2.5.0)
     uri (1.1.1)
     vcr (6.4.0)
@@ -445,7 +467,6 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.9.2)
-    websocket (1.2.11)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -467,6 +488,8 @@ DEPENDENCIES
   benchmark
   brakeman
   capybara
+  capybara-playwright-driver
+  countries
   debug
   faker
   friendly_id (~> 5.5)
@@ -474,6 +497,8 @@ DEPENDENCIES
   image_processing (~> 1.13)
   importmap-rails
   jbuilder
+  mocha
+  money-rails
   omniauth
   omniauth-github
   omniauth-google-oauth2
@@ -491,10 +516,11 @@ DEPENDENCIES
   rouge (~> 4.5)
   rqrcode
   rubocop-rails-omakase
-  selenium-webdriver
+  rubyzip
   solid_errors
   solid_events!
   stimulus-rails
+  stripe (~> 18.0)
   tailwindcss-rails (~> 4.4)
   thruster
   turbo-rails

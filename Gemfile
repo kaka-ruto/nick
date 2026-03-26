@@ -32,6 +32,7 @@ gem "thruster"
 gem "useragent", github: "basecamp/useragent"
 gem "front_matter_parser"
 gem "pay", "~> 11.2"
+gem "stripe", "~> 18.0"
 gem "solid_events", github: "kaka-ruto/solid_events", tag: "v0.2.4"
 gem "benchmark"
 gem "omniauth"
@@ -40,6 +41,8 @@ gem "omniauth-github"
 gem "omniauth-google-oauth2"
 gem "rack-attack"
 gem "friendly_id", "~> 5.5"
+gem "countries"
+gem "money-rails"
 
 group :development, :test do
   gem "debug"
@@ -54,9 +57,11 @@ end
 
 group :test do
   gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara-playwright-driver"
+  gem "rubyzip"
   gem "vcr"
   gem "webmock"
+  gem "mocha"
   gem "webrick"
 end
 
